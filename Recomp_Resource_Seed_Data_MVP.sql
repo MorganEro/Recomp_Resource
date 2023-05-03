@@ -62,17 +62,17 @@ INSERT INTO [Quote] ([Content]) VALUES
 
 
 INSERT INTO [User] (
-[FirstName], [LastName], [DisplayName], [Birthday], [Weight], [Height],[BFPercentage], [BMR], [CurrentFocus], [CategoryId],[ImageAddress], [Bio], [Email], [FirebaseUserId], [Deactivated]
+[FirstName], [LastName], [DisplayName], [Birthday], [Weight], [Height],[BFPercentage], [BMR], [CurrentFocus], [CategoryId],[ImageAddress], [Bio], [Email], [UserTypeId], [FirebaseUserId], [Deactivated]
 )
 VALUES
-  ('John', 'Doe', 'JohnDoe', '1990-01-01', 180.0, '6''0"', 20.0, 1800, 'Nutrition', 1,'https://example.com/image1.jpg', 'Fitness enthusiast', 'rradmin@rra.com', '60IvmNEepXafDJZZmZTEKTuvDPA2', 0),
-  ('Jane', 'Doe', 'JaneDoe', '1992-02-02', 160.0, '5''5"', 18.0, 1500, 'Cardio', 1,'https://example.com/image2.jpg', 'Yoga lover', 'rruser@rra.com', 'MLvmv9xtWgbgsf4oiqPcp35jGRm1', 0),
-  ('Michael', 'Smith', 'MikeSmith', '1985-03-03', 290.0, '6''2"', 22.0, 2300, 'Lifting', 2,'https://example.com/image3.jpg', 'Gym rat', 'rruser2@rra.com', 'JbIAN7IJMMZtQmOSwlH3KObaXiE2', 0),
-  ('Emily', 'Johnson', 'EmilyJohnson', '1995-04-04', 155.0, '5''6"', 17.0, 1400, 'Cardio', 1,'https://example.com/image4.jpg', 'Pilates fan', 'rruser3@rra.com', 'yDJ9VDPaPsPL3afEyi6hHNv1oAJ2', 0),
-  ('David', 'Brown', 'DaveBrown', '1980-05-05', 185.0, '6''1"', 23.0, 1900, 'Running', 1,'https://example.com/image5.jpg', 'Running addict', 'david.brown@email.com', '5YC4BXmCggQcezIu9HEGOcWTnYl2', 0),
-  ('Jessica', 'Miller', 'JessMiller', '1993-06-06', 158.0, '5''4"', 19.0, 1450, 'Nutrition', 1,'https://example.com/image6.jpg', 'Zumba instructor', 'jessica.miller@email.com', 'Ki9Vbb0MNnSNDLyW6vNZ56x5JSQ2', 0),
-  ('Daniel', 'Davis', 'DanDavis', '1988-07-07', 178.0, '5''11"', 21.0, 1700, 'Weight lifting', 2, 'https://example.com/image7.jpg', 'Crossfit lover', 'daniel.davis@email.com', 'H1hRZThYqFX7qk2ZFTsyJbIL9oG3', 0),
-  ('Sarah', 'Garcia', 'SarahGarcia', '1996-08-08', 150.0, '5''3"', 16.0, 1300, 'Nutrition', 1,'https://example.com/image8.jpg', 'Healthy foodie', 'sarah.garcia@email.com', 'YwWRUErMqhOd451Iqw0Rl0cKq2p1', 0),
-  ('James', 'Martinez', 'JimMartinez', '1982-09-09', 195.0, '6''4"', 24.0, 2100, 'Nutrition', 2, 'https://example.com/image9.jpg', 'Powerlifter', 'james.martinez@email.com', 'YCxTnilGCzZZbZrGZTMnDcw4PXA3', 0),
-  ('Elizabeth', 'Gonzalez', 'LizGonzalez', '1994-10-10', 154.0, '5''2"', 18.0, 1350, 'Cardio', 1, 'https://example.com/image10.jpg', 'Dance enthusiast', 'elizabeth.gonzalez@email.com', 'DR0qDCoIvrVg4WHRimgchEsDQ7H3', 0);
+  ('John', 'Doe', 'JohnDoe', '1990-01-01', 180.0, '6''0"', 20.0, 1800, 'Nutrition', 1,'https://example.com/image1.jpg', 'Fitness enthusiast', 'rradmin@rra.com', 1, '60IvmNEepXafDJZZmZTEKTuvDPA2', 0),
+  ('Jane', 'Doe', 'JaneDoe', '1992-02-02', 160.0, '5''5"', 18.0, 1500, 'Cardio', 1,'https://example.com/image2.jpg', 'Yoga lover', 'rruser@rra.com', 2, 'MLvmv9xtWgbgsf4oiqPcp35jGRm1', 0),
+  ('Michael', 'Smith', 'MikeSmith', '1985-03-03', 290.0, '6''2"', 22.0, 2300, 'Lifting', 2,'https://example.com/image3.jpg', 'Gym rat', 'rruser2@rra.com', 2, 'JbIAN7IJMMZtQmOSwlH3KObaXiE2', 0),
+  ('Emily', 'Johnson', 'EmilyJohnson', '1995-04-04', 155.0, '5''6"', 17.0, 1400, 'Cardio', 1,'https://example.com/image4.jpg', 'Pilates fan', 'rruser3@rra.com', 2, 'yDJ9VDPaPsPL3afEyi6hHNv1oAJ2', 0),
+  ('David', 'Brown', 'DaveBrown', '1980-05-05', 185.0, '6''1"', 23.0, 1900, 'Running', 1,'https://example.com/image5.jpg', 'Running addict', 'david.brown@email.com', 2, '5YC4BXmCggQcezIu9HEGOcWTnYl2', 0),
+  ('Jessica', 'Miller', 'JessMiller', '1993-06-06', 158.0, '5''4"', 19.0, 1450, 'Nutrition', 1,'https://example.com/image6.jpg', 'Zumba instructor', 'jessica.miller@email.com', 2, 'Ki9Vbb0MNnSNDLyW6vNZ56x5JSQ2', 0),
+  ('Daniel', 'Davis', 'DanDavis', '1988-07-07', 178.0, '5''11"', 21.0, 1700, 'Weight lifting', 2, 'https://example.com/image7.jpg', 'Crossfit lover', 'daniel.davis@email.com', 2, 'H1hRZThYqFX7qk2ZFTsyJbIL9oG3', 0),
+  ('Sarah', 'Garcia', 'SarahGarcia', '1996-08-08', 150.0, '5''3"', 16.0, 1300, 'Nutrition', 1,'https://example.com/image8.jpg', 'Healthy foodie', 'sarah.garcia@email.com', 2,  'YwWRUErMqhOd451Iqw0Rl0cKq2p1', 0),
+  ('James', 'Martinez', 'JimMartinez', '1982-09-09', 195.0, '6''4"', 24.0, 2100, 'Nutrition', 2, 'https://example.com/image9.jpg', 'Powerlifter', 'james.martinez@email.com', 2, 'YCxTnilGCzZZbZrGZTMnDcw4PXA3', 0),
+  ('Elizabeth', 'Gonzalez', 'LizGonzalez', '1994-10-10', 154.0, '5''2"', 18.0, 1350, 'Cardio', 1, 'https://example.com/image10.jpg', 'Dance enthusiast', 'elizabeth.gonzalez@email.com', 2, 'DR0qDCoIvrVg4WHRimgchEsDQ7H3', 0);
 
