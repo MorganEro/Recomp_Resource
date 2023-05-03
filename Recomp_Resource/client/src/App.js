@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { Spinner } from "reactstrap";
 import Header from "./components/Header";
 import ApplicationViews from "./components/ApplicationViews";
 import { BrowserRouter } from "react-router-dom";
 import { onLoginStatusChange } from "./modules/authManager";
+import {thisUser} from "./modules/userManager";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
