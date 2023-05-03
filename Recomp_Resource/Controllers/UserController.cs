@@ -16,14 +16,14 @@ namespace Recomp_Resource.Controllers
             _userRepository = userRepository;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
             return Ok(_userRepository.GetAllUsers());
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -56,7 +56,7 @@ namespace Recomp_Resource.Controllers
                nameof(GetByFirebaseUserId), new { firebaseUserId = user.FirebaseUserId }, user);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Put(int id, User user)
         {
@@ -69,6 +69,7 @@ namespace Recomp_Resource.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpGet("search")]
         public IActionResult Search(string q)
         {
@@ -94,6 +95,7 @@ namespace Recomp_Resource.Controllers
             return _userRepository.GetByFirebaseUserId(firebaseUserId);
         }
 
+        [Authorize]
         [HttpGet("user")]
         public IActionResult CurrentUser()
         {

@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import { logout } from "../modules/authManager";
 
-export default function Header({ isLoggedIn }) {
+export default function Header({ isLoggedIn, user}) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -19,16 +19,45 @@ export default function Header({ isLoggedIn }) {
     <div>
       <Navbar color="dark" dark expand="md">
         <NavbarBrand tag={RRNavLink} to="/">
-          Grace Hopper Wisdom
+          RECOMP RESOURCE
         </NavbarBrand>
+
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
+
           <Nav className="mr-auto" navbar>
             {isLoggedIn && (
               <>
+
+              {user?.userTypeId === 1 
+              ?  
+              <> 
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/add">
-                    Add Quote
+                    <NavLink tag={RRNavLink} to="/resource/adminList">
+                      Resources
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                  <NavLink tag={RRNavLink} to="/quote/list">
+                    Quotes
+                  </NavLink>
+                </NavItem>
+              </>
+              :
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/resource/userList">
+                    Resources
+                  </NavLink>
+                </NavItem>
+               }
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/user/details/:id">
+                    My Profile
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/user/list">
+                    Members
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -41,6 +70,19 @@ export default function Header({ isLoggedIn }) {
                     Logout
                   </a>
                 </NavItem>
+                
+                <NavbarBrand>
+                   {user?.userTypeId === 1 
+                   ?  
+                   <div>
+                      Welcome, Amin {user?.displayName}
+                   </div>
+                   : 
+                   <div>
+                      Welcome, {user?.displayName}
+                   </div>} 
+                </NavbarBrand>
+            
               </>
             )}
             {!isLoggedIn && (
@@ -57,18 +99,6 @@ export default function Header({ isLoggedIn }) {
                 </NavItem>
               </>
             )}
-          </Nav>
-          <Nav navbar>
-            <NavItem>
-              <a
-                aria-current="page"
-                className="nav-link"
-                href="https://www.youtube.com/watch?v=3N_ywhx6_K0"
-                target="_new"
-              >
-                Grace Hopper on Letterman
-              </a>
-            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>

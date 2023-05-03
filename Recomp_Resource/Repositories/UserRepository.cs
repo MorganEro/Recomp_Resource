@@ -27,7 +27,7 @@ namespace Recomp_Resource.Repositories
 
                             ut.Type
 
-                        FROM User u
+                        FROM [User] u
                         LEFT JOIN UserType ut on u.UserTypeId = ut.Id
                         LEFT JOIN Category c on u.CategoryId = c.Id
                         WHERE FirebaseUserId = @FirebaseuserId";
