@@ -34,6 +34,7 @@ namespace Recomp_Resource
             services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IResourceRepository, ResourceRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IQuoteRepository, QuoteRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

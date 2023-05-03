@@ -40,7 +40,7 @@ namespace Recomp_Resource.Repositories
                             WHERE c.ResourceId = @resourceId
                             ORDER BY c.DateSent";
 
-                    cmd.Parameters.AddWithValue("@resourceId", resourceId);
+                    DbUtils.AddParameter(cmd, "@resourceId", resourceId);
                     var reader = cmd.ExecuteReader();
 
                     var comments = new List<Comment>();
@@ -68,10 +68,10 @@ namespace Recomp_Resource.Repositories
                         INSERT INTO Comment (UserId, ResourceId, Content, DateSent)
                         OUTPUT INSERTED.ID
                         VALUES (@UserId, @ResourceId, @Content, @DateSent, @Content)";
-                    cmd.Parameters.AddWithValue("@UserId", comment.UserId);
-                    cmd.Parameters.AddWithValue("@ResourceId", comment.ResourceId);
-                    cmd.Parameters.AddWithValue("@Content", comment.Content);
-                    cmd.Parameters.AddWithValue("@DateSent", comment.DateSent);
+                    DbUtils.AddParameter(cmd, "@UserId", comment.UserId);
+                    DbUtils.AddParameter(cmd, "@ResourceId", comment.ResourceId);
+                    DbUtils.AddParameter(cmd, "@Content", comment.Content);
+                    DbUtils.AddParameter(cmd, "@DateSent", comment.DateSent);
 
                     comment.Id = (int)cmd.ExecuteScalar();
                 }

@@ -44,7 +44,7 @@ namespace Recomp_Resource.Controllers
             return CreatedAtAction("Get", new { id = resource.Id }, resource);
         }
 
-        [HttpPost]
+        [HttpPost("save")]
         public IActionResult Save(SavedResource savedResource)
         {
             _resourceRepository.SaveResource(savedResource);
@@ -64,7 +64,7 @@ namespace Recomp_Resource.Controllers
             return NoContent();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("saved/{id}")]
         public IActionResult GetSaved(int id)
         {
             var savedResource = _resourceRepository.GetSavedResourceById(id);

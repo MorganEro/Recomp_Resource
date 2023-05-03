@@ -84,7 +84,7 @@ namespace Recomp_Resource.Repositories
 
                               WHERE m.Id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd,"@id", id);
                     var reader = cmd.ExecuteReader();
 
                     Message message = null;
@@ -117,7 +117,7 @@ namespace Recomp_Resource.Repositories
                     cmd.Parameters.AddWithValue("@Opened", message.Opened);
                     cmd.Parameters.AddWithValue("@SenderId", message.SenderId);
                     cmd.Parameters.AddWithValue("@RecipientId", message.RecipientId);
-                    cmd.Parameters.AddWithValue("@Content", message.Content);
+                    DbUtils.AddParameter(cmd, "@Content", message.Content);
 
                     message.Id = (int)cmd.ExecuteScalar();
                 }
@@ -132,7 +132,7 @@ namespace Recomp_Resource.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"DELETE FROM Message WHERE Message.Id = @id";
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }
             }

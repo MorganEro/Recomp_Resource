@@ -56,18 +56,18 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT u.Id, u.FirebaseUserId, u.FirstName, u.LastName, u.DisplayName,          u.CategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR,        u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated,  u.UserTypeId,
+                        SELECT u.Id, u.FirebaseUserId, u.FirstName, u.LastName, u.DisplayName,u.CategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR,        u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated,  u.UserTypeId,
 
                             c.Goal,
 
                             ut.Type
 
-                          FROM User u
+                          FROM [User] u
                           LEFT JOIN UserType ut on u.UserTypeId = ut.Id
                           LEFT JOIN Category c on u.CategoryId = c.Id
                           WHERE u.Id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
 
                     User user = null;
@@ -97,8 +97,7 @@ namespace Recomp_Resource.Repositories
                                c.Goal,
 
                                ut.Type
-
-                        FROM User u
+                        FROM [User] u
                         LEFT JOIN UserType ut on u.UserTypeId = ut.Id
                         LEFT JOIN Category c on u.CategoryId = c.Id
                         ORDER BY u.DisplayName";
@@ -130,7 +129,7 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO User (DisplayName, FirstName, LastName, Birthday, Weight, Height, BFPercentage, BMR, CurrentFocus, CategoryId, Email, ImageAddress, JoinDate, Deactivated, Bio, UserTypeId, FirebaseUserId)
+                        INSERT INTO [User] (DisplayName, FirstName, LastName, Birthday, Weight, Height, BFPercentage, BMR, CurrentFocus, CategoryId, Email, ImageAddress, JoinDate, Deactivated, Bio, UserTypeId, FirebaseUserId)
                         OUTPUT INSERTED.ID
                         VALUES (@displayName, @firstName, @lastName, @birthday, @weight, @height @bFPercentage, @bMR, @currentFocus, @categoryId, @email, @imageAddress, @joinDate, @deactivated, @bio, @userTypeId, @firebaseUserId)";
                     cmd.Parameters.AddWithValue("@displayName", user.DisplayName);
@@ -165,7 +164,7 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        UPDATE User
+                        UPDATE [User]
                            SET DisplayName = @displayName, 
                                FirstName = @FirstName, 
                                LastName = @LastName,
@@ -222,7 +221,7 @@ namespace Recomp_Resource.Repositories
 
                                ut.Type
 
-                        FROM User u
+                        FROM [User] u
                         LEFT JOIN UserType ut on u.UserTypeId = ut.Id
                         LEFT JOIN Category c on u.CategoryId = c.Id
                         WHERE u.DisplayName LIKE @Criterion OR u.CurrentFocus LIKE @Criterion

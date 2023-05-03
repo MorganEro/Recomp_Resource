@@ -59,7 +59,7 @@ namespace Recomp_Resource.Repositories
                         WHERE r.CategoryId = @categoryId
                         ORDER BY r.DateAdded DESC";
 
-                    cmd.Parameters.AddWithValue("@categoryId", categoryId);
+                   DbUtils.AddParameter(cmd,"@categoryId", categoryId);
                     var reader = cmd.ExecuteReader();
 
                     var resources = new List<Resource>();
@@ -92,7 +92,7 @@ namespace Recomp_Resource.Repositories
                             LEFT JOIN Category c on r.CategoryId = c.Id"";
                             WHERE r.Id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
 
                     Resource resource = null;
@@ -121,11 +121,11 @@ namespace Recomp_Resource.Repositories
                         INSERT INTO Resource (Title, CategoryId, Topic, DateAdded, Content)
                         OUTPUT INSERTED.ID
                         VALUES (@Title, @CategoryId, @Topic, @DateAdded, @Content)";
-                    cmd.Parameters.AddWithValue("@Title", resource.Title);
-                    cmd.Parameters.AddWithValue("@CategoryId", resource.CategoryId);
-                    cmd.Parameters.AddWithValue("@Topic", resource.Topic);
-                    cmd.Parameters.AddWithValue("@DateAdded", resource.DateAdded);
-                    cmd.Parameters.AddWithValue("@Content", resource.Content);
+                    DbUtils.AddParameter(cmd, "@Title", resource.Title);
+                    DbUtils.AddParameter(cmd, "@CategoryId", resource.CategoryId);
+                    DbUtils.AddParameter(cmd, "@Topic", resource.Topic);
+                    DbUtils.AddParameter(cmd, "@DateAdded", resource.DateAdded);
+                    DbUtils.AddParameter(cmd, "@Content", resource.Content);
 
                     resource.Id = (int)cmd.ExecuteScalar();
                 }
@@ -148,12 +148,12 @@ namespace Recomp_Resource.Repositories
                                Content = @Content, 
                               
                          WHERE Id = @id";
-                    cmd.Parameters.AddWithValue("@id", resource.Id);
-                    cmd.Parameters.AddWithValue("@Title", resource.Title);
-                    cmd.Parameters.AddWithValue("@CategoryId", resource.CategoryId);
-                    cmd.Parameters.AddWithValue("@Topic", resource.Topic);
-                    cmd.Parameters.AddWithValue("@DateAdded", resource.DateAdded);
-                    cmd.Parameters.AddWithValue("@Content", resource.Content);
+                    DbUtils.AddParameter(cmd, "@id", resource.Id);
+                    DbUtils.AddParameter(cmd, "@Title", resource.Title);
+                    DbUtils.AddParameter(cmd, "@CategoryId", resource.CategoryId);
+                    DbUtils.AddParameter(cmd, "@Topic", resource.Topic);
+                    DbUtils.AddParameter(cmd, "@DateAdded", resource.DateAdded);
+                    DbUtils.AddParameter(cmd, "@Content", resource.Content);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -169,7 +169,7 @@ namespace Recomp_Resource.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"DELETE FROM Resource WHERE Resource.Id = @id";
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -186,9 +186,9 @@ namespace Recomp_Resource.Repositories
                         INSERT INTO SavedResource (UserId, ResourceId, SaveDate)
                         OUTPUT INSERTED.ID
                         VALUES (@UserId, @ResourceId, @SaveDate, @DateAdded, @Content)";
-                    cmd.Parameters.AddWithValue("@UserId", savedResource.UserId);
-                    cmd.Parameters.AddWithValue("@ResourceId", savedResource.ResourceId);
-                    cmd.Parameters.AddWithValue("@SaveDate", savedResource.SaveDate);
+                    DbUtils.AddParameter(cmd, "@UserId", savedResource.UserId);
+                    DbUtils.AddParameter(cmd, "@ResourceId", savedResource.ResourceId);
+                    DbUtils.AddParameter(cmd, "@SaveDate", savedResource.SaveDate);
 
                     savedResource.Id = (int)cmd.ExecuteScalar();
                 }
@@ -225,7 +225,7 @@ namespace Recomp_Resource.Repositories
                             LEFT JOIN Category c ON r.CategoryId = c.Id"";
                             WHERE sr.Id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
 
                     SavedResource savedResource = null;
@@ -308,7 +308,7 @@ namespace Recomp_Resource.Repositories
                             LEFT JOIN Category c ON r.CategoryId = c.Id"";
                             WHERE sr.UserId = @userId";
 
-                    cmd.Parameters.AddWithValue("@userId", userId);
+                    DbUtils.AddParameter(cmd, "@userId", userId);
                     var reader = cmd.ExecuteReader();
                     var savedResources = new List<SavedResource>();
                     SavedResource savedResource = null;

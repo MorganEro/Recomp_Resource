@@ -21,9 +21,9 @@ namespace Recomp_Resource.Repositories
                     cmd.CommandText = @"
                          SELECT Id, Content
                          FROM Quote 
-                         WHERE m.Id = @id";
+                         WHERE Id = @id";
 
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd,"@id", id);
                     var reader = cmd.ExecuteReader();
 
                     Quote quote = null;
@@ -77,7 +77,7 @@ namespace Recomp_Resource.Repositories
                         INSERT INTO Quote (Content)
                         OUTPUT INSERTED.ID
                         VALUES (@Content)";
-                    cmd.Parameters.AddWithValue("@Content", quote.Content);
+                    DbUtils.AddParameter(cmd,"@Content", quote.Content);
 
                     quote.Id = (int)cmd.ExecuteScalar();
                 }
@@ -96,8 +96,8 @@ namespace Recomp_Resource.Repositories
                            SET Content = @Content 
                                
                          WHERE Id = @id";
-                    cmd.Parameters.AddWithValue("@id", quote.Id);
-                    cmd.Parameters.AddWithValue("@Content", quote.Content);
+                    DbUtils.AddParameter(cmd, "@id", quote.Id);
+                    DbUtils.AddParameter(cmd, "@Content", quote.Content);
 
 
                     cmd.ExecuteNonQuery();
@@ -113,7 +113,7 @@ namespace Recomp_Resource.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"DELETE FROM Quote WHERE Quote.Id = @id";
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }
             }

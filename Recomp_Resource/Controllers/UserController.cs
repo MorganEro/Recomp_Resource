@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Recomp_Resource.Models;
 using Recomp_Resource.Repositories;
+using System.Security.Claims;
 
 namespace Recomp_Resource.Controllers
 {
@@ -15,14 +16,14 @@ namespace Recomp_Resource.Controllers
             _userRepository = userRepository;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
             return Ok(_userRepository.GetAllUsers());
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -34,8 +35,8 @@ namespace Recomp_Resource.Controllers
             return Ok(user);
         }
 
-        [Authorize]
-        [HttpGet]
+        //[Authorize]
+        [HttpGet("firebaseUser/{id}")]
         public IActionResult GetByFirebaseUserId(string id)
         {
             var user = _userRepository.GetByFirebaseUserId(id);
@@ -47,7 +48,7 @@ namespace Recomp_Resource.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(User user)
+        public IActionResult Add(User user)
         {
             user.UserTypeId = 2;
             _userRepository.Add(user);
@@ -55,7 +56,7 @@ namespace Recomp_Resource.Controllers
                nameof(GetByFirebaseUserId), new { firebaseUserId = user.FirebaseUserId }, user);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut("{id}")]
         public IActionResult Put(int id, User user)
         {
@@ -86,6 +87,24 @@ namespace Recomp_Resource.Controllers
             return Ok();
         }
 
+
+        private User GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
+        [HttpGet("user")]
+        public IActionResult CurrentUser()
+        {
+            var userProfile = GetCurrentUserProfile();
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userProfile);
+        }
 
     }
 }

@@ -32,7 +32,7 @@ namespace Recomp_Resource.Repositories
                         LEFT JOIN UserType ut ON u.UserTypeId = u.Id
                         ORDER BY c.DateCreated";
 
-                    cmd.Parameters.AddWithValue("@categoryId", categoryId);
+                    DbUtils.AddParameter(cmd, "@categoryId", categoryId);
                     var reader = cmd.ExecuteReader();
 
                     var comments = new List<Chat>();
@@ -60,10 +60,10 @@ namespace Recomp_Resource.Repositories
                         INSERT INTO Chat (Content, DateCreated, CategoryId, UserId)
                         OUTPUT INSERTED.ID
                         VALUES (@Content, @DateCreated, @Category, @UserId)";
-                    cmd.Parameters.AddWithValue("@Content", chat.Content);
-                    cmd.Parameters.AddWithValue("@DateCreated", chat.DateCreated);
-                    cmd.Parameters.AddWithValue("@Category", chat.Category);
-                    cmd.Parameters.AddWithValue("@UserId", chat.UserId);
+                    DbUtils.AddParameter(cmd, "@Content", chat.Content);
+                    DbUtils.AddParameter(cmd, "@DateCreated", chat.DateCreated);
+                    DbUtils.AddParameter(cmd, "@Category", chat.Category);
+                    DbUtils.AddParameter(cmd, "@UserId", chat.UserId);
 
                     chat.Id = (int)cmd.ExecuteScalar();
                 }

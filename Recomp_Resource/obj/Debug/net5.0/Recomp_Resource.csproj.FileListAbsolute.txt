@@ -68,3 +68,6 @@ C:\Users\m_ero\workspace\Recomp_Resource\Recomp_Resource\obj\Debug\net5.0\refint
 C:\Users\m_ero\workspace\Recomp_Resource\Recomp_Resource\obj\Debug\net5.0\Recomp_Resource.pdb
 C:\Users\m_ero\workspace\Recomp_Resource\Recomp_Resource\obj\Debug\net5.0\Recomp_Resource.genruntimeconfig.cache
 C:\Users\m_ero\workspace\Recomp_Resource\Recomp_Resource\obj\Debug\net5.0\ref\Recomp_Resource.dll
+C:\Users\m_ero\workspace\Recomp_Resource\Recomp_Resource\bin\Debug\net5.0\client\package-lock.json
+C:\Users\m_ero\workspace\Recomp_Resource\Recomp_Resource\bin\Debug\net5.0\client\package.json
+C:\Users\m_ero\workspace\Recomp_Resource\Recomp_Resource\bin\Debug\net5.0\client\public\manifest.json

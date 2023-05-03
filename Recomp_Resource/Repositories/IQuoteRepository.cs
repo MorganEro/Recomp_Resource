@@ -8,7 +8,7 @@ namespace Recomp_Resource.Repositories
         void Add(Quote quote);
         void Delete(int id);
         void Edit(Quote quote);
-        List<Quote> GetAllQuotes(int Id);
+        List<Quote> GetAllQuotes();
         Quote GetQuoteById(int id);
     }
 }
