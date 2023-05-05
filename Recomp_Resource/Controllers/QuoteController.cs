@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Recomp_Resource.Models;
 using Recomp_Resource.Repositories;
+using System;
 
 namespace Recomp_Resource.Controllers
 {
@@ -22,6 +23,16 @@ namespace Recomp_Resource.Controllers
         {
             var quotes = _quoteRepository.GetAllQuotes();
             return Ok(quotes);
+        }
+
+        [HttpGet("random")]
+        public IActionResult GetRandom()
+        {
+            var rnd = new Random();
+            var quotes = _quoteRepository.GetAllQuotes();
+            var rndQuote = quotes[rnd.Next(quotes.Count - 1)];
+
+            return Ok(rndQuote);
         }
 
         [HttpPost]
