@@ -21,9 +21,28 @@ export const getAllQuotes = () => {
   });
 };
 
+export const getRandomQuote = () => {
+  return getToken().then((token) => {
+    return fetch(`${apiUrl}/random`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to get a random quote.",
+        );
+      }
+    });
+  });
+};
+
 export const getQuoteById = (id) => {
   return getToken().then((token) => {
-    return fetch(apiUrl + id, {
+    return fetch(`${apiUrl}/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -65,7 +84,7 @@ export const addQuote = (quote) => {
 
 export const UpdateQuote = (id, quote) => {
   return getToken().then((token) => {
-    return fetch(apiUrl + id, {
+    return fetch(`${apiUrl}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +100,7 @@ export const UpdateQuote = (id, quote) => {
 
 export const DeleteQuote = (id) => {
   return getToken().then((token) => {
-      return fetch(apiUrl + id, {
+      return fetch(`${apiUrl}/${id}`, {
           method: "DELETE",
           headers: {
               Authorization: `Bearer ${token}`,

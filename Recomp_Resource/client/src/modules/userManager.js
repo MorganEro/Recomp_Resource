@@ -34,7 +34,7 @@ export const thisUser = () => {
 
 export const getUserById = (id) => {
   return getToken().then((token) => {
-    return fetch(apiUrl + id, {
+    return fetch(`${apiUrl}/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export const getUserById = (id) => {
 
 export const UpdateUser = (id, user) => {
   return getToken().then((token) => {
-    return fetch(apiUrl + id, {
+    return fetch(`${apiUrl}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

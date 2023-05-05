@@ -8,7 +8,7 @@ import {thisUser} from "./modules/userManager";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [user, setUser] = useState(null);
+  const [profile, setUser] = useState(null);
 
   useEffect(() => {
     onLoginStatusChange(setIsLoggedIn);
@@ -29,8 +29,8 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header isLoggedIn={isLoggedIn} user={user}/>
-        <ApplicationViews isLoggedIn={isLoggedIn} />
+        <Header isLoggedIn={isLoggedIn} profile={profile}/>
+        <ApplicationViews isLoggedIn={isLoggedIn} profile={profile}/>
       </BrowserRouter>
     </div>
   );
