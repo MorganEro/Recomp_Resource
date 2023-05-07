@@ -23,7 +23,7 @@ export const getAllResources = () => {
 
 export const getResourceById = (id) => {
   return getToken().then((token) => {
-    return fetch(apiUrl + id, {
+    return fetch(`${apiUrl}/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -145,7 +145,7 @@ export const saveResource = (savedResource) => {
 
 export const UpdateResource = (id, resource) => {
   return getToken().then((token) => {
-    return fetch(apiUrl + id, {
+    return fetch(`${apiUrl}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -161,7 +161,7 @@ export const UpdateResource = (id, resource) => {
 
 export const DeleteResource = (id) => {
   return getToken().then((token) => {
-      return fetch(apiUrl + id, {
+      return fetch(`${apiUrl}/${id}`, {
           method: "DELETE",
           headers: {
               Authorization: `Bearer ${token}`,
@@ -172,7 +172,7 @@ export const DeleteResource = (id) => {
 
 export const getResourceSearch = (q) => {
   return getToken().then((token) => {
-    return fetch(`${apiUrl}search?q=${q}`, {
+    return fetch(`${apiUrl}/search?q=${q}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Recomp_Resource.Models;
 using Recomp_Resource.Repositories;
+using System;
 
 namespace Recomp_Resource.Controllers
 {
@@ -24,7 +26,7 @@ namespace Recomp_Resource.Controllers
             return Ok(resources);
         }
 
-        [HttpGet("category/{id}")]
+        [HttpGet("category")]
         public IActionResult GetAllByCategoryId(int categoryId)
         {
             var categoryResources = _resourceRepository.GetAllResourcesByCategory(categoryId);
@@ -41,6 +43,7 @@ namespace Recomp_Resource.Controllers
         [HttpPost]
         public IActionResult Add(Resource resource)
         {
+            resource.DateAdded = DateTime.Now;
             _resourceRepository.Add(resource);
 
             return CreatedAtAction("Get", new { id = resource.Id }, resource);
@@ -49,6 +52,7 @@ namespace Recomp_Resource.Controllers
         [HttpPost("save")]
         public IActionResult Save(SavedResource savedResource)
         {
+            savedResource.SaveDate = DateTime.Now;
             _resourceRepository.SaveResource(savedResource);
 
             return CreatedAtAction("Get", new { id = savedResource.Id }, savedResource);

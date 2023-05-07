@@ -4,11 +4,11 @@ import Header from "./components/Header";
 import ApplicationViews from "./components/ApplicationViews";
 import { BrowserRouter } from "react-router-dom";
 import { onLoginStatusChange } from "./modules/authManager";
-import {thisUser} from "./modules/userManager";
+import {ThisUser} from "./modules/userManager";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [profile, setUser] = useState(null);
+  const [thisUser, setThisUser] = useState(null);
 
   useEffect(() => {
     onLoginStatusChange(setIsLoggedIn);
@@ -16,9 +16,9 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      thisUser().then(setUser);
+      ThisUser().then(setThisUser);
     } else {
-      setUser(null);
+      setThisUser(null);
     }
   }, [isLoggedIn]);
 
@@ -29,8 +29,8 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header isLoggedIn={isLoggedIn} profile={profile}/>
-        <ApplicationViews isLoggedIn={isLoggedIn} profile={profile}/>
+        <Header isLoggedIn={isLoggedIn} thisUser={thisUser}/>
+        <ApplicationViews isLoggedIn={isLoggedIn} thisUser={thisUser}/>
       </BrowserRouter>
     </div>
   );

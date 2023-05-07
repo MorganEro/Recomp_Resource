@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Recomp_Resource.Models;
 using Recomp_Resource.Utils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Recomp_Resource.Repositories
 {
@@ -18,26 +19,46 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT r.Id, r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content,
-
-                               c.Goal
+                        SELECT r.Id, r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content, 
+                        c.Goal , 
+                        cm.Id AS CId, cm.Content AS CContent, cm.UserId, cm.DateSent
                           
                         FROM Resource r
                         LEFT JOIN Category c on r.CategoryId = c.Id
-                        ORDER BY r.DateAdded";
+                        JOIN Comment cm  ON r.id = cm.ResourceId
+                        ORDER BY r.DateAdded DESC";
 
-                    var reader = cmd.ExecuteReader();
-
-                    var resources = new List<Resource>();
-
-                    while (reader.Read())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        resources.Add(NewResourceFromReader(reader));
+
+                        var resources = new List<Resource>();
+                        while (reader.Read())
+                        {
+                            var Id = DbUtils.GetInt(reader, "Id");
+
+                            var existingResource = resources.FirstOrDefault(r => r.Id == Id);
+                            if (existingResource == null)
+                            {
+                                existingResource = NewResourceFromReader(reader);
+
+
+                                resources.Add(existingResource);
+                            }
+
+                            if (DbUtils.IsNotDbNull(reader, "CId"))
+                            {
+                                existingResource.Comments.Add(new Comment()
+                                {
+                                    Id = DbUtils.GetInt(reader, "CId"),
+                                    Content = DbUtils.GetString(reader, "CContent"),
+                                    UserId = DbUtils.GetInt(reader, "UserId"),
+                                    ResourceId = DbUtils.GetInt(reader, "Id")
+                                });
+                            }
+                        }
+
+                        return resources;
                     }
-
-                    reader.Close();
-
-                    return resources;
                 }
             }
         }
@@ -50,31 +71,51 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT r.Id, r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content,
-
-                               c.Goal
+                        SELECT r.Id, r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content, 
+                        c.Goal , 
+                        cm.Id AS CId, cm.Content AS CContent, cm.UserId, cm.DateSent
                           
                         FROM Resource r
                         LEFT JOIN Category c on r.CategoryId = c.Id
+                        JOIN Comment cm  ON r.id = cm.ResourceId
                         WHERE r.CategoryId = @categoryId
                         ORDER BY r.DateAdded DESC";
 
-                   DbUtils.AddParameter(cmd,"@categoryId", categoryId);
-                    var reader = cmd.ExecuteReader();
-
-                    var resources = new List<Resource>();
-
-                    while (reader.Read())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        resources.Add(NewResourceFromReader(reader));
+
+                        var resources = new List<Resource>();
+                        while (reader.Read())
+                        {
+                            var Id = DbUtils.GetInt(reader, "Id");
+
+                            var existingResource = resources.FirstOrDefault(r => r.Id == Id);
+                            if (existingResource == null)
+                            {
+                                existingResource = NewResourceFromReader(reader);
+
+
+                                resources.Add(existingResource);
+                            }
+
+                            if (DbUtils.IsNotDbNull(reader, "CId"))
+                            {
+                                existingResource.Comments.Add(new Comment()
+                                {
+                                    Id = DbUtils.GetInt(reader, "CId"),
+                                    Content = DbUtils.GetString(reader, "CContent"),
+                                    UserId = DbUtils.GetInt(reader, "UserId"),
+                                    ResourceId = DbUtils.GetInt(reader, "Id")
+                                });
+                            }
+                        }
+
+                        return resources;
                     }
-
-                    reader.Close();
-
-                    return resources;
                 }
             }
         }
+
 
         public Resource GetResourceById(int id)
         {
@@ -84,31 +125,44 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                            SELECT r.Id, r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content,
-
-                                c.Goal
+                        SELECT r.Id, r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content, 
+                        c.Goal , 
+                        cm.Id AS CId, cm.Content AS CContent, cm.UserId, cm.DateSent
                           
-                            FROM Resource r
-                            LEFT JOIN Category c on r.CategoryId = c.Id"";
-                            WHERE r.Id = @id";
+                        FROM Resource r
+                        LEFT JOIN Category c on r.CategoryId = c.Id
+                        JOIN Comment cm  ON r.id = cm.ResourceId
+                        WHERE r.Id = @id";
 
                     DbUtils.AddParameter(cmd, "@id", id);
-                    var reader = cmd.ExecuteReader();
-
-                    Resource resource = null;
-
-                    if (reader.Read())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        resource = NewResourceFromReader(reader);
+
+                        Resource resource = null;
+                        while (reader.Read())
+                        {
+                            if (resource == null)
+                            {
+                                resource = NewResourceFromReader(reader);
+                            }
+
+                            if (DbUtils.IsNotDbNull(reader, "CId"))
+                            {
+                                resource.Comments.Add(new Comment()
+                                {
+                                    Id = DbUtils.GetInt(reader, "CId"),
+                                    Content = DbUtils.GetString(reader, "CContent"),
+                                    UserId = DbUtils.GetInt(reader, "UserId"),
+                                    ResourceId = DbUtils.GetInt(reader, "Id")
+                                });
+                            }
+                        }
+
+                        return resource;
                     }
-
-                    reader.Close();
-
-                    return resource;
                 }
             }
         }
-
 
         public void Add(Resource resource)
         {
@@ -215,14 +269,17 @@ namespace Recomp_Resource.Repositories
 
                                 r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content,
 
-                                c.Goal
+                                c.Goal,
+
+                                 cm.Id AS CId, cm.Content AS CContent, cm.UserId AS CUserId, cm.DateSent
                           
                             FROM SavedResource sr
-                            LEFT JOIN User u ON sr.UserId = u.Id
+                            LEFT JOIN [User] u ON sr.UserId = u.Id
                             LEFT JOIN Category cat ON u.CategoryId = cat.Id
                             LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
                             LEFT JOIN r ON sr.ResourceId = r.Id
-                            LEFT JOIN Category c ON r.CategoryId = c.Id"";
+                            LEFT JOIN Category c ON r.CategoryId = c.Id
+                            JOIN Comment cm  ON sr.ResourceId = cm.ResourceId
                             WHERE sr.Id = @id";
 
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -230,7 +287,7 @@ namespace Recomp_Resource.Repositories
 
                     SavedResource savedResource = null;
 
-                    if (reader.Read())
+                    while (reader.Read())
                     {
                         savedResource = new SavedResource()
                         {
@@ -268,9 +325,18 @@ namespace Recomp_Resource.Repositories
                             },
                             ResourceId = DbUtils.GetInt(reader, "ResourceId"),
                             Resource = NewResourceFromReader(reader),
-                            SaveDate = DbUtils.GetDateTime(reader, "SaveDate")
-
+                            SaveDate = DbUtils.GetDateTime(reader, "SaveDate"),
                         };
+                        if (DbUtils.IsNotDbNull(reader, "CId"))
+                        {
+                            savedResource.Resource.Comments.Add(new Comment()
+                            {
+                                Id = DbUtils.GetInt(reader, "CId"),
+                                Content = DbUtils.GetString(reader, "CContent"),
+                                UserId = DbUtils.GetInt(reader, "CUserId"),
+                                ResourceId = DbUtils.GetInt(reader, "Id")
+                            });
+                        }
                     }
 
                     reader.Close();
@@ -290,79 +356,93 @@ namespace Recomp_Resource.Repositories
                     cmd.CommandText = @"
                               SELECT sr.Id, sr.UserId, sr.ResourceId, sr.SaveDate,
         
-                                 u.DisplayName, u.FirstName, u.LastName, u.CategoryId AS UCategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR, u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated, u.UserTypeId,.DisplayName,
+                                 u.DisplayName, u.FirstName, u.LastName, u.CategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR, u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated, u.UserTypeId,.DisplayName,
  
-                                cat.Goal AS CGoal,
+                                cat.Goal,
 
                                 ut.Type,
 
                                 r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content,
 
-                                c.Goal
+                                c.Goal,
+
+                                 cm.Id AS CId, cm.Content AS CContent, cm.UserId AS CUserId, cm.DateSent
                           
                             FROM SavedResource sr
-                            LEFT JOIN User u ON sr.UserId = u.Id
+                            LEFT JOIN [User] u ON sr.UserId = u.Id
                             LEFT JOIN Category cat ON u.CategoryId = cat.Id
                             LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
                             LEFT JOIN r ON sr.ResourceId = r.Id
-                            LEFT JOIN Category c ON r.CategoryId = c.Id"";
+                            LEFT JOIN Category c ON r.CategoryId = c.Id
+                            JOIN Comment cm  ON sr.ResourceId = cm.ResourceId
                             WHERE sr.UserId = @userId";
 
                     DbUtils.AddParameter(cmd, "@userId", userId);
-                    var reader = cmd.ExecuteReader();
-                    var savedResources = new List<SavedResource>();
-                    SavedResource savedResource = null;
 
-                    while (reader.Read())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if (savedResource == null)
+
+                        var savedResources = new List<SavedResource>();
+                        while (reader.Read())
                         {
-                            savedResource = new SavedResource()
+                            var Id = DbUtils.GetInt(reader, "Id");
+
+                            var existingSavedResource = savedResources.FirstOrDefault(x => x.Id == Id);
+                            if (existingSavedResource == null)
                             {
-                                Id = DbUtils.GetInt(reader, "Id"),
-                                UserId = userId,
-                                User = new User()
+                                existingSavedResource = new SavedResource()
                                 {
-                                    Id = DbUtils.GetInt(reader, "UserId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                                    FirstName = DbUtils.GetString(reader, "FirstName"),
-                                    LastName = DbUtils.GetString(reader, "LastName"),
-                                    Birthday = DbUtils.GetDateTime(reader, "Birthday"),
-                                    Weight = DbUtils.GetDecimal(reader, "Weight"),
-                                    Height = DbUtils.GetString(reader, "Height"),
-                                    BFPercentage = DbUtils.GetDecimal(reader, "BFPercentage"),
-                                    BMR = DbUtils.GetInt(reader, "BMR"),
-                                    CurrentFocus = DbUtils.GetString(reader, "CurrentFocus"),
-                                    Deactivated = reader.GetBoolean(reader.GetOrdinal("Deactivated")),
-                                    CategoryId = DbUtils.GetInt(reader, "CategoryId"),
-                                    Category = new Category()
+                                    Id = DbUtils.GetInt(reader, "Id"),
+                                    UserId = userId,
+                                    User = new User()
                                     {
-                                        Id = DbUtils.GetInt(reader, "UCategoryId"),
-                                        Goal = DbUtils.GetString(reader, "CGoal")
+                                        Id = DbUtils.GetInt(reader, "UserId"),
+                                        DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                                        FirstName = DbUtils.GetString(reader, "FirstName"),
+                                        LastName = DbUtils.GetString(reader, "LastName"),
+                                        Birthday = DbUtils.GetDateTime(reader, "Birthday"),
+                                        Weight = DbUtils.GetDecimal(reader, "Weight"),
+                                        Height = DbUtils.GetString(reader, "Height"),
+                                        BFPercentage = DbUtils.GetDecimal(reader, "BFPercentage"),
+                                        BMR = DbUtils.GetInt(reader, "BMR"),
+                                        CurrentFocus = DbUtils.GetString(reader, "CurrentFocus"),
+                                        Deactivated = reader.GetBoolean(reader.GetOrdinal("Deactivated")),
+                                        CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                                        Category = new Category()
+                                        {
+                                            Id = DbUtils.GetInt(reader, "UCategoryId"),
+                                            Goal = DbUtils.GetString(reader, "CGoal")
+                                        },
+                                        UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                                        UserType = new UserType()
+                                        {
+                                            Id = DbUtils.GetInt(reader, "UserTypeId"),
+                                            Type = DbUtils.GetString(reader, "Type")
+                                        },
+                                        JoinDate = DbUtils.GetDateTime(reader, "JoinDate"),
+                                        ImageAddress = DbUtils.GetString(reader, "ImageAddress"),
+                                        Bio = DbUtils.GetString(reader, "Bio"),
+                                        Email = DbUtils.GetString(reader, "Email"),
                                     },
-                                    UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                                    UserType = new UserType()
+                                    ResourceId = DbUtils.GetInt(reader, "ResourceId"),
+                                    Resource = NewResourceFromReader(reader),
+                                    SaveDate = DbUtils.GetDateTime(reader, "SaveDate")
+                                };
+                                if (DbUtils.IsNotDbNull(reader, "CId"))
+                                {
+                                    existingSavedResource.Resource.Comments.Add(new Comment()
                                     {
-                                        Id = DbUtils.GetInt(reader, "UserTypeId"),
-                                        Type = DbUtils.GetString(reader, "Type")
-                                    },
-                                    JoinDate = DbUtils.GetDateTime(reader, "JoinDate"),
-                                    ImageAddress = DbUtils.GetString(reader, "ImageAddress"),
-                                    Bio = DbUtils.GetString(reader, "Bio"),
-                                    Email = DbUtils.GetString(reader, "Email"),
-                                },
-                                ResourceId = DbUtils.GetInt(reader, "ResourceId"),
-                                Resource = NewResourceFromReader(reader),
-                                SaveDate = DbUtils.GetDateTime(reader, "SaveDate")
-                            };
+                                        Id = DbUtils.GetInt(reader, "CId"),
+                                        Content = DbUtils.GetString(reader, "CContent"),
+                                        UserId = DbUtils.GetInt(reader, "CUserId"),
+                                        ResourceId = DbUtils.GetInt(reader, "Id")
+                                    });
+                                }
+                            }
+                            savedResources.Add(existingSavedResource);
                         }
-
-                        savedResources.Add(savedResource);
+                        return savedResources;
                     }
-
-                    reader.Close();
-
-                    return savedResources;
                 }
             }
         }
@@ -415,7 +495,8 @@ namespace Recomp_Resource.Repositories
                 },
                 Topic = DbUtils.GetString(reader, "Topic"),
                 DateAdded = DbUtils.GetDateTime(reader, "DateAdded"),
-                Content = DbUtils.GetString(reader, "Content")
+                Content = DbUtils.GetString(reader, "Content"),
+                Comments = new List<Comment>()
             };
         }
     }

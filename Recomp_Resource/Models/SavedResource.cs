@@ -12,5 +12,6 @@ namespace Recomp_Resource.Models
         public int ResourceId { get; set; }
         public Resource Resource { get; set; }
         public DateTime SaveDate { get; set; }
+
     }
 }

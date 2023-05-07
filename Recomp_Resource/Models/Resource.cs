@@ -15,5 +15,12 @@ namespace Recomp_Resource.Models
 
         public List<Comment> Comments { get; set; }
 
+        public int NumberOfComments { 
+            get
+            {
+                return Comments.Count;
+            } 
+        }
+
     }
 }
