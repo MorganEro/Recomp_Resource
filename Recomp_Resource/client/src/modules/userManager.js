@@ -21,7 +21,7 @@ export const getAllUsers = () => {
   });
 };
 
-export const thisUser = () => {
+export const ThisUser = () => {
   return getToken().then((token) =>
     fetch(`${apiUrl}/user`, {
       method: "GET",
@@ -68,7 +68,7 @@ export const UpdateUser = (id, user) => {
 
 export const getUserSearch = (q) => {
     return getToken().then((token) => {
-      return fetch(`${apiUrl}search?q=${q}`, {
+      return fetch(`${apiUrl}/search?q=${q}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

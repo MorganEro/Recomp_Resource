@@ -25,6 +25,7 @@ const QuoteList = () => {
           {quotes.map((quote) => (
             <Quote quote={quote} getQuotes ={getQuotes} key={quote.id} />
           ))}
+          
         </div>
       </section>
     </>

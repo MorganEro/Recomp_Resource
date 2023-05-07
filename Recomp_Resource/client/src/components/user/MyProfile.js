@@ -3,12 +3,12 @@ import { Link, useParams } from "react-router-dom";
 import { Card, CardBody, CardFooter, CardImg } from "reactstrap";
 import { getUserById } from "../../modules/userManager";
 
-const MyProfile = ({ profile }) => {
+const MyProfile = ({ thisUser }) => {
 
   const [user, setUser] = useState({});
 
   const getUser = () => {
-    getUserById(profile?.id).then(user => setUser(user));
+    getUserById(thisUser?.id).then(user => setUser(user));
   };
 
   useEffect(() => {

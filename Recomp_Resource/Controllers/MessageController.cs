@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Recomp_Resource.Models;
 using Recomp_Resource.Repositories;
+using System;
 
 namespace Recomp_Resource.Controllers
 {
@@ -39,6 +41,7 @@ namespace Recomp_Resource.Controllers
         [HttpPost]
         public IActionResult Add(Message message)
         {
+            message.DateCreated = DateTime.Now;
             _messageRepository.Add(message);
 
             return CreatedAtAction("Get", new { id = message.Id }, message);

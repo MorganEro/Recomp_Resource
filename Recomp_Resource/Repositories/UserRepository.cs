@@ -172,8 +172,8 @@ namespace Recomp_Resource.Repositories
                                Weight = @Weight, 
                                Height = @Height,
                                BFPercentage = @BFPercentage, 
-                               BMR = @BMR 
-                               CurrentFocus = @CurrentFocus
+                               BMR = @BMR, 
+                               CurrentFocus = @CurrentFocus,
                                CategoryId = @CategoryId, 
                                Email = @Email, 
                                ImageAddress = @ImageAddress,
@@ -181,7 +181,7 @@ namespace Recomp_Resource.Repositories
                                Deactivated = @Deactivated, 
                                Bio = @Bio,
                                UserTypeId = @UserTypeId,
-                               FirebaseUserId = @FirebaseUserId,
+                               FirebaseUserId = @FirebaseUserId
                          WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", user.Id);
                     cmd.Parameters.AddWithValue("@displayName", user.DisplayName);

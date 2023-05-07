@@ -21,7 +21,7 @@ namespace Recomp_Resource.Repositories
                     cmd.CommandText = @"
                         SELECT c.Id, c.UserId, c.ResourceId, c.Content,c.DateSent,
 
-                               u.DisplayName, u.FirstName, u.LastName, u.CategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR, u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated, u.UserTypeId,.DisplayName, 
+                               u.DisplayName, u.FirstName, u.LastName, u.CategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR, u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated, u.UserTypeId, 
 
                                cat.Goal,
 
@@ -32,7 +32,7 @@ namespace Recomp_Resource.Repositories
                                rc.Goal AS RCGoal         
                           
                         FROM Comment c
-                            LEFT JOIN User u ON c.UserId = u.Id
+                            LEFT JOIN [User] u ON c.UserId = u.Id
                             LEFT JOIN Category cat ON u.CategoryId = cat.Id
                             LEFT JOIN UserType ut ON u.UserTypeId = u.Id
                             LEFT JOIN Resource r ON c.ResourceId = r.Id
@@ -67,7 +67,7 @@ namespace Recomp_Resource.Repositories
                     cmd.CommandText = @"
                         INSERT INTO Comment (UserId, ResourceId, Content, DateSent)
                         OUTPUT INSERTED.ID
-                        VALUES (@UserId, @ResourceId, @Content, @DateSent, @Content)";
+                        VALUES (@UserId, @ResourceId, @Content, @DateSent)";
                     DbUtils.AddParameter(cmd, "@UserId", comment.UserId);
                     DbUtils.AddParameter(cmd, "@ResourceId", comment.ResourceId);
                     DbUtils.AddParameter(cmd, "@Content", comment.Content);

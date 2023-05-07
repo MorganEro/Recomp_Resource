@@ -25,7 +25,7 @@ const AddQuote = () => {
     <form>
       <h2> Add A Quote</h2>
       <fieldset>
-        <label for="content">Content</label>
+        <label htmlFor="content">Content</label>
         <input
           required
           autoFocus

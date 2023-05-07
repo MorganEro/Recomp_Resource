@@ -2,9 +2,9 @@ import { getToken } from "./authManager";
 
 const apiUrl = "/api/comment";
 
-export const getAllComments = () => {
+export const getAllCommentsByResourceId = (resourceId) => {
   return getToken().then((token) => {
-    return fetch(apiUrl, {
+    return fetch(`${apiUrl}/${resourceId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
