@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAllResources, getResourceSearch } from "../../modules/resourceManager";
-import Resource from "./Resource";
 import { Link } from "react-router-dom";
+import AdminResource from "./AdminResource";
 
 
 const AdminResourceList = () => {
@@ -27,10 +27,26 @@ const AdminResourceList = () => {
     });
   };
 
+  const sortButtonDate = () => {
+        
+    const resAsc = [...resources].sort((a, b) =>
+    a.dateAdded > b.dateAdded ? 1 : -1,)
+    
+    setResources(resAsc);
+
+}
+const sortButtonMostSaves = () => {
+    const resSaves = [...resources].sort((a, b) =>
+    a.saves > b.saves ? 1 : -1,)
+    
+    setResources(resSaves)
+}
+
   return (
     <>
       <div className="container m-4">
         <div className="search-wrapper">
+          <button onClick={getResources}>Show All</button>
           <label htmlFor="search-form">
             <input
               type="search"
@@ -45,15 +61,23 @@ const AdminResourceList = () => {
          </label>
          <button onClick={search}>Search </button> 
         </div>
+        
       </div>
       <h1 className="text-center"> RESOURCES</h1>
+      <button onClick = {sortButtonDate}>
+      Most Recently Added
+      </button>
+      <button onClick={sortButtonMostSaves}>
+      Most Saves
+      </button>
       <button>
       <Link to={"../../resource/create"}>ADD</Link>
       </button>
+      
       <section className="container">
         <div className="row justify-content-center">
           {resources.map((resource) => (
-            <Resource resource={resource} key={resource.id} />
+            <AdminResource resource={resource} key={resource.id} />
           ))}
         </div>
       </section>

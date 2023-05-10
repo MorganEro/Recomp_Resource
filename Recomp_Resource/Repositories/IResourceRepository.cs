@@ -14,6 +14,8 @@ namespace Recomp_Resource.Repositories
         Resource GetResourceById(int id);
         SavedResource GetSavedResourceById(int id);
         void SaveResource(SavedResource savedResource);
+        public int NumberOfSaves(int resourceId);
+        void UnSave(int id);
         List<Resource> SearchResources(string criterion);
     }
 }

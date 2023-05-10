@@ -10,6 +10,7 @@ const UserList = () => {
     getAllUsers().then((data) => setUsers(data));
   };
 
+ 
   useEffect(() => {
     getUsers();
   }, []);
@@ -33,11 +34,13 @@ const UserList = () => {
               className="searchInput rounded"
               placeholder="DisplayName/Focus..."
               onChange={(event) => {
+
                 setSearchParams(event.target.value);
               }}
             />
           </label>
           <button onClick={search}>Search </button>
+          <button onClick={getUsers}>Reset</button>
         </div>
       </div>
       <h1 className="text-center"> MEMBERS</h1>

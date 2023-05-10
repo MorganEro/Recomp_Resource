@@ -2,11 +2,8 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Random from "./quote/Random";
 import AdminResourceList from "./resource/AdminResourceList";
-import UserResource from "./resource/AdminResourceList";
-import ResourceDetails from "./resource/ResourceDetails";
-import ResourceEdit from "./resource/AdminResourceList";
-import SavedResourceDetails from "./resource/SavedResourceList";
-import SavedResourceList from "./resource/SavedResourceList";
+import ResourceEdit from "./resource/ResourceEdit";
+import SavedResourceDetails from "./resource/SavedResourceDetails";
 import UserList from "./user/UserList";
 import UserDetails from "./user/UserDetails";
 import UserEdit from "./user/UserEdit";
@@ -18,36 +15,39 @@ import MyProfile from "./user/MyProfile";
 import AddQuote from "./quote/AddQuote";
 import AddResource from "./resource/AddResource";
 import EnterComment from "./comment/EnterComment";
+import UserResourceList from "./resource/UserResourceList";
+import AdminResourceDetails from "./resource/AdminResourceDetails";
+import UserResourceDetails from "./resource/UserResourceDetails";
 
 
 
 
 
-export default function ApplicationViews({ isLoggedIn, thisUser}) {
+export default function ApplicationViews({ isLoggedIn }) {
   return (
     <Routes>
       <Route path="/">
         <Route index element={isLoggedIn ? <Random /> : <Navigate to="/login" />} />
         <Route path= "resource">
-            <Route path="adminList" element={isLoggedIn ? < AdminResourceList /> : <Navigate to="/login" />} />
-            <Route path="userList" element={isLoggedIn ? < UserResource /> : <Navigate to="/login" />} />
-            <Route path="create" element={isLoggedIn ? < AddResource /> : <Navigate to="/login" />} />
-            <Route path="enterComment" element={isLoggedIn ? < EnterComment thisUser={thisUser} /> : <Navigate to="/login" />} />
-            <Route path="details/:id" element={isLoggedIn ? < ResourceDetails /> : <Navigate to="/login" />} />
-            <Route path="edit/:id" element={isLoggedIn && thisUser?.userTypeId === 1 ? < ResourceEdit /> : <Navigate to="/login" />} />
-            <Route path="savedDetails/:id" element={isLoggedIn && thisUser?.userTypeId === 1 ? < SavedResourceDetails /> : <Navigate to="/login" />} />
-            <Route path="savedList" element={isLoggedIn && thisUser?.userTypeId === 1 ? < SavedResourceList /> : <Navigate to="/login" />} />
+            <Route path="adminList" element={< AdminResourceList /> } />
+            <Route path="userList" element={< UserResourceList /> } />
+            <Route path="create" element={< AddResource /> } />
+            <Route path="enterComment" element={< EnterComment /> } />
+            <Route path="adminDetails/:id" element={< AdminResourceDetails /> } />
+            <Route path="userDetails/:id" element={< UserResourceDetails /> } />
+            <Route path="edit/:id" element={< ResourceEdit /> } />
+            <Route path="savedDetails/:id" element={ < SavedResourceDetails />} />
         </Route>
         <Route path="user">
-            <Route path="list" element={isLoggedIn ? < UserList /> : <Navigate to="/login" />} />
-            <Route path="details/:id" element={isLoggedIn ? < UserDetails /> : <Navigate to="/login" />} />
-            <Route path="edit/:id" element={isLoggedIn ? < UserEdit /> : <Navigate to="/login" />} />
-            <Route path="myProfile" element={isLoggedIn ? < MyProfile thisUser= {thisUser}/> : <Navigate to="/login" />} />
+            <Route path="list" element={< UserList /> } />
+            <Route path="details/:id" element={< UserDetails /> } />
+            <Route path="edit/:id" element={< UserEdit />  }  />
+            <Route path="myProfile" element={< MyProfile /> } />
         </Route>
         <Route path="quote">
-            <Route path="list" element={isLoggedIn ? < QuoteList /> : <Navigate to="/login" />} />
-            <Route path="create" element={isLoggedIn ? < AddQuote /> : <Navigate to="/login" />} />
-            <Route path="edit/:id" element={isLoggedIn ? < QuoteEdit /> : <Navigate to="/login" />} />
+            <Route path="list" element={< QuoteList />} />
+            <Route path="create" element={  < AddQuote /> } />
+            <Route path="edit/:id" element={< QuoteEdit /> } />
         </Route>
 
 

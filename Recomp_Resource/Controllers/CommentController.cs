@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Recomp_Resource.Models;
 using Recomp_Resource.Repositories;
 using System;
+using System.Security.Claims;
 
 namespace Recomp_Resource.Controllers
 {
@@ -13,11 +14,13 @@ namespace Recomp_Resource.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepository;
+        private readonly IUserRepository _userRepository;
 
-
-        public CommentController(ICommentRepository commentRepository)
+        public CommentController(ICommentRepository commentRepository, IUserRepository userRepository)
         {
+
             _commentRepository = commentRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet("{resourceId}")]
@@ -35,12 +38,22 @@ namespace Recomp_Resource.Controllers
         [HttpPost]
         public IActionResult Add(Comment comment)
         {
+            var User = GetCurrentUserProfile();
+            
+            comment.UserId = User.Id;
             comment.DateSent = DateTime.Now;
             _commentRepository.Add(comment);
+
 
             return CreatedAtAction("Get", new { id = comment.Id }, comment);
         }
 
-        
+        private User GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
+
     }
 }

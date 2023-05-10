@@ -20,7 +20,7 @@ GO
 
 CREATE TABLE [Category] (
   [Id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [Goal] nvarchar(28) NOT NULL
+  [Goal] nvarchar (55) NOT NULL
 )
 GO
 
@@ -36,17 +36,17 @@ CREATE TABLE [User] (
   [LastName] nvarchar(55) NOT NULL,
   [DisplayName] nvarchar(255) NOT NULL,
   [Birthday] datetime NOT NULL,
-  [Weight] decimal(4,1),
-  [Height] nvarchar(255),
-  [BFPercentage] decimal(3,1),
-  [BMR] int,
-  [CurrentFocus] nvarchar(28),
+  [Weight] nvarchar (10),
+  [Height] nvarchar (10),
+  [BFPercentage] nvarchar (10),
+  [BMR] nvarchar (10),
+  [CurrentFocus] nvarchar (55),
   [CategoryId] int NOT NULL,
   [JoinDate] datetime DEFAULT GETDATE(),
   [ImageAddress] nvarchar(255),
   [UserTypeId] int DEFAULT (2),
-  [Bio] nvarchar(255),
-  [Email] nvarchar(255) NOT NULL,
+  [Bio] nvarchar(400),
+  [Email] nvarchar (55) NOT NULL,
   [FirebaseUserId] nvarchar(28) UNIQUE NOT NULL,
   [Deactivated] bit NOT NULL DEFAULT (0)
 )
@@ -54,11 +54,11 @@ GO
 
 CREATE TABLE [Resource] (
   [Id] int PRIMARY KEY NOT NULL IDENTITY(1, 1),
-  [Title] nvarchar(255) NOT NULL,
+  [Title] nvarchar(50) NOT NULL,
   [CategoryId] int NOT NULL,
   [Topic] nvarchar(255),
   [DateAdded] datetime DEFAULT GETDATE(),
-  [Content] nvarchar(255)
+  [Content] nvarchar(2000)
 )
 GO
 

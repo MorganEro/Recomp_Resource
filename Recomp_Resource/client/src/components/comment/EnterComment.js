@@ -1,38 +1,22 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addComment } from "../../modules/commentManager";
-import { ThisUser } from "../../modules/userManager";
-import { onLoginStatusChange } from "../../modules/authManager";
+
 
 
 
 const EnterComment = ({ getResource, resourceId }) => {
-
-  const [thisUser, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+ 
  
 
   const [comment, setComment] = useState({
 
     content: "",
+    resourceId: 0,
   });
 
-  useEffect(() => {
-    onLoginStatusChange(setIsLoggedIn);
-  }, []);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      ThisUser().then(setUser);
-    } else {
-      setUser(null);
-    }
-  }, [isLoggedIn]);
-
-  const handleSubmitButtonClick = (evt) => {
-    evt.preventDefault();
-
-    comment.userId = thisUser.id
+  const handleSubmitButtonClick = () => {
     comment.resourceId = resourceId
     addComment(comment).then(() => { 
         getResource();
@@ -41,7 +25,7 @@ const EnterComment = ({ getResource, resourceId }) => {
   };
 
   const handleCancelButtonClick = () => {
-    getResource();
+    setComment("");
   };
 
   return (

@@ -23,7 +23,7 @@ const QuoteEdit = () => {
             navigate("../../quote/list")
     }
 
-      const handleCancelButtonClick = (event) => {
+      const handleCancelButtonClick = () => {
         navigate("../../quote/list")
        }
 

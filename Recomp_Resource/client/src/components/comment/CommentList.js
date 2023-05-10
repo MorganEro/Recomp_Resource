@@ -18,7 +18,8 @@ const CommentList = ({ resourceId }) => {
   return (
       <ListGroup>
           {comments.map((comment) => (
-            <ListGroupItem key = {comment.id}>{comment.content}</ListGroupItem>
+            <ListGroupItem key = {comment.id}>
+              <Strong> {comment?.user?.displayName}</Strong><span>{comment.content}</span></ListGroupItem>
           ))}
         </ListGroup>
   );

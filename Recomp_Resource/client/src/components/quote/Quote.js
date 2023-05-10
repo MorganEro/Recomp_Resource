@@ -20,8 +20,8 @@ const Quote = ({ quote, getQuotes }) => {
         <button>
           <Link to={`../../quote/edit/${quote.id}`}>Edit</Link>
         </button>
-        <button  onClick={(clickEvent) =>
-                DeleteButton(clickEvent)
+        <button  onClick={
+                DeleteButton
               }>Delete</button>
       </CardBody>
     </Card>

@@ -2,12 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardBody } from "reactstrap";
 
-const Resource= ({resource}) => {
+const UserResource= ({resource}) => {
+
+  resource.numberOfComments = resource.comments.length
+  
     return (
         <Card >
           <CardBody>
             <p>
-            <Link to={`../../resource/details/${resource.id}`}>
+            <Link to={`../../resource/userDetails/${resource.id}`}>
             <strong>{resource.title}</strong>
               </Link>
               
@@ -18,4 +21,4 @@ const Resource= ({resource}) => {
         </Card>
       );
     };
-export default Resource;
+export default UserResource;

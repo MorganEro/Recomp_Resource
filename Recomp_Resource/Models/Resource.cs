@@ -15,12 +15,10 @@ namespace Recomp_Resource.Models
 
         public List<Comment> Comments { get; set; }
 
-        public int NumberOfComments { 
-            get
-            {
-                return Comments.Count;
-            } 
-        }
+        public User ThisUser { get; set; }
 
+        public int NumberOfComments { get; set; }
+
+        public int NumberOfSaves { get; set; }
     }
 }

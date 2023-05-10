@@ -12,5 +12,7 @@ namespace Recomp_Resource.Models
         public Resource Resource { get; set; }
         public string Content { get; set; }
         public DateTime DateSent { get; set; }
+
+        public User ThisUser { get; set; }
     }
 }

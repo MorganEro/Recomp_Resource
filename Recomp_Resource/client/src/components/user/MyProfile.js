@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, CardBody, CardFooter, CardImg } from "reactstrap";
-import { getUserById } from "../../modules/userManager";
+import { ThisUser } from "../../modules/userManager";
 
-const MyProfile = ({ thisUser }) => {
-
+const MyProfile = () => {
   const [user, setUser] = useState({});
 
   const getUser = () => {
-    getUserById(thisUser?.id).then(user => setUser(user));
+    ThisUser().then((user) => setUser(user));
   };
 
   useEffect(() => {
@@ -16,33 +15,45 @@ const MyProfile = ({ thisUser }) => {
   }, []);
 
   return (
-    <Card 
-    style={{
-      width: '50rem',
-     
-    }}>
+    <Card
+      style={{
+        width: "50rem",
+      }}
+    >
       <CardBody>
-        <p>
-          <strong>{user.displayName}</strong>
-          <CardImg src={user.imageAddress} alt="user's picture" />
-        </p>
-
-        <p>Full Name: {user.fullName}</p>
-        <p>Email: {user.email}</p>
-        <p>Age: {user.age}</p>
-        <p>Birthday: {new Date(user.birthday).getFullYear()}</p>
-        <p>Weight: {user.weight} lbs.</p>
-        <p>Body Fat Percentage: {user.bfPercentage}%</p>
-        <p>Basal Metabolic Rate: {user.bMR} kcal</p>
-        <p>Current Focus: {user.CurrentFocus}</p>
-        <p>Gall: {user?.category?.goal}</p>
-        <p>Join Date: {new Date(user.joinDate).toDateString()}</p>
-        <p> About Me: {user.bio}</p>
-        <p>Active: {user?.deactivated?.toString() === "false"? "Account Active" : "Account Deactivated"}</p>
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <p>
+                <strong>{user.displayName}</strong>
+                <CardImg src={user.imageAddress} alt="user's picture" />
+              </p>
+            </div>
+            <div className="col">
+              <p>Full Name: {user.fullName}</p>
+              <p>Email: {user.email}</p>
+              <p>Age: {user.age}</p>
+              <p>Birthday: {new Date(user.birthday).getFullYear()}</p>
+              <p>Weight: {user.weight} lbs.</p>
+              <p>Body Fat Percentage: {user.bfPercentage}%</p>
+              <p>Basal Metabolic Rate: {user.bmr} kcal</p>
+              <p>Current Focus: {user.currentFocus}</p>
+              <p>Gall: {user?.category?.goal}</p>
+              <p>Join Date: {new Date(user.joinDate).toDateString()}</p>
+              <p> About Me: {user.bio}</p>
+              <p>
+                Active:{" "}
+                {user?.deactivated?.toString() === "false"
+                  ? "Account Active"
+                  : "Account Deactivated"}
+              </p>
+            </div>
+          </div>
+        </div>
       </CardBody>
       <CardFooter>
         <button>
-          <Link to={`../../users/edit/${user.id}`}>Update</Link>
+          <Link to={`../../user/edit/${user.id}`}>Update</Link>
         </button>
       </CardFooter>
     </Card>
