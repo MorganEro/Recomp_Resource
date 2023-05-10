@@ -129,24 +129,19 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO [User] (DisplayName, FirstName, LastName, Birthday, Weight, Height, BFPercentage, BMR, CurrentFocus, CategoryId, Email, ImageAddress, JoinDate, Deactivated, Bio, UserTypeId, FirebaseUserId)
+                        INSERT INTO [User] (DisplayName, FirstName, LastName, Birthday, CurrentFocus, CategoryId, Email, ImageAddress, JoinDate, Deactivated, UserTypeId, FirebaseUserId)
                         OUTPUT INSERTED.ID
-                        VALUES (@displayName, @firstName, @lastName, @birthday, @weight, @height @bFPercentage, @bMR, @currentFocus, @categoryId, @email, @imageAddress, @joinDate, @deactivated, @bio, @userTypeId, @firebaseUserId)";
+                        VALUES (@displayName, @firstName, @lastName, @birthday, @currentFocus, @categoryId, @email, @imageAddress, @joinDate, @deactivated, @userTypeId, @firebaseUserId)";
                     cmd.Parameters.AddWithValue("@displayName", user.DisplayName);
                     cmd.Parameters.AddWithValue("@firstName", user.FirstName);
                     cmd.Parameters.AddWithValue("@lastName", user.LastName);
                     cmd.Parameters.AddWithValue("@birthday", user.Birthday);
-                    cmd.Parameters.AddWithValue("@weight", user.Weight);
-                    cmd.Parameters.AddWithValue("@height", user.Height);
-                    cmd.Parameters.AddWithValue("@bFPercentage", user.BFPercentage);
-                    cmd.Parameters.AddWithValue("@bMR", user.BMR);
                     cmd.Parameters.AddWithValue("@currentFocus", user.CurrentFocus);
                     cmd.Parameters.AddWithValue("@categoryId", user.CategoryId);
                     cmd.Parameters.AddWithValue("@email", user.Email);
                     cmd.Parameters.AddWithValue("@imageAddress", user.ImageAddress);
                     cmd.Parameters.AddWithValue("@joinDate", user.JoinDate);
                     cmd.Parameters.AddWithValue("@deactivated", user.Deactivated);
-                    cmd.Parameters.AddWithValue("@bio", user.Bio);
                     cmd.Parameters.AddWithValue("@userTypeId", user.UserTypeId);
                     cmd.Parameters.AddWithValue("@firebaseUserId", user.FirebaseUserId);
 
@@ -254,10 +249,10 @@ namespace Recomp_Resource.Repositories
                 FirstName = DbUtils.GetString(reader, "FirstName"),
                 LastName = DbUtils.GetString(reader, "LastName"),
                 Birthday = DbUtils.GetDateTime(reader, "Birthday"),
-                Weight = DbUtils.GetDecimal(reader, "Weight"),
+                Weight = DbUtils.GetString(reader, "Weight"),
                 Height = DbUtils.GetString(reader, "Height"),
-                BFPercentage = DbUtils.GetDecimal(reader, "BFPercentage"),
-                BMR = DbUtils.GetInt(reader, "BMR"),
+                BFPercentage = DbUtils.GetString(reader, "BFPercentage"),
+                BMR = DbUtils.GetString(reader, "BMR"),
                 CurrentFocus = DbUtils.GetString(reader, "CurrentFocus"),
                 Deactivated = reader.GetBoolean(reader.GetOrdinal("Deactivated")),
                 CategoryId = DbUtils.GetInt(reader, "CategoryId"),

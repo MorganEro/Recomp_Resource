@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Card, CardBody, CardFooter, CardImg } from "reactstrap";
+import { Card, CardBody, CardFooter } from "reactstrap";
 import { UpdateResource, getResourceById } from "../../modules/resourceManager";
 
 const ResourceEdit = () => {
@@ -13,15 +13,13 @@ const ResourceEdit = () => {
     getResourceById(id).then(setResource);
   }, [id]);
 
-  const handleSubmitButtonClick = (event) => {
-    event.preventDefault();
-
+  const handleSubmitButtonClick = () => {
     UpdateResource(resource.id, resource);
-    navigate(`../../resource/details/${id}`);
+    navigate(`../../resource/adminDetails/${id}`);
   };
 
   const handleCancelButtonClick = () => {
-    navigate(`../../resource/details/${id}`);
+    navigate(`../../resource/adminDetails/${id}`);
   };
 
   return (
@@ -116,9 +114,6 @@ const ResourceEdit = () => {
         ) : (
           <button onClick={handleSubmitButtonClick}>Submit Changes</button>
         )}
-
-      <button onClick={handleCancelButtonClick}>Cancel</button>
-
         <button onClick={handleCancelButtonClick}>Cancel</button>
       </CardFooter>
     </Card>

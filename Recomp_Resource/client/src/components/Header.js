@@ -41,6 +41,7 @@ export default function Header({ isLoggedIn, thisUser}) {
                   <NavLink tag={RRNavLink} to="/quote/list">
                     Quotes
                   </NavLink>
+                  
                 </NavItem>
               </>
               :
@@ -61,15 +62,11 @@ export default function Header({ isLoggedIn, thisUser}) {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <a
-                    aria-current="page"
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={logout}
-                  >
-                    Logout
-                  </a>
-                </NavItem>
+                <NavLink 
+                onClick={logout}
+                href="/login" 
+                >Log out</NavLink>
+              </NavItem>
                 
                 <NavbarBrand>
                    {thisUser?.userTypeId === 1 

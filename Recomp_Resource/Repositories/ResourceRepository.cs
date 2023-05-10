@@ -25,7 +25,7 @@ namespace Recomp_Resource.Repositories
                           
                         FROM Resource r
                         LEFT JOIN Category c on r.CategoryId = c.Id
-                        JOIN Comment cm  ON r.id = cm.ResourceId
+                        LEFT JOIN Comment cm  ON r.id = cm.ResourceId
                         ORDER BY r.DateAdded DESC";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -77,10 +77,11 @@ namespace Recomp_Resource.Repositories
                           
                         FROM Resource r
                         LEFT JOIN Category c on r.CategoryId = c.Id
-                        JOIN Comment cm  ON r.id = cm.ResourceId
+                        LEFT JOIN Comment cm  ON r.id = cm.ResourceId
                         WHERE r.CategoryId = @categoryId
                         ORDER BY r.DateAdded DESC";
 
+                    DbUtils.AddParameter(cmd, "@categoryId", categoryId);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
 
@@ -131,7 +132,7 @@ namespace Recomp_Resource.Repositories
                           
                         FROM Resource r
                         LEFT JOIN Category c on r.CategoryId = c.Id
-                        JOIN Comment cm  ON r.id = cm.ResourceId
+                        LEFT JOIN Comment cm  ON r.id = cm.ResourceId
                         WHERE r.Id = @id";
 
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -199,7 +200,7 @@ namespace Recomp_Resource.Repositories
                                CategoryId = @CategoryId, 
                                Topic = @Topic,
                                DateAdded = @DateAdded, 
-                               Content = @Content, 
+                               Content = @Content 
                               
                          WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", resource.Id);
@@ -229,6 +230,20 @@ namespace Recomp_Resource.Repositories
             }
         }
 
+        public void UnSave(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM SavedResource WHERE SavedResource.Id = @id";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void SaveResource(SavedResource savedResource)
         {
             using (var conn = Connection)
@@ -239,7 +254,7 @@ namespace Recomp_Resource.Repositories
                     cmd.CommandText = @"
                         INSERT INTO SavedResource (UserId, ResourceId, SaveDate)
                         OUTPUT INSERTED.ID
-                        VALUES (@UserId, @ResourceId, @SaveDate, @DateAdded, @Content)";
+                        VALUES (@UserId, @ResourceId, @SaveDate)";
                     DbUtils.AddParameter(cmd, "@UserId", savedResource.UserId);
                     DbUtils.AddParameter(cmd, "@ResourceId", savedResource.ResourceId);
                     DbUtils.AddParameter(cmd, "@SaveDate", savedResource.SaveDate);
@@ -248,6 +263,30 @@ namespace Recomp_Resource.Repositories
                 }
             }
 
+        }
+
+        public int NumberOfSaves (int resourceId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT count(*) AS NumberOfSaves FROM SavedResource where resourceId = @resourceId";
+
+                    cmd.Parameters.AddWithValue("@resourceId", resourceId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        int numberOfSaves = 0;
+                        if(reader.Read())
+                        {
+                            numberOfSaves = DbUtils.GetInt(reader, "NumberOfSaves");
+                        }
+                        return numberOfSaves;
+                    }
+                }
+                
+            }
         }
 
 
@@ -261,7 +300,7 @@ namespace Recomp_Resource.Repositories
                     cmd.CommandText = @"
                             SELECT sr.Id, sr.UserId, sr.ResourceId, sr.SaveDate,
         
-                                 u.DisplayName, u.FirstName, u.LastName, u.CategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR, u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated, u.UserTypeId,.DisplayName,
+                                 u.DisplayName, u.FirstName, u.LastName, u.CategoryId AS UCategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR, u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated, u.UserTypeId, u.DisplayName,
  
                                 cat.Goal,
 
@@ -269,7 +308,7 @@ namespace Recomp_Resource.Repositories
 
                                 r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content,
 
-                                c.Goal,
+                                c.Goal AS CGoal,
 
                                  cm.Id AS CId, cm.Content AS CContent, cm.UserId AS CUserId, cm.DateSent
                           
@@ -277,9 +316,9 @@ namespace Recomp_Resource.Repositories
                             LEFT JOIN [User] u ON sr.UserId = u.Id
                             LEFT JOIN Category cat ON u.CategoryId = cat.Id
                             LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
-                            LEFT JOIN r ON sr.ResourceId = r.Id
+                            LEFT JOIN Resource r ON sr.ResourceId = r.Id
                             LEFT JOIN Category c ON r.CategoryId = c.Id
-                            JOIN Comment cm  ON sr.ResourceId = cm.ResourceId
+                            LEFT JOIN Comment cm  ON sr.ResourceId = cm.ResourceId
                             WHERE sr.Id = @id";
 
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -300,17 +339,17 @@ namespace Recomp_Resource.Repositories
                                 FirstName = DbUtils.GetString(reader, "FirstName"),
                                 LastName = DbUtils.GetString(reader, "LastName"),
                                 Birthday = DbUtils.GetDateTime(reader, "Birthday"),
-                                Weight = DbUtils.GetDecimal(reader, "Weight"),
+                                Weight = DbUtils.GetString(reader, "Weight"),
                                 Height = DbUtils.GetString(reader, "Height"),
-                                BFPercentage = DbUtils.GetDecimal(reader, "BFPercentage"),
-                                BMR = DbUtils.GetInt(reader, "BMR"),
+                                BFPercentage = DbUtils.GetString(reader, "BFPercentage"),
+                                BMR = DbUtils.GetString(reader, "BMR"),
                                 CurrentFocus = DbUtils.GetString(reader, "CurrentFocus"),
                                 Deactivated = reader.GetBoolean(reader.GetOrdinal("Deactivated")),
-                                CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                                CategoryId = DbUtils.GetInt(reader, "UCategoryId"),
                                 Category = new Category()
                                 {
-                                    Id = DbUtils.GetInt(reader, "CategoryId"),
-                                    Goal = DbUtils.GetString(reader, "Goal")
+                                    Id = DbUtils.GetInt(reader, "UCategoryId"),
+                                    Goal = DbUtils.GetString(reader, "CGoal")
                                 },
                                 UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                                 UserType = new UserType()
@@ -354,9 +393,9 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                              SELECT sr.Id, sr.UserId, sr.ResourceId, sr.SaveDate,
+                             SELECT DISTINCT sr.Id, sr.UserId, sr.ResourceId, sr.SaveDate,
         
-                                 u.DisplayName, u.FirstName, u.LastName, u.CategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR, u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated, u.UserTypeId,.DisplayName,
+                                 u.DisplayName, u.FirstName, u.LastName, u.CategoryId AS UCategoryId, u.Birthday, u.Weight, u.Height, u.BFPercentage, u.BMR, u.CurrentFocus, u.Bio, u.Email, u.JoinDate, u.ImageAddress, u.Deactivated, u.UserTypeId, u.DisplayName,
  
                                 cat.Goal,
 
@@ -364,17 +403,15 @@ namespace Recomp_Resource.Repositories
 
                                 r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content,
 
-                                c.Goal,
+                                c.Goal AS CGoal
 
-                                 cm.Id AS CId, cm.Content AS CContent, cm.UserId AS CUserId, cm.DateSent
                           
                             FROM SavedResource sr
                             LEFT JOIN [User] u ON sr.UserId = u.Id
                             LEFT JOIN Category cat ON u.CategoryId = cat.Id
                             LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
-                            LEFT JOIN r ON sr.ResourceId = r.Id
+                            LEFT JOIN Resource r ON sr.ResourceId = r.Id
                             LEFT JOIN Category c ON r.CategoryId = c.Id
-                            JOIN Comment cm  ON sr.ResourceId = cm.ResourceId
                             WHERE sr.UserId = @userId";
 
                     DbUtils.AddParameter(cmd, "@userId", userId);
@@ -401,10 +438,10 @@ namespace Recomp_Resource.Repositories
                                         FirstName = DbUtils.GetString(reader, "FirstName"),
                                         LastName = DbUtils.GetString(reader, "LastName"),
                                         Birthday = DbUtils.GetDateTime(reader, "Birthday"),
-                                        Weight = DbUtils.GetDecimal(reader, "Weight"),
+                                        Weight = DbUtils.GetString(reader, "Weight"),
                                         Height = DbUtils.GetString(reader, "Height"),
-                                        BFPercentage = DbUtils.GetDecimal(reader, "BFPercentage"),
-                                        BMR = DbUtils.GetInt(reader, "BMR"),
+                                        BFPercentage = DbUtils.GetString(reader, "BFPercentage"),
+                                        BMR = DbUtils.GetString(reader, "BMR"),
                                         CurrentFocus = DbUtils.GetString(reader, "CurrentFocus"),
                                         Deactivated = reader.GetBoolean(reader.GetOrdinal("Deactivated")),
                                         CategoryId = DbUtils.GetInt(reader, "CategoryId"),
@@ -427,17 +464,7 @@ namespace Recomp_Resource.Repositories
                                     ResourceId = DbUtils.GetInt(reader, "ResourceId"),
                                     Resource = NewResourceFromReader(reader),
                                     SaveDate = DbUtils.GetDateTime(reader, "SaveDate")
-                                };
-                                if (DbUtils.IsNotDbNull(reader, "CId"))
-                                {
-                                    existingSavedResource.Resource.Comments.Add(new Comment()
-                                    {
-                                        Id = DbUtils.GetInt(reader, "CId"),
-                                        Content = DbUtils.GetString(reader, "CContent"),
-                                        UserId = DbUtils.GetInt(reader, "CUserId"),
-                                        ResourceId = DbUtils.GetInt(reader, "Id")
-                                    });
-                                }
+                                };                              
                             }
                             savedResources.Add(existingSavedResource);
                         }

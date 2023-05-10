@@ -35,10 +35,10 @@ namespace Recomp_Resource.Models
                 return age;
             }
         }
-        public decimal Weight { get; set; }
+        public string Weight { get; set; }
         public string Height { get; set; }
-        public decimal BFPercentage { get; set; }
-        public int BMR { get; set; }
+        public string BFPercentage { get; set; }
+        public string BMR { get; set; }
         [Required]
         public string CurrentFocus { get; set; }
      
@@ -56,6 +56,8 @@ namespace Recomp_Resource.Models
         public string FirebaseUserId { get; set; }
 
         public bool Deactivated { get; set; }
+
+        public User ME { get; set; }
 
         public List<Chat> Chats { get; set; }
         public List<Message> Messages { get; set; }

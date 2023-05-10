@@ -91,10 +91,10 @@ namespace Recomp_Resource.Repositories
                     FirstName = DbUtils.GetString(reader, "FirstName"),
                     LastName = DbUtils.GetString(reader, "LastName"),
                     Birthday = DbUtils.GetDateTime(reader, "Birthday"),
-                    Weight = DbUtils.GetDecimal(reader, "Weight"),
+                    Weight = DbUtils.GetString(reader, "Weight"),
                     Height = DbUtils.GetString(reader, "Height"),
-                    BFPercentage = DbUtils.GetDecimal(reader, "BFPercentage"),
-                    BMR = DbUtils.GetInt(reader, "BMR"),
+                    BFPercentage = DbUtils.GetString(reader, "BFPercentage"),
+                    BMR = DbUtils.GetString(reader, "BMR"),
                     CurrentFocus = DbUtils.GetString(reader, "CurrentFocus"),
                     Deactivated = reader.GetBoolean(reader.GetOrdinal("Deactivated")),
                     CategoryId = DbUtils.GetInt(reader, "CategoryId"),
@@ -128,7 +128,8 @@ namespace Recomp_Resource.Repositories
                     },
                     Topic = DbUtils.GetString(reader, "Topic"),
                     DateAdded = DbUtils.GetDateTime(reader, "DateAdded"),
-                    Content = DbUtils.GetString(reader, "RContent")
+                    Content = DbUtils.GetString(reader, "RContent"),
+                    Comments = new List<Comment>()
                 },
                 Content = DbUtils.GetString(reader, "Content"),
                 DateSent = DbUtils.GetDateTime(reader, "DateSent"),

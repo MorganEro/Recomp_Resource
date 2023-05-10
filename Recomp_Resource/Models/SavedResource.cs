@@ -13,5 +13,12 @@ namespace Recomp_Resource.Models
         public Resource Resource { get; set; }
         public DateTime SaveDate { get; set; }
 
+        public User ThisUser { get; set; }
+
+        public int NumberOfSaves { get
+            {
+                return 0;
+            } }
+
     }
 }

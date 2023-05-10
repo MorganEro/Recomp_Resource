@@ -15,7 +15,7 @@ const Random = () => {
     }, []);
 
     return (
-        <div>
+        <div className="quote ">
            {random?.content}
         </div>
     )

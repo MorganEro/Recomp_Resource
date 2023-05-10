@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Recomp_Resource.Models;
 using Recomp_Resource.Repositories;
+using System;
 using System.Security.Claims;
 
 namespace Recomp_Resource.Controllers
@@ -51,6 +52,7 @@ namespace Recomp_Resource.Controllers
         public IActionResult Add(User user)
         {
             user.UserTypeId = 2;
+            user.JoinDate = DateTime.Now;
             _userRepository.Add(user);
             return CreatedAtAction(
                nameof(GetByFirebaseUserId), new { firebaseUserId = user.FirebaseUserId }, user);

@@ -60,9 +60,9 @@ export const getSavedResourceById = (id) => {
 };
 
 
-export const getAllResourcesByCategoryId = (id) => {
+export const getAllResourcesByCategoryId = () => {
   return getToken().then((token) => {
-    return fetch(`${apiUrl}/category/${id}`, {
+    return fetch(`${apiUrl}/categoryList`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -79,9 +79,9 @@ export const getAllResourcesByCategoryId = (id) => {
   });
 };
 
-export const getAllResourcesSavedByUserId = (id) => {
+export const getAllResourcesSavedByUserId = () => {
   return getToken().then((token) => {
-    return fetch(`${apiUrl}/user/${id}`, {
+    return fetch(`${apiUrl}/thisUserSavedList`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -162,6 +162,18 @@ export const UpdateResource = (id, resource) => {
 export const DeleteResource = (id) => {
   return getToken().then((token) => {
       return fetch(`${apiUrl}/${id}`, {
+          method: "DELETE",
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      })
+  })
+};
+
+
+export const UnSaveResource = (id) => {
+  return getToken().then((token) => {
+      return fetch(`${apiUrl}/saved/${id}`, {
           method: "DELETE",
           headers: {
               Authorization: `Bearer ${token}`,

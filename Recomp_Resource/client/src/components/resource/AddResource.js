@@ -2,22 +2,22 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { addResource } from "../../modules/resourceManager";
-import Resource from "./Resource";
-
 
 const AddResource = () => {
   const navigate = useNavigate();
 
   const [resource, setResource] = useState({
+    title: "",
+    categoryId: 0,
+    topic: "",
     content: "",
   });
 
-
-  const handleSubmitButtonClick = (evt) => {
-    evt.preventDefault();
-
-    addResource(resource);
-    navigate("../../resource/adminList");
+  const handleSubmitButtonClick = () => {
+    addResource(resource)
+    .then(() => {
+      navigate(`../../resource/adminDetails`);
+    });
   };
 
   const handleCancelButtonClick = () => {
@@ -36,38 +36,38 @@ const AddResource = () => {
           placeholder="resource title"
           value={resource.title}
           onChange={(evt) => {
-            const copy = { ...resource};
+            const copy = { ...resource };
             copy.title = evt.target.value;
-            setResource(copy)
+            setResource(copy);
           }}
         />
       </fieldset>
       <fieldset>
-            <div>
-              <label htmlFor="category">Category: </label>
-              <select
-                required
-                autoFocus
-                className=""
-                value={resource.categoryId}
-                onChange={(evt) => {
-                  const copy = { ...resource };
-                  copy.categoryId = parseInt(evt.target.value);
-                  setResource(copy);
-                }}
-              >
-                <option id="0" value="0">
-                  --Choose a Category--
-                </option>
-                <option id="1" value="1">
-                  Fat Loss
-                </option>
-                <option id="2" value="2">
-                  Weight Gain
-                </option>
-              </select>
-            </div>
-          </fieldset>
+        <div>
+          <label htmlFor="category">Category: </label>
+          <select
+            required
+            autoFocus
+            className=""
+            value={resource.categoryId}
+            onChange={(evt) => {
+              const copy = { ...resource };
+              copy.categoryId = parseInt(evt.target.value);
+              setResource(copy);
+            }}
+          >
+            <option id="0" value="0">
+              --Choose a Category--
+            </option>
+            <option id="1" value="1">
+              Fat Loss
+            </option>
+            <option id="2" value="2">
+              Weight Gain
+            </option>
+          </select>
+        </div>
+      </fieldset>
       <fieldset>
         <label htmlFor="topic">Topic</label>
         <input
@@ -77,9 +77,9 @@ const AddResource = () => {
           placeholder="resource topic"
           value={resource.topic}
           onChange={(evt) => {
-            const copy = { ...resource};
+            const copy = { ...resource };
             copy.topic = evt.target.value;
-            setResource(copy)
+            setResource(copy);
           }}
         />
       </fieldset>
@@ -92,19 +92,21 @@ const AddResource = () => {
           placeholder="resource content"
           value={resource.content}
           onChange={(evt) => {
-            const copy = { ...resource};
+            const copy = { ...resource };
             copy.content = evt.target.value;
-            setResource(copy)
+            setResource(copy);
           }}
         />
       </fieldset>
-      {resource.content === "" || resource.categoryId === "" || resource.topic === "" || resource.title === "" ? (
-          <button outline className="">
-            Complete Form
-          </button>
-        ) : (
-          <button onClick={handleSubmitButtonClick}>Submit</button>
-        )}
+
+      {resource.content === "" ||
+      resource.categoryId === 0 ||
+      resource.topic === "" ||
+      resource.title === "" ? (
+        <button disabled >Complete Form</button>
+      ) : (
+        <button onClick={handleSubmitButtonClick}>Submit</button>
+      )}
 
       <button onClick={handleCancelButtonClick}>Cancel</button>
     </form>

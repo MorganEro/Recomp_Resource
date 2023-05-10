@@ -19,7 +19,7 @@ const UserEdit = () => {
     navigate("../../user/myProfile");
   };
 
-  const handleCancelButtonClick = (event) => {
+  const handleCancelButtonClick = () => {
     navigate("../../user/myProfile");
   };
 
@@ -121,7 +121,7 @@ const UserEdit = () => {
               <input
                 required
                 autoFocus
-                type="number"
+                type="text"
                 className="form-control"
                 value={user.weight}
                 onChange={(evt) => {
@@ -141,7 +141,7 @@ const UserEdit = () => {
               <input
                 required
                 autoFocus
-                type="number"
+                type="text"
                 className=" "
                 value={user.bfPercentage}
                 onChange={(evt) => {
@@ -158,7 +158,7 @@ const UserEdit = () => {
               <input
                 required
                 autoFocus
-                type="number"
+                type="text"
                 className=" "
                 value={user.bmr}
                 onChange={(evt) => {
