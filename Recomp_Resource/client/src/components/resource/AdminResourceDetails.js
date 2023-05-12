@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
+  Button,
   Card,
   CardBody,
   CardFooter,
   ListGroup,
   ListGroupItem,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
 import { DeleteResource, getResourceById } from "../../modules/resourceManager";
 import EnterComment from "../comment/EnterComment";
 import { getAllCommentsByResourceId } from "../../modules/commentManager";
+import ResourceEdit from "./ResourceEdit";
 
 const AdminResourceDetails = () => {
   const [resource, setResource] = useState({});
   const [comments, setComments] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
-  const code = "";
+  const [modal, setModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const toggle = () => setModal(!modal);
+  const deleteToggle = () => setDeleteModal(!deleteModal);
+  const uniqueComments = [...new Set(comments)]
 
   const getResource = () => {
     getResourceById(id).then((resource) => setResource(resource));
@@ -34,8 +43,11 @@ const AdminResourceDetails = () => {
   }, []);
 
   const DeleteButton = () => {
-    DeleteResource(resource.id);
+    DeleteResource(resource.id)
     navigate("../../resource/adminList");
+  };
+  const handleCancelButtonClick = () => {
+      deleteToggle();
   };
 
   return (
@@ -45,8 +57,15 @@ const AdminResourceDetails = () => {
           <strong>{resource.title}</strong>
         </p>
         <div>
-          <iframe width="560" height="315" src={resource.content} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-         
+          <iframe
+            width="560"
+            height="315"
+            src={resource.content}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          ></iframe>
         </div>
 
         <p>Category: {resource.category?.goal}</p>
@@ -54,8 +73,10 @@ const AdminResourceDetails = () => {
         <p>Date Added: {new Date(resource.dateAdded).toDateString()}</p>
         <p>Number Of Saves: {resource.numberOfSaves}</p>
 
-        <ListGroup>
-          {comments.map((comment) => (
+        <ListGroup >
+
+          {
+          uniqueComments.map((comment) => (
             <ListGroupItem key={comment.id}>
               <span>{comment?.user?.displayName}: </span>
               <span>{comment.content}</span>
@@ -67,12 +88,30 @@ const AdminResourceDetails = () => {
           <EnterComment resourceId={resource.id} getResource={getResource} />
         </div>
       </CardBody>
-
-      <CardFooter>
-        <button>
-          <Link to={`../../resource/edit/${resource.id}`}>Edit</Link>
-        </button>
-        <button onClick={DeleteButton}>Delete</button>
+      {/*--------------Modals-------------*/}
+      <CardFooter justified>
+        <Button outline color="" className="edit" onClick={toggle}>
+          Edit
+          <Modal isOpen={modal} toggle={toggle}>
+            <ModalBody>
+              <ResourceEdit toggle={toggle} />
+            </ModalBody>
+          </Modal>
+        </Button>
+        <Button color="danger" size="sm" onClick={deleteToggle}>
+          Delete
+        </Button>
+        <Modal isOpen={deleteModal} toggle={deleteToggle}>
+          <ModalBody>
+            You are about to delete a valuable resource. Are you sure?
+          </ModalBody>
+          <ModalFooter>
+            <Button size="sm" onClick={handleCancelButtonClick}>Cancel</Button>
+            <Button size="sm" color="danger" onClick={DeleteButton}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </Modal>
       </CardFooter>
     </Card>
   );

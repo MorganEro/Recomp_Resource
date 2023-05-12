@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Card, CardBody, CardFooter } from "reactstrap";
 import { UpdateResource, getResourceById } from "../../modules/resourceManager";
 
-const ResourceEdit = () => {
+const ResourceEdit = ({toggle}) => {
   const [resource, setResource] = useState({});
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,12 +14,14 @@ const ResourceEdit = () => {
   }, [id]);
 
   const handleSubmitButtonClick = () => {
-    UpdateResource(resource.id, resource);
-    navigate(`../../resource/adminDetails/${id}`);
+    UpdateResource(resource.id, resource).then(() => {
+      toggle(false);
+      navigate(`../../resource/adminDetails/${id}`);
+    })
   };
 
   const handleCancelButtonClick = () => {
-    navigate(`../../resource/adminDetails/${id}`);
+    toggle(false);
   };
 
   return (

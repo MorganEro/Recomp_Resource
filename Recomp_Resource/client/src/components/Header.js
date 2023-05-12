@@ -17,7 +17,7 @@ export default function Header({ isLoggedIn, thisUser}) {
 
   return (
     <div>
-      <Navbar color="dark" dark expand="md">
+      <Navbar  fixed="top" color="dark" dark expand="md">
         <NavbarBrand tag={RRNavLink} to="/">
           RECOMP RESOURCE
         </NavbarBrand>

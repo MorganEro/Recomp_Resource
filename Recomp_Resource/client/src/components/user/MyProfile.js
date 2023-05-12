@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, CardBody, CardFooter, CardImg } from "reactstrap";
+import { Button, Card, CardBody, CardFooter,CardImg, CardTitle } from "reactstrap";
 import { ThisUser } from "../../modules/userManager";
 
 const MyProfile = () => {
@@ -15,46 +15,47 @@ const MyProfile = () => {
   }, []);
 
   return (
-    <Card
-      style={{
-        width: "50rem",
-      }}
-    >
+    <Card>
       <CardBody>
+        <CardTitle>
+        <strong>{user.displayName}</strong>
+        </CardTitle>
         <div className="container">
-          <div className="row">
-            <div className="col">
-              <p>
-                <strong>{user.displayName}</strong>
-                <CardImg src={user.imageAddress} alt="user's picture" />
-              </p>
-            </div>
-            <div className="col">
-              <p>Full Name: {user.fullName}</p>
-              <p>Email: {user.email}</p>
-              <p>Age: {user.age}</p>
-              <p>Birthday: {new Date(user.birthday).getFullYear()}</p>
-              <p>Weight: {user.weight} lbs.</p>
-              <p>Body Fat Percentage: {user.bfPercentage}%</p>
-              <p>Basal Metabolic Rate: {user.bmr} kcal</p>
-              <p>Current Focus: {user.currentFocus}</p>
-              <p>Gall: {user?.category?.goal}</p>
-              <p>Join Date: {new Date(user.joinDate).toDateString()}</p>
-              <p> About Me: {user.bio}</p>
-              <p>
-                Active:{" "}
-                {user?.deactivated?.toString() === "false"
-                  ? "Account Active"
-                  : "Account Deactivated"}
-              </p>
-            </div>
+          <div className=" d-flex justify-content-center">
+            
+            <CardImg
+              src={user.imageAddress}
+              style={{ width: "20%" }}
+              alt="Avatar"
+            />
           </div>
+          <div>
+
+          <p>Full Name: {user.fullName}</p>
+          <p>Email: {user.email}</p>
+          <p>Age: {user.age}</p>
+          <p>Birthday: {new Date(user.birthday).getFullYear()}</p>
+          <p>Weight: {user.weight} lbs.</p>
+          <p>Body Fat Percentage: {user.bfPercentage}%</p>
+          <p>Basal Metabolic Rate: {user.bmr} kcal</p>
+          <p>Current Focus: {user.currentFocus}</p>
+          <p>Gall: {user?.category?.goal}</p>
+          <p>Join Date: {new Date(user.joinDate).toDateString()}</p>
+          <p> About Me: {user.bio}</p>
+          <p>
+            Active:{" "}
+            {user?.deactivated?.toString() === "false"
+              ? "Account Active"
+              : "Account Deactivated"}
+          </p>
+          </div>
+
         </div>
       </CardBody>
       <CardFooter>
-        <button>
+        <Button outline>
           <Link to={`../../user/edit/${user.id}`}>Update</Link>
-        </button>
+        </Button>
       </CardFooter>
     </Card>
   );

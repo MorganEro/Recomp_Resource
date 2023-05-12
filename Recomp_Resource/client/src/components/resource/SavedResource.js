@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, CardBody, CardFooter } from "reactstrap";
+import { Button, Card, CardBody, CardFooter } from "reactstrap";
 import { UnSaveResource } from "../../modules/resourceManager";
 
 const SavedResource = ({ savedResource, getSavedResources }) => {
@@ -26,7 +26,7 @@ const SavedResource = ({ savedResource, getSavedResources }) => {
         <p>Current Focus: {savedResource?.resource?.topic}</p>
       </CardBody>
       <CardFooter>
-        <button onClick={UnSaveButton}>UnSave</button>
+        <Button color= "danger" onClick={UnSaveButton}>UnSave</Button>
       </CardFooter>
     </Card>
   );

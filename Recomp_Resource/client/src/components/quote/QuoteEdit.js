@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getQuoteById } from "../../modules/quoteManager";
 import { UpdateQuote } from "../../modules/quoteManager";
+import { Button, FormGroup, Input, Label } from "reactstrap";
 
 
-const QuoteEdit = () => {
+const QuoteEdit = ({toggleQ}) => {
 
     const [quote, setQuote] = useState({})
     const {id} = useParams();
@@ -16,15 +17,15 @@ const QuoteEdit = () => {
         getQuoteById(id).then(setQuote);
     }, [id]);
 
-    const handleSubmitButtonClick = (event) => {
-            event.preventDefault();
-
-            UpdateQuote(quote.id, quote);
-            navigate("../../quote/list")
+    const handleSubmitButtonClick = () => {  
+            UpdateQuote(quote.id, quote).then(() => {
+              toggleQ(false);
+              navigate("../../quote/list")
+            })
     }
 
       const handleCancelButtonClick = () => {
-        navigate("../../quote/list")
+        toggleQ(false);
        }
 
     return (
@@ -33,10 +34,10 @@ const QuoteEdit = () => {
       <form >
         <h2 >Quote Edit</h2>
        
-        <fieldset>
-          <div>
-            <label htmlFor="content">Content: </label>
-            <input
+        <FormGroup>
+         
+            <Label htmlFor="content">Content: </Label>
+            <Input
               required
               autoFocus
               type="text"
@@ -48,21 +49,20 @@ const QuoteEdit = () => {
                 setQuote(copy);
               }}
             />
-          </div>
-        </fieldset>
+        </FormGroup>
         {quote.content === "" ? (
-          <button outline className="">
+          <Button outline disabled className="">
             Complete Changes
-          </button>
+          </Button>
         ) : (
-          <button onClick={handleSubmitButtonClick}>
+          <Button onClick={handleSubmitButtonClick}>
             Submit Changes
-          </button>
+          </Button>
         )}
 
-        <button onClick={handleCancelButtonClick}>
+        <Button onClick={handleCancelButtonClick}>
           Cancel
-        </button>
+        </Button>
         
       </form>
     </div>

@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { addComment } from "../../modules/commentManager";
+import { Button, Input, InputGroup } from "reactstrap";
 
 
 
@@ -25,18 +26,18 @@ const EnterComment = ({ getResource, resourceId }) => {
   };
 
   const handleCancelButtonClick = () => {
-    setComment("");
+    comment.content = "";
   };
 
   return (
     <form>
-      <fieldset>
-        <label htmlFor="content">Add Comment</label>
-        <input
+      <InputGroup>
+       
+        <Input
           required
           autoFocus
-          type="textarea"
-          placeholder="comment content"
+          type="search"
+          placeholder="Enter A comment"
           value={comment.content}
           onChange={(evt) => {
             const copy = { ...comment};
@@ -44,15 +45,15 @@ const EnterComment = ({ getResource, resourceId }) => {
             setComment(copy)
           }}
         />
-      </fieldset>
+      </InputGroup>
       {comment.content === ""  
       ? 
       ( "" ) 
       :
       (
         <div>
-          <button onClick={handleSubmitButtonClick}>Send</button>
-          <button onClick={handleCancelButtonClick}>Cancel</button>
+          <Button outline className= "mx-5 my-3" onClick={handleSubmitButtonClick}>Send</Button>
+          <Button outline className= "mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
         </div>
         )}
 

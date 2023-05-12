@@ -36,6 +36,7 @@ namespace Recomp_Resource.Controllers
             {
 
                 resources = _resourceRepository.GetAllResources();
+               
                 foreach (Resource resource in resources)
                 {
                     resource.NumberOfSaves = _resourceRepository.NumberOfSaves(resource.Id);

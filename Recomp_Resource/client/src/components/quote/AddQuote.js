@@ -1,48 +1,49 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { addQuote } from "../../modules/quoteManager";
+import { Button, Card, CardFooter,  CardTitle, FormGroup, Input, Label } from "reactstrap";
 
-const AddQuote = () => {
-  const navigate = useNavigate();
-
+const AddQuote = ({ getQuotes, toggle }) => {
   const [quote, setQuote] = useState({
     content: "",
   });
 
-
   const handleSubmitButtonClick = (evt) => {
     evt.preventDefault();
 
-    addQuote(quote);
-    navigate("../../quote/list");
+    addQuote(quote).then(() => {
+      toggle();
+      getQuotes();
+    });
   };
 
   const handleCancelButtonClick = () => {
-    navigate("../../quote/list");
+    toggle();
   };
 
   return (
-    <form>
-      <h2> Add A Quote</h2>
-      <fieldset>
-        <label htmlFor="content">Content</label>
-        <input
+    <Card>
+      <CardTitle> Add A Quote</CardTitle>
+      <FormGroup>
+        
+        <Input
           required
           autoFocus
           type="textarea"
           placeholder="quote content"
           value={quote.content}
           onChange={(evt) => {
-            const copy = { ...quote};
+            const copy = { ...quote };
             copy.content = evt.target.value;
-            setQuote(copy)
+            setQuote(copy);
           }}
         />
-      </fieldset>
-      <button onClick={handleSubmitButtonClick}>Submit Changes</button>
+      </FormGroup>
+      <CardFooter>
+        <Button className= "mx-5" onClick={handleSubmitButtonClick}>Submit Changes</Button>
 
-      <button onClick={handleCancelButtonClick}>Cancel</button>
-    </form>
+        <Button className= "mx-5"   onClick={handleCancelButtonClick}>Cancel</Button>
+      </CardFooter>
+    </Card>
   );
 };
 export default AddQuote;
