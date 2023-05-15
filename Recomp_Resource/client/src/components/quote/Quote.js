@@ -10,25 +10,22 @@ import {
   ModalFooter,
 } from "reactstrap";
 import QuoteEdit from "./QuoteEdit";
-import { useNavigate } from "react-router-dom";
 
 const Quote = ({ quote, getQuotes }) => {
   const [modal, setModalQ] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const toggleQ = () => setModalQ(!modal);
   const deleteToggle = () => setDeleteModal(!modal);
-  const navigate = useNavigate();
 
-  const DeleteButton = () => {
+  const handleDeleteButtonClick = () => {
     DeleteQuote(quote.id).then(() => {
       getQuotes()
     })
    
   };
-
   const handleCancelButtonClick = () => {
-      deleteToggle() 
-  };
+    setDeleteModal(false);
+   }
 
   return (
     <Card>
@@ -36,9 +33,9 @@ const Quote = ({ quote, getQuotes }) => {
         <p>{quote.content}</p>
         <Button outline color="primary" className="mx-5"  onClick={toggleQ}>
           Edit
-          <Modal isOpen={modal} toggleQ={toggleQ}>
+          <Modal isOpen={modal} toggle={toggleQ}>
             <ModalBody>
-              <QuoteEdit toggleQ={toggleQ} />
+              <QuoteEdit quoteId={quote.id} toggle={toggleQ} />
             </ModalBody>
           </Modal>
         </Button>
@@ -50,8 +47,8 @@ const Quote = ({ quote, getQuotes }) => {
             You are about to delete a motivational quote. Are you sure?
           </ModalBody>
           <ModalFooter>
-            <Button onClick={handleCancelButtonClick}>Cancel</Button>
-            <Button color="danger" onClick={DeleteButton}>
+            <Button className= "mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
+            <Button className= "mx-5" color="danger" onClick={handleDeleteButtonClick}>
               Delete
             </Button>
           </ModalFooter>

@@ -5,6 +5,7 @@ import {
   Card,
   CardBody,
   CardFooter,
+  CardImg,
   ListGroup,
   ListGroupItem,
   Modal,
@@ -20,12 +21,11 @@ const AdminResourceDetails = () => {
   const [resource, setResource] = useState({});
   const [comments, setComments] = useState([]);
   const { id } = useParams();
-  const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const toggle = () => setModal(!modal);
   const deleteToggle = () => setDeleteModal(!deleteModal);
-  const uniqueComments = [...new Set(comments)]
+  const navigate = useNavigate();
 
   const getResource = () => {
     getResourceById(id).then((resource) => setResource(resource));
@@ -43,11 +43,16 @@ const AdminResourceDetails = () => {
   }, []);
 
   const DeleteButton = () => {
-    DeleteResource(resource.id)
-    navigate("../../resource/adminList");
+    DeleteResource(id).then(() => {
+      navigate("../../resource/adminList")
+    })
+    
   };
   const handleCancelButtonClick = () => {
       deleteToggle();
+  };
+  const handleBackButtonClick = () => {
+      navigate("../../resource/adminList");
   };
 
   return (
@@ -69,15 +74,19 @@ const AdminResourceDetails = () => {
         </div>
 
         <p>Category: {resource.category?.goal}</p>
-        <p>Topic {resource.topic}</p>
+        <p>Topic: {resource.topic}</p>
         <p>Date Added: {new Date(resource.dateAdded).toDateString()}</p>
-        <p>Number Of Saves: {resource.numberOfSaves}</p>
+        <p>Saves: {resource.numberOfSaves}</p>
 
-        <ListGroup >
-
-          {
-          uniqueComments.map((comment) => (
+        <ListGroup>
+          {comments.map((comment) => (
             <ListGroupItem key={comment.id}>
+                <CardImg
+              src={comment?.user?.imageAddress}
+              style={{ width: "3%" }}
+              alt="Avatar"
+            />
+            {"  "}
               <span>{comment?.user?.displayName}: </span>
               <span>{comment.content}</span>
             </ListGroupItem>
@@ -85,12 +94,15 @@ const AdminResourceDetails = () => {
         </ListGroup>
 
         <div>
-          <EnterComment resourceId={resource.id} getResource={getResource} />
+          <EnterComment resourceIdA={resource.id} getResourceA={getResource} />
         </div>
       </CardBody>
       {/*--------------Modals-------------*/}
-      <CardFooter justified>
-        <Button outline color="" className="edit" onClick={toggle}>
+      <CardFooter justified="true">
+      <Button color="secondary" size="sm" className="mx-5" onClick={handleBackButtonClick}>
+          Back
+        </Button>
+        <Button outline color="primary" className="mx-5" onClick={toggle}>
           Edit
           <Modal isOpen={modal} toggle={toggle}>
             <ModalBody>
@@ -98,7 +110,7 @@ const AdminResourceDetails = () => {
             </ModalBody>
           </Modal>
         </Button>
-        <Button color="danger" size="sm" onClick={deleteToggle}>
+        <Button color="danger" size="sm" className="mx-5" onClick={deleteToggle}>
           Delete
         </Button>
         <Modal isOpen={deleteModal} toggle={deleteToggle}>
@@ -106,8 +118,8 @@ const AdminResourceDetails = () => {
             You are about to delete a valuable resource. Are you sure?
           </ModalBody>
           <ModalFooter>
-            <Button size="sm" onClick={handleCancelButtonClick}>Cancel</Button>
-            <Button size="sm" color="danger" onClick={DeleteButton}>
+            <Button size="sm" className= "mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
+            <Button size="sm" className="mx-5" color="danger" onClick={DeleteButton}>
               Delete
             </Button>
           </ModalFooter>

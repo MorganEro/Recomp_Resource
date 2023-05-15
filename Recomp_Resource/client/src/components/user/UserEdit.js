@@ -19,7 +19,21 @@ import {
 } from "reactstrap";
 
 const UserEdit = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    displayName: "",
+    birthday: "",
+    height: "",
+    weight: "",
+    bfPercentage: "",
+    bmr: "",
+    categoryId: 0,
+    imageAddress: "",
+    currentFocus: "",
+    bio: "",
+
+  });
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -39,9 +53,7 @@ const UserEdit = () => {
   };
 
   return (
-    <Card
-     
-    >
+    <Card>
       <br />
       <CardBody>
         <Row>
@@ -113,7 +125,7 @@ const UserEdit = () => {
                   </Col>
                 </Row>
               </FormGroup>
-              <FormGroup >
+              <FormGroup>
                 <Row>
                   <Col>
                     <InputGroup>
@@ -136,7 +148,6 @@ const UserEdit = () => {
                     <InputGroup>
                       <InputGroupText>Height</InputGroupText>
                       <Input
-                        required
                         autoFocus
                         type="text"
                         className=" "
@@ -153,7 +164,6 @@ const UserEdit = () => {
                     <InputGroup>
                       <InputGroupText>Weight</InputGroupText>
                       <Input
-                        required
                         autoFocus
                         type="text"
                         className="form-control"
@@ -174,7 +184,6 @@ const UserEdit = () => {
                     <InputGroup>
                       <InputGroupText>Body Fat Percentage</InputGroupText>
                       <Input
-                        required
                         autoFocus
                         type="text"
                         className=" "
@@ -191,7 +200,6 @@ const UserEdit = () => {
                     <InputGroup>
                       <InputGroupText>Basal Metabolic Rate</InputGroupText>
                       <Input
-                        required
                         autoFocus
                         type="text"
                         className=" "
@@ -238,7 +246,6 @@ const UserEdit = () => {
                     <InputGroup>
                       <InputGroupText>Image Address</InputGroupText>
                       <Input
-                        required
                         autoFocus
                         type="text"
                         className=" "
@@ -251,13 +258,29 @@ const UserEdit = () => {
                       />
                     </InputGroup>
                   </Col>
+                  <Col>
+                    <InputGroup>
+                      <InputGroupText>Current Focus</InputGroupText>
+                      <Input
+                        required
+                        autoFocus
+                        type="text"
+                        className=" "
+                        value={user.currentFocus}
+                        onChange={(evt) => {
+                          const copy = { ...user };
+                          copy.currentFocus = evt.target.value;
+                          setUser(copy);
+                        }}
+                      />
+                    </InputGroup>
+                  </Col>
                 </Row>
               </FormGroup>
               <FormGroup>
                 <Row>
                   <Label for="exampleText">About Me</Label>
                   <Input
-                    required
                     autoFocus
                     type="textarea"
                     className="form-control"
@@ -276,7 +299,7 @@ const UserEdit = () => {
         </Row>
       </CardBody>
       <CardFooter>
-        {user.content === "" ||
+        {user.currentFocus === "" ||
         user.firstName === "" ||
         user.lastName === "" ||
         user.displayName === "" ||
@@ -285,12 +308,20 @@ const UserEdit = () => {
             Complete Changes
           </Button>
         ) : (
-          <Button className="mx-5" outline color="primary" onClick={handleSubmitButtonClick}>
+          <Button
+            className="mx-5"
+            color="success"
+            onClick={handleSubmitButtonClick}
+          >
             Submit Changes
           </Button>
         )}
 
-        <Button className="mx-5" outline color="primary" onClick={handleCancelButtonClick}>
+        <Button
+          className="mx-5"
+          color="secondary"
+          onClick={handleCancelButtonClick}
+        >
           Cancel
         </Button>
       </CardFooter>

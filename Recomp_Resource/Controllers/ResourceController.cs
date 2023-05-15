@@ -61,9 +61,10 @@ namespace Recomp_Resource.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-
+            
             var resource = _resourceRepository.GetResourceById(id);
-            resource.NumberOfSaves = _resourceRepository.NumberOfSaves(resource.Id);
+
+            resource.NumberOfSaves = _resourceRepository.NumberOfSaves(id);
             if (resource == null)
             {
                 return NotFound();

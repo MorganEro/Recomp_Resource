@@ -22,23 +22,19 @@ code {
     monospace;
 }
 
-.quote {
- 
-  font-weight: bold;
-  position: absolute;
+.randomContainer {
+  position: relative;
+  text-align: center;
+  background-color: "rgba(0, 0, 0, 0.6)";
+}
+
+
+.centerText {
+position: absolute;
+color: aliceblue;
+font-size: 4rem;
+font-weight: bolder;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 4em;
-}
-
-.quoteImage {
-  height:80vh;
- width:80vw;
-
-}
-
-.quoteText card-img-overlay {
-
-box-sizing: content-box;
 }

@@ -17,7 +17,7 @@ const AddQuote = ({ getQuotes, toggle }) => {
   };
 
   const handleCancelButtonClick = () => {
-    toggle();
+    toggle(false);
   };
 
   return (
@@ -39,9 +39,9 @@ const AddQuote = ({ getQuotes, toggle }) => {
         />
       </FormGroup>
       <CardFooter>
-        <Button className= "mx-5" onClick={handleSubmitButtonClick}>Submit Changes</Button>
+        <Button color="success" className= "mx-5" onClick={handleSubmitButtonClick}>Submit Changes</Button>
 
-        <Button className= "mx-5"   onClick={handleCancelButtonClick}>Cancel</Button>
+        <Button outline className= "mx-5"   onClick={handleCancelButtonClick}>Cancel</Button>
       </CardFooter>
     </Card>
   );

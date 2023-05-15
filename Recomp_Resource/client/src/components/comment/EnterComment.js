@@ -6,7 +6,7 @@ import { Button, Input, InputGroup } from "reactstrap";
 
 
 
-const EnterComment = ({ getResource, resourceId }) => {
+const EnterComment = ({  getResourceA, resourceIdA }) => {
  
  
 
@@ -18,9 +18,9 @@ const EnterComment = ({ getResource, resourceId }) => {
 
 
   const handleSubmitButtonClick = () => {
-    comment.resourceId = resourceId
+    comment.resourceId = resourceIdA
     addComment(comment).then(() => { 
-        getResource();
+        getResourceA();
     });
    
   };

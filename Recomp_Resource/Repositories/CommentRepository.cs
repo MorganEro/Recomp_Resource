@@ -34,7 +34,7 @@ namespace Recomp_Resource.Repositories
                         FROM Comment c
                             LEFT JOIN [User] u ON c.UserId = u.Id
                             LEFT JOIN Category cat ON u.CategoryId = cat.Id
-                            LEFT JOIN UserType ut ON u.UserTypeId = u.Id
+                            LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
                             LEFT JOIN Resource r ON c.ResourceId = r.Id
                             LEFT JOIN Category rc ON rc.Id = r.CategoryId
                             WHERE c.ResourceId = @resourceId

@@ -1,37 +1,38 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { getQuoteById } from "../../modules/quoteManager";
 import { UpdateQuote } from "../../modules/quoteManager";
-import { Button, FormGroup, Input, Label } from "reactstrap";
+import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 
-const QuoteEdit = ({toggleQ}) => {
+const QuoteEdit = ({toggle, quoteId}) => {
 
-    const [quote, setQuote] = useState({})
-    const {id} = useParams();
-    const navigate = useNavigate();
+    const [quote, setQuote] = useState({
+      content: ""
+    })
+  
   
   
 
     useEffect(() => {
-        getQuoteById(id).then(setQuote);
-    }, [id]);
+        getQuoteById(quoteId).then(setQuote);
+    }, [quoteId]);
 
     const handleSubmitButtonClick = () => {  
             UpdateQuote(quote.id, quote).then(() => {
-              toggleQ(false);
-              navigate("../../quote/list")
+              toggle(false);
+              window.location.reload(false);
+              // navigate("../../quote/list")
             })
     }
 
       const handleCancelButtonClick = () => {
-        toggleQ(false);
+        toggle();
        }
 
     return (
         <div className="container">
       <div>&nbsp;</div>
-      <form >
+      <Form >
         <h2 >Quote Edit</h2>
        
         <FormGroup>
@@ -51,20 +52,20 @@ const QuoteEdit = ({toggleQ}) => {
             />
         </FormGroup>
         {quote.content === "" ? (
-          <Button outline disabled className="">
+          <Button className="mx-5" outline disabled>
             Complete Changes
           </Button>
         ) : (
-          <Button onClick={handleSubmitButtonClick}>
+          <Button color="success" className="mx-5" onClick={handleSubmitButtonClick}>
             Submit Changes
           </Button>
         )}
 
-        <Button onClick={handleCancelButtonClick}>
+        <Button className="mx-5" onClick={handleCancelButtonClick}>
           Cancel
         </Button>
         
-      </form>
+      </Form>
     </div>
     )
 }

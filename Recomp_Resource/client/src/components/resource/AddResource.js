@@ -18,7 +18,7 @@ const AddResource = ({toggle, getAllResources}) => {
 
     addResource(resource).then(() => {
       toggle(false);
-      getAllResources();
+      window.location.reload(false);
     });
   };
 
@@ -110,16 +110,16 @@ const AddResource = ({toggle, getAllResources}) => {
       </CardBody>
     <CardFooter>
 
+      <Button className="mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
       {resource.content === "" ||
       resource.categoryId === 0 ||
       resource.topic === "" ||
       resource.title === "" ? (
         <Button disabled className="mx-5">Complete Form</Button>
       ) : (
-        <Button className="mx-5" onClick={handleSubmitButtonClick}>Submit</Button>
+        <Button color="success" className="mx-5" onClick={handleSubmitButtonClick}>Submit</Button>
       )}
 
-      <Button className="mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
     </CardFooter>
     </Card>
   );

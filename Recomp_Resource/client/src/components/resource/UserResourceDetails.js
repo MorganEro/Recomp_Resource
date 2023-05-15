@@ -38,6 +38,10 @@ const UserResourceDetails = () => {
     getComments();
   }, []);
 
+  const handleBackButtonClick = () => { 
+    navigate(-1)
+  ;}
+
   const handleSaveButtonClick = () => {
     savedResource.resourceId = resource.id;
     saveResource(savedResource);
@@ -85,7 +89,9 @@ const UserResourceDetails = () => {
       </CardBody>
 
       <CardFooter>
-        <Button onClick={handleSaveButtonClick}>Save Resource</Button>
+
+        <Button className="mx-5" onClick={handleBackButtonClick}>Back</Button>
+        <Button color="success" className="mx-5" onClick={handleSaveButtonClick}>Save Resource</Button>
       </CardFooter>
     </Card>
   );
