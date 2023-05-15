@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  Button,
   Card,
   CardBody,
   CardFooter,
+  CardImg,
+  CardTitle,
   ListGroup,
   ListGroupItem,
 } from "reactstrap";
-import {
-  getResourceById,
-  saveResource,
-} from "../../modules/resourceManager";
+import { getResourceById, saveResource } from "../../modules/resourceManager";
 import EnterComment from "../comment/EnterComment";
 import { getAllCommentsByResourceId } from "../../modules/commentManager";
 
@@ -38,6 +38,10 @@ const UserResourceDetails = () => {
     getComments();
   }, []);
 
+  const handleBackButtonClick = () => { 
+    navigate(-1)
+  ;}
+
   const handleSaveButtonClick = () => {
     savedResource.resourceId = resource.id;
     saveResource(savedResource);
@@ -46,12 +50,19 @@ const UserResourceDetails = () => {
   return (
     <Card>
       <CardBody>
-        <p>
+        <CardTitle tag="h3">
           <strong>{resource.title}</strong>
-        </p>
+        </CardTitle>
         <div>
-          <iframe width="560" height="315" src={resource.content} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-         
+          <iframe
+            width="560"
+            height="315"
+            src={resource.content}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          ></iframe>
         </div>
         <p>Category: {resource.category?.goal}</p>
         <p>Topic {resource.topic}</p>
@@ -60,7 +71,14 @@ const UserResourceDetails = () => {
         <ListGroup>
           {comments.map((comment) => (
             <ListGroupItem key={comment.id}>
-             <span>{comment?.user?.displayName}: </span><span>{comment.content}</span>
+                <CardImg
+              src={comment?.user?.imageAddress}
+              style={{ width: "3%" }}
+              alt="Avatar"
+            />
+            {"  "}
+              <span>{comment?.user?.displayName}: </span>
+              <span>{comment.content}</span>
             </ListGroupItem>
           ))}
         </ListGroup>
@@ -71,9 +89,9 @@ const UserResourceDetails = () => {
       </CardBody>
 
       <CardFooter>
-        <button onClick={ handleSaveButtonClick }>
-          Save
-        </button>
+
+        <Button className="mx-5" onClick={handleBackButtonClick}>Back</Button>
+        <Button color="success" className="mx-5" onClick={handleSaveButtonClick}>Save Resource</Button>
       </CardFooter>
     </Card>
   );

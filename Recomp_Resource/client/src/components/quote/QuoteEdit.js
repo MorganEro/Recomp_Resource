@@ -1,42 +1,44 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { getQuoteById } from "../../modules/quoteManager";
 import { UpdateQuote } from "../../modules/quoteManager";
+import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 
-const QuoteEdit = () => {
+const QuoteEdit = ({toggle, quoteId}) => {
 
-    const [quote, setQuote] = useState({})
-    const {id} = useParams();
-    const navigate = useNavigate();
+    const [quote, setQuote] = useState({
+      content: ""
+    })
+  
   
   
 
     useEffect(() => {
-        getQuoteById(id).then(setQuote);
-    }, [id]);
+        getQuoteById(quoteId).then(setQuote);
+    }, [quoteId]);
 
-    const handleSubmitButtonClick = (event) => {
-            event.preventDefault();
-
-            UpdateQuote(quote.id, quote);
-            navigate("../../quote/list")
+    const handleSubmitButtonClick = () => {  
+            UpdateQuote(quote.id, quote).then(() => {
+              toggle(false);
+              window.location.reload(false);
+              // navigate("../../quote/list")
+            })
     }
 
       const handleCancelButtonClick = () => {
-        navigate("../../quote/list")
+        toggle();
        }
 
     return (
         <div className="container">
       <div>&nbsp;</div>
-      <form >
+      <Form >
         <h2 >Quote Edit</h2>
        
-        <fieldset>
-          <div>
-            <label htmlFor="content">Content: </label>
-            <input
+        <FormGroup>
+         
+            <Label htmlFor="content">Content: </Label>
+            <Input
               required
               autoFocus
               type="text"
@@ -48,23 +50,22 @@ const QuoteEdit = () => {
                 setQuote(copy);
               }}
             />
-          </div>
-        </fieldset>
+        </FormGroup>
         {quote.content === "" ? (
-          <button outline className="">
+          <Button className="mx-5" outline disabled>
             Complete Changes
-          </button>
+          </Button>
         ) : (
-          <button onClick={handleSubmitButtonClick}>
+          <Button color="success" className="mx-5" onClick={handleSubmitButtonClick}>
             Submit Changes
-          </button>
+          </Button>
         )}
 
-        <button onClick={handleCancelButtonClick}>
+        <Button className="mx-5" onClick={handleCancelButtonClick}>
           Cancel
-        </button>
+        </Button>
         
-      </form>
+      </Form>
     </div>
     )
 }

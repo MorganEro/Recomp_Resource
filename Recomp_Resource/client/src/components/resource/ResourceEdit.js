@@ -1,120 +1,118 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
+import { Form, Button, FormGroup, Input, Label } from "reactstrap";
 import { Card, CardBody, CardFooter } from "reactstrap";
 import { UpdateResource, getResourceById } from "../../modules/resourceManager";
 
-const ResourceEdit = () => {
+const ResourceEdit = ({ toggle }) => {
   const [resource, setResource] = useState({});
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     getResourceById(id).then(setResource);
   }, [id]);
 
   const handleSubmitButtonClick = () => {
-    UpdateResource(resource.id, resource);
-    navigate(`../../resource/adminDetails/${id}`);
+    UpdateResource(resource.id, resource).then(() => {
+      toggle(false);
+      window.location.reload(false);
+    });
   };
 
   const handleCancelButtonClick = () => {
-    navigate(`../../resource/adminDetails/${id}`);
+    toggle(false);
   };
 
   return (
     <Card className="container">
       <h2>Resource Edit</h2>
       <CardBody>
-        <form>
-          <fieldset>
-            <div>
-              <label htmlFor="title">Title: </label>
-              <input
-                required
-                autoFocus
-                type="text"
-                className=" "
-                value={resource.title}
-                onChange={(evt) => {
-                  const copy = { ...resource };
-                  copy.title = evt.target.value;
-                  setResource(copy);
-                }}
-              />
-            </div>
-          </fieldset>
-          <fieldset>
-            <div>
-              <label htmlFor="category">Goal: </label>
-              <select
-                required
-                autoFocus
-                className=""
-                value={resource.categoryId}
-                onChange={(evt) => {
-                  const copy = { ...resource };
-                  copy.categoryId = parseInt(evt.target.value);
-                  setResource(copy);
-                }}
-              >
-                <option id="0" value="0">
-                  --Choose a Category--
-                </option>
-                <option id="1" value="1">
-                  Fat Loss
-                </option>
-                <option id="2" value="2">
-                  Weight Gain
-                </option>
-              </select>
-            </div>
-          </fieldset>
-          <fieldset>
-            <div>
-              <label htmlFor="topic">Topic: </label>
-              <input
-                required
-                autoFocus
-                type="text"
-                className=" "
-                value={resource.topic}
-                onChange={(evt) => {
-                  const copy = { ...resource };
-                  copy.topic = evt.target.value;
-                  setResource(copy);
-                }}
-              />
-            </div>
-          </fieldset>
-          <fieldset>
-            <div>
-              <label htmlFor="content">Content: </label>
-              <input
-                required
-                autoFocus
-                type="text"
-                className=" "
-                value={resource.content}
-                onChange={(evt) => {
-                  const copy = { ...resource };
-                  copy.content = evt.target.value;
-                  setResource(copy);
-                }}
-              />
-            </div>
-          </fieldset>
-        </form>
+        <Form>
+          <FormGroup>
+            <Label htmlFor="title">Title: </Label>
+            <Input
+              required
+              autoFocus
+              type="text"
+              className=" "
+              value={resource.title}
+              onChange={(evt) => {
+                const copy = { ...resource };
+                copy.title = evt.target.value;
+                setResource(copy);
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="category">Goal: </Label>
+            <Input
+              required
+              autoFocus
+              type="select"
+              value={resource.categoryId}
+              onChange={(evt) => {
+                const copy = { ...resource };
+                copy.categoryId = parseInt(evt.target.value);
+                setResource(copy);
+              }}
+            >
+              <option id="0" value="0">
+                --Choose a Category--
+              </option>
+              <option id="1" value="1">
+                Fat Loss
+              </option>
+              <option id="2" value="2">
+                Weight Gain
+              </option>
+            </Input>
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="topic">Topic: </Label>
+            <Input
+              required
+              autoFocus
+              type="text"
+              className=" "
+              value={resource.topic}
+              onChange={(evt) => {
+                const copy = { ...resource };
+                copy.topic = evt.target.value;
+                setResource(copy);
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="content">Content: </Label>
+            <Input
+              required
+              autoFocus
+              type="text"
+              className=" "
+              value={resource.content}
+              onChange={(evt) => {
+                const copy = { ...resource };
+                copy.content = evt.target.value;
+                setResource(copy);
+              }}
+            />
+          </FormGroup>
+        </Form>
       </CardBody>
       <CardFooter>
-      {resource.content === "" || resource.categoryId === "" || resource.topic === "" || resource.title === "" ? (
-          <button outline className="">
+        {resource.content === "" ||
+        resource.categoryId === "" ||
+        resource.topic === "" ||
+        resource.title === "" ? (
+          <Button outline className="mx-5">
             Complete Form
-          </button>
+          </Button>
         ) : (
-          <button onClick={handleSubmitButtonClick}>Submit Changes</button>
+          <Button color="success" className="mx-5" onClick={handleSubmitButtonClick}>
+            Submit Changes
+          </Button>
         )}
-        <button onClick={handleCancelButtonClick}>Cancel</button>
+        <Button className="mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
       </CardFooter>
     </Card>
   );

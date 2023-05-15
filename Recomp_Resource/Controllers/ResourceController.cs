@@ -36,6 +36,7 @@ namespace Recomp_Resource.Controllers
             {
 
                 resources = _resourceRepository.GetAllResources();
+               
                 foreach (Resource resource in resources)
                 {
                     resource.NumberOfSaves = _resourceRepository.NumberOfSaves(resource.Id);
@@ -60,9 +61,10 @@ namespace Recomp_Resource.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-
+            
             var resource = _resourceRepository.GetResourceById(id);
-            resource.NumberOfSaves = _resourceRepository.NumberOfSaves(resource.Id);
+
+            resource.NumberOfSaves = _resourceRepository.NumberOfSaves(id);
             if (resource == null)
             {
                 return NotFound();

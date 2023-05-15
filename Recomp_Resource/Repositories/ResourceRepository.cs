@@ -25,7 +25,7 @@ namespace Recomp_Resource.Repositories
                           
                         FROM Resource r
                         LEFT JOIN Category c on r.CategoryId = c.Id
-                        LEFT JOIN Comment cm  ON r.id = cm.ResourceId
+                        LEFT JOIN Comment cm  ON r.Id = cm.ResourceId
                         ORDER BY r.DateAdded DESC";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { addResource } from "../../modules/resourceManager";
+import { Button, Card, CardBody, CardFooter, CardHeader, Form, FormGroup, Input, Label } from "reactstrap";
 
-const AddResource = () => {
-  const navigate = useNavigate();
+const AddResource = ({toggle, getAllResources}) => {
+
 
   const [resource, setResource] = useState({
     title: "",
@@ -14,22 +14,30 @@ const AddResource = () => {
   });
 
   const handleSubmitButtonClick = () => {
-    addResource(resource)
-    .then(() => {
-      navigate(`../../resource/adminDetails`);
+
+
+    addResource(resource).then(() => {
+      toggle(false);
+      window.location.reload(false);
     });
   };
 
   const handleCancelButtonClick = () => {
-    navigate("../../resource/adminList");
+    toggle(false);
   };
 
   return (
-    <form>
+    <Card>
+      <CardHeader>
       <h2> Add A Resource</h2>
-      <fieldset>
-        <label htmlFor="title">Title</label>
-        <input
+
+      </CardHeader>
+      <CardBody>
+        
+    <Form class="text-upper">
+      <FormGroup>
+        <Label htmlFor="title">Title</Label>
+        <Input
           required
           autoFocus
           type="text"
@@ -41,14 +49,14 @@ const AddResource = () => {
             setResource(copy);
           }}
         />
-      </fieldset>
-      <fieldset>
+      </FormGroup>
+      <FormGroup>
         <div>
-          <label htmlFor="category">Category: </label>
-          <select
+          <Label htmlFor="category">Category: </Label>
+          <Input
             required
             autoFocus
-            className=""
+            type="select"
             value={resource.categoryId}
             onChange={(evt) => {
               const copy = { ...resource };
@@ -65,12 +73,12 @@ const AddResource = () => {
             <option id="2" value="2">
               Weight Gain
             </option>
-          </select>
+          </Input>
         </div>
-      </fieldset>
-      <fieldset>
-        <label htmlFor="topic">Topic</label>
-        <input
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor="topic">Topic</Label>
+        <Input
           required
           autoFocus
           type="text"
@@ -82,10 +90,10 @@ const AddResource = () => {
             setResource(copy);
           }}
         />
-      </fieldset>
-      <fieldset>
-        <label htmlFor="content">Content</label>
-        <input
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor="content">Content</Label>
+        <Input
           required
           autoFocus
           type="textarea"
@@ -97,19 +105,23 @@ const AddResource = () => {
             setResource(copy);
           }}
         />
-      </fieldset>
+      </FormGroup>
+    </Form>
+      </CardBody>
+    <CardFooter>
 
+      <Button className="mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
       {resource.content === "" ||
       resource.categoryId === 0 ||
       resource.topic === "" ||
       resource.title === "" ? (
-        <button disabled >Complete Form</button>
+        <Button disabled className="mx-5">Complete Form</Button>
       ) : (
-        <button onClick={handleSubmitButtonClick}>Submit</button>
+        <Button color="success" className="mx-5" onClick={handleSubmitButtonClick}>Submit</Button>
       )}
 
-      <button onClick={handleCancelButtonClick}>Cancel</button>
-    </form>
+    </CardFooter>
+    </Card>
   );
 };
 export default AddResource;

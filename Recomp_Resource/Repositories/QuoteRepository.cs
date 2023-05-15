@@ -48,7 +48,8 @@ namespace Recomp_Resource.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT Id, Content    
-                        FROM Quote";
+                        FROM Quote
+                        ORDER BY Id DESC";
 
                     var reader = cmd.ExecuteReader();
 

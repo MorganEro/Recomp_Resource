@@ -1,30 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { UnSaveResource, getSavedResourceById } from "../../modules/resourceManager";
-import { Card, CardBody, CardFooter, ListGroup, ListGroupItem } from "reactstrap";
-import { getAllCommentsByResourceId } from "../../modules/commentManager";
+import { Button, Card, CardBody, CardFooter, ListGroup, ListGroupItem } from "reactstrap";
 import EnterComment from "../comment/EnterComment";
 
 const SavedResourceDetails = () => {
   const [savedResource, setSavedResource] = useState({});
-  // const [comments, setComments] = useState([]);
+
   const { id } = useParams();
 
   const getSavedResource = () => {
     getSavedResourceById(id).then((resource) => setSavedResource(resource));
   };
-  // const getComments = () => {
-  //   getAllCommentsByResourceId(savedResource?.resourceId).then((comments) =>
-  //     setComments(comments)
-  //   );
-  // };
-
+ 
   useEffect(() => {
     getSavedResource();
   }, []);
-  // useEffect(() => {
-  //   getComments();
-  // }, []);
 
   const UnSaveButtonClick = (e) => {
     UnSaveResource(savedResource.id).then(() => {
@@ -73,7 +64,7 @@ const SavedResourceDetails = () => {
         </div>
       </CardBody>
       <CardFooter>
-        <button onClick={UnSaveButtonClick}>UnSave</button>
+        <Button color= "danger" onClick={UnSaveButtonClick}>UnSave</Button>
       </CardFooter>
     </Card>
   );
