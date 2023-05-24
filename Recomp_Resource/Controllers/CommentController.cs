@@ -45,7 +45,7 @@ namespace Recomp_Resource.Controllers
             _commentRepository.Add(comment);
 
 
-            return CreatedAtAction("Get", new { id = comment.Id }, comment);
+            return Ok(comment);
         }
 
         private User GetCurrentUserProfile()

@@ -84,7 +84,7 @@ const UserResourceDetails = () => {
         </ListGroup>
 
         <div>
-          <EnterComment resourceId={resource.id} getResource={getResource} />
+          <EnterComment resourceId={resource.id} getComments={getComments} />
         </div>
       </CardBody>
 

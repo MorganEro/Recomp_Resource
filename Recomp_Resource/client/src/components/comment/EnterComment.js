@@ -6,7 +6,7 @@ import { Button, Input, InputGroup } from "reactstrap";
 
 
 
-const EnterComment = ({  getResourceA, resourceIdA }) => {
+const EnterComment = ({  getComments, resourceId }) => {
  
  
 
@@ -18,16 +18,15 @@ const EnterComment = ({  getResourceA, resourceIdA }) => {
 
 
   const handleSubmitButtonClick = () => {
-    comment.resourceId = resourceIdA
+    comment.resourceId = resourceId
     addComment(comment).then(() => { 
-        getResourceA();
+        getComments()
+        setComment('')
     });
    
   };
 
-  const handleCancelButtonClick = () => {
-    comment.content = "";
-  };
+ 
 
   return (
     <form>
@@ -53,7 +52,6 @@ const EnterComment = ({  getResourceA, resourceIdA }) => {
       (
         <div>
           <Button outline className= "mx-5 my-3" onClick={handleSubmitButtonClick}>Send</Button>
-          <Button outline className= "mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
         </div>
         )}
 
