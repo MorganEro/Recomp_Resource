@@ -482,28 +482,48 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT r.Id, r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content,
-
-                               c.Goal
+                        SELECT r.Id, r.Title, r.CategoryId, r.Topic, r.DateAdded, r.Content, 
+                        c.Goal , 
+                        cm.Id AS CId, cm.Content AS CContent, cm.UserId, cm.DateSent
                           
                         FROM Resource r
                         LEFT JOIN Category c on r.CategoryId = c.Id
+                        LEFT JOIN Comment cm  ON r.id = cm.ResourceId
                         WHERE r.Title LIKE @Criterion OR r.Topic LIKE @Criterion
                         ORDER BY r.DateAdded";
 
                     DbUtils.AddParameter(cmd, "@Criterion", $"%{criterion}%");
-                    var reader = cmd.ExecuteReader();
-
-                    var resources = new List<Resource>();
-
-                    while (reader.Read())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        resources.Add(NewResourceFromReader(reader));
+
+                        var resources = new List<Resource>();
+                        while (reader.Read())
+                        {
+                            var Id = DbUtils.GetInt(reader, "Id");
+
+                            var existingResource = resources.FirstOrDefault(r => r.Id == Id);
+                            if (existingResource == null)
+                            {
+                                existingResource = NewResourceFromReader(reader);
+
+
+                                resources.Add(existingResource);
+                            }
+
+                            if (DbUtils.IsNotDbNull(reader, "CId"))
+                            {
+                                existingResource.Comments.Add(new Comment()
+                                {
+                                    Id = DbUtils.GetInt(reader, "CId"),
+                                    Content = DbUtils.GetString(reader, "CContent"),
+                                    UserId = DbUtils.GetInt(reader, "UserId"),
+                                    ResourceId = DbUtils.GetInt(reader, "Id")
+                                });
+                            }
+                        }
+
+                        return resources;
                     }
-
-                    reader.Close();
-
-                    return resources;
                 }
             }
         }

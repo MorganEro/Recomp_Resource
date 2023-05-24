@@ -94,7 +94,7 @@ const AdminResourceDetails = () => {
         </ListGroup>
 
         <div>
-          <EnterComment resourceIdA={resource.id} getResourceA={getResource} />
+          <EnterComment resourceId={resource.id} getComments={getComments} />
         </div>
       </CardBody>
       {/*--------------Modals-------------*/}
