@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, CardBody } from "reactstrap";
+import { Badge, Card, CardBody } from "reactstrap";
 
 const UserResource= ({resource}) => {
 
@@ -15,8 +15,8 @@ const UserResource= ({resource}) => {
               </Link>
               
             </p>
-            <p>Current Focus: {resource.topic}</p>
-            <p>Comments: {resource.numberOfComments}</p>
+            <p><strong>Focus</strong> {resource.topic}</p>
+            <p><strong>Comments</strong> <Badge pill>{resource.numberOfComments}</Badge></p>
           </CardBody>
         </Card>
       );

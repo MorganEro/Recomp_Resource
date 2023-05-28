@@ -61,9 +61,13 @@ namespace Recomp_Resource.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            
+            var User = GetCurrentUserProfile();
             var resource = _resourceRepository.GetResourceById(id);
-
+            var savedResources = _resourceRepository.GetAllSavedResourceByUser(User.Id);
+            if (savedResources.Any(savedResource => savedResource.ResourceId == resource.Id))
+            {
+                resource.Saved = true;
+            }
             resource.NumberOfSaves = _resourceRepository.NumberOfSaves(id);
             if (resource == null)
             {

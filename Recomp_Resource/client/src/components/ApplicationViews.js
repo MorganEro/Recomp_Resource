@@ -18,6 +18,7 @@ import EnterComment from "./comment/EnterComment";
 import UserResourceList from "./resource/UserResourceList";
 import AdminResourceDetails from "./resource/AdminResourceDetails";
 import UserResourceDetails from "./resource/UserResourceDetails";
+import UserListCarousel from "./user/UserListCarousel";
 
 
 
@@ -40,6 +41,7 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
         <Route path="user">
             <Route path="list" element={< UserList /> } />
+            <Route path="listCarousel" element={< UserListCarousel /> } />
             <Route path="details/:id" element={< UserDetails /> } />
             <Route path="edit/:id" element={< UserEdit />  }  />
             <Route path="myProfile" element={< MyProfile /> } />

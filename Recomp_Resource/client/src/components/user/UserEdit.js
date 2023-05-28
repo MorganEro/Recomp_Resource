@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { UpdateUser, getUserById } from "../../modules/userManager";
 import {
   Button,
@@ -57,7 +57,7 @@ const UserEdit = () => {
       <br />
       <CardBody>
         <Row>
-          <Col>
+          <Col className="my-3">
             <CardTitle tag="h1"> User Edit</CardTitle>
 
             <CardImg
@@ -68,7 +68,7 @@ const UserEdit = () => {
               alt="profile's picture"
             />
           </Col>
-          <Col className=" d-flex align-items-center justify-content-center">
+          <Col className="mx-3 d-flex align-items-center justify-content-center">
             <Form>
               <FormGroup>
                 <Row>
@@ -198,7 +198,16 @@ const UserEdit = () => {
                   </Col>
                   <Col>
                     <InputGroup>
-                      <InputGroupText>Basal Metabolic Rate</InputGroupText>
+                      <InputGroupText
+                      title="click here to go to a BMR calculator"
+                      >
+                        <Link 
+                        to={"https://tdeecalculator.net/"}
+                        target="blank"
+                        >
+                        Basal Metabolic Rate
+                        </Link>
+                        </InputGroupText>
                       <Input
                         autoFocus
                         type="text"
@@ -260,12 +269,12 @@ const UserEdit = () => {
                   </Col>
                   <Col>
                     <InputGroup>
-                      <InputGroupText>Current Focus</InputGroupText>
+                      <InputGroupText 
+                      title="current focus to reach your goal. (example: weights, running, sleep)">Current Focus</InputGroupText>
                       <Input
                         required
                         autoFocus
-                        type="text"
-                        className=" "
+                        type="text"                        
                         value={user.currentFocus}
                         onChange={(evt) => {
                           const copy = { ...user };

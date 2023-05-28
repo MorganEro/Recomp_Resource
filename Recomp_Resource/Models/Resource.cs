@@ -20,5 +20,7 @@ namespace Recomp_Resource.Models
         public int NumberOfComments { get; set; }
 
         public int NumberOfSaves { get; set; }
+
+        public bool Saved { get; set; }
     }
 }

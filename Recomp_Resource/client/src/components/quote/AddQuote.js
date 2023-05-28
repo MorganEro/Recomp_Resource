@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { addQuote } from "../../modules/quoteManager";
-import { Button, Card, CardFooter,  CardTitle, FormGroup, Input, Label } from "reactstrap";
+import { Button, Card, CardFooter,  CardTitle, Form, FormGroup, Input, Label } from "reactstrap";
 
 const AddQuote = ({ getQuotes, toggle }) => {
   const [quote, setQuote] = useState({
@@ -21,15 +21,16 @@ const AddQuote = ({ getQuotes, toggle }) => {
   };
 
   return (
-    <Card>
-      <CardTitle> Add A Quote</CardTitle>
+    <Form>
+      <h2> Add A Quote</h2>
       <FormGroup>
         
         <Input
           required
           autoFocus
+          className="my-3"
           type="textarea"
-          placeholder="quote content"
+          placeholder="quote"
           value={quote.content}
           onChange={(evt) => {
             const copy = { ...quote };
@@ -37,13 +38,13 @@ const AddQuote = ({ getQuotes, toggle }) => {
             setQuote(copy);
           }}
         />
-      </FormGroup>
-      <CardFooter>
         <Button color="success" className= "mx-5" onClick={handleSubmitButtonClick}>Submit Changes</Button>
 
         <Button outline className= "mx-5"   onClick={handleCancelButtonClick}>Cancel</Button>
-      </CardFooter>
-    </Card>
+      </FormGroup>
+     
+      
+    </Form>
   );
 };
 export default AddQuote;

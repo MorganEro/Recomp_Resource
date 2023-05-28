@@ -29,7 +29,7 @@ const ResourceEdit = ({ toggle }) => {
       <CardBody>
         <Form>
           <FormGroup>
-            <Label htmlFor="title">Title: </Label>
+            <Label htmlFor="title">Title </Label>
             <Input
               required
               autoFocus
@@ -44,7 +44,7 @@ const ResourceEdit = ({ toggle }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="category">Goal: </Label>
+            <Label htmlFor="category">Goal </Label>
             <Input
               required
               autoFocus
@@ -68,7 +68,7 @@ const ResourceEdit = ({ toggle }) => {
             </Input>
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="topic">Topic: </Label>
+            <Label htmlFor="topic">Topic </Label>
             <Input
               required
               autoFocus
@@ -83,7 +83,7 @@ const ResourceEdit = ({ toggle }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="content">Content: </Label>
+            <Label htmlFor="content">Content </Label>
             <Input
               required
               autoFocus
@@ -98,8 +98,6 @@ const ResourceEdit = ({ toggle }) => {
             />
           </FormGroup>
         </Form>
-      </CardBody>
-      <CardFooter>
         {resource.content === "" ||
         resource.categoryId === "" ||
         resource.topic === "" ||
@@ -113,7 +111,9 @@ const ResourceEdit = ({ toggle }) => {
           </Button>
         )}
         <Button className="mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
-      </CardFooter>
+      </CardBody>
+     
+     
     </Card>
   );
 };

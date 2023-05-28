@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { UnSaveResource, getSavedResourceById } from "../../modules/resourceManager";
-import { Button, Card, CardBody, CardFooter, ListGroup, ListGroupItem } from "reactstrap";
+import { Button, Card, CardBody, CardFooter, CardImg, ListGroup, ListGroupItem } from "reactstrap";
 import EnterComment from "../comment/EnterComment";
 
 const SavedResourceDetails = () => {
   const [savedResource, setSavedResource] = useState({});
-
   const { id } = useParams();
+  const navigate = useNavigate()
 
   const getSavedResource = () => {
     getSavedResourceById(id).then((resource) => setSavedResource(resource));
@@ -16,6 +16,10 @@ const SavedResourceDetails = () => {
   useEffect(() => {
     getSavedResource();
   }, []);
+
+  const handleBackButtonClick = () => { 
+    navigate(-1)
+  ;}
 
   const UnSaveButtonClick = (e) => {
     UnSaveResource(savedResource.id).then(() => {
@@ -40,17 +44,26 @@ const SavedResourceDetails = () => {
             allowFullScreen
           ></iframe>
         </div>
-        <p>Category: {savedResource?.resource?.category?.goal}</p>
-        <p>Topic {savedResource?.resource?.topic}</p>
+        <p><strong>Category</strong> {savedResource?.resource?.category?.goal}</p>
+        <p><strong>Topic</strong> {savedResource?.resource?.topic}</p>
         <p>
-          Date Added:{" "}
+        <strong>Added On</strong>{" "}
           {new Date(savedResource?.resource?.dateAdded).toDateString()}
         </p>
 
         <ListGroup>
           {savedResource?.resource?.comments.map((comment) => (
             <ListGroupItem key={comment.id}>
-              <span>{comment?.user?.displayName}: </span>
+                <CardImg
+              src={savedResource?.user?.imageAddress}
+              style={{ width: "3%" }}
+              alt="Avatar"
+            />
+            {"  "}
+            <Link to={`../../user/details/${savedResource.userId}`}>
+            <span>{savedResource?.user?.displayName}</span>
+            </Link>
+            {" "}
               <span>{comment.content}</span>
             </ListGroupItem>
           ))}
@@ -64,7 +77,8 @@ const SavedResourceDetails = () => {
         </div>
       </CardBody>
       <CardFooter>
-        <Button color= "danger" onClick={UnSaveButtonClick}>UnSave</Button>
+      <Button className="mx-5" onClick={handleBackButtonClick}>Back</Button>
+        <Button className="mx-5" color= "danger" onClick={UnSaveButtonClick}>UnSave</Button>
       </CardFooter>
     </Card>
   );
