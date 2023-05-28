@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAllUsers, getUserSearch } from "../../modules/userManager";
 import User from "./User";
 import { InputGroup, Button, Input } from "reactstrap";
-
+import { Link } from "react-router-dom";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -12,7 +12,6 @@ const UserList = () => {
     getAllUsers().then((data) => setUsers(data));
   };
 
- 
   useEffect(() => {
     getUsers();
   }, []);
@@ -20,17 +19,18 @@ const UserList = () => {
   const search = () => {
     getUserSearch(searchParams).then((searchResults) => {
       setUsers(searchResults);
-      setSearchParams("")
+      setSearchParams("");
     });
   };
 
   return (
     <>
       <div className="container m-4">
-        
-      <div className="container m-4">
-        <InputGroup className="search-wrapper">
-          <Button outline  size="sm" color= "secondary" onClick={getUsers}>Show All</Button>
+        <div className="container m-4">
+          <InputGroup className="search-wrapper">
+            <Button outline size="sm" color="secondary" onClick={getUsers}>
+              Show All
+            </Button>
             <Input
               type="search"
               name="search-form"
@@ -41,16 +41,27 @@ const UserList = () => {
                 setSearchParams(event.target.value);
               }}
             />
-          <Button outline  size="sm" color= "secondary"  onClick={search}>Search </Button>
-        </InputGroup>
-      </div>
+            <Button outline size="sm" color="secondary" onClick={search}>
+            <i className="fa fa-search fa-lg"></i>
+          </Button>
+          </InputGroup>
+        </div>
       </div>
       <h1 className="text-center"> MEMBERS</h1>
+      <h4>
+        <Button outline>
+          <Link to={"../listCarousel"}>Slides</Link>
+        </Button>
+      </h4>
       <section className="container">
         <div className="row justify-content-center">
           {users.map((user) => (
-            <div className="d-flex flex-column mt-3" style= {{width: "50vw"  }}key={user.id}>
-            <User user={user}  />
+            <div
+              className="d-flex flex-column mt-3"
+              style={{ width: "50vw" }}
+              key={user.id}
+            >
+              <User user={user} />
             </div>
           ))}
         </div>

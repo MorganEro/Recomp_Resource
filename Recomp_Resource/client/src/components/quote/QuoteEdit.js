@@ -37,7 +37,6 @@ const QuoteEdit = ({toggle, quoteId}) => {
        
         <FormGroup>
          
-            <Label htmlFor="content">Content: </Label>
             <Input
               required
               autoFocus

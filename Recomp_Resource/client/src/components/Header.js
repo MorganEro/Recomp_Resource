@@ -8,49 +8,50 @@ import {
   Nav,
   NavItem,
   NavLink,
+  CardImg,
 } from "reactstrap";
 import { logout } from "../modules/authManager";
+import {ReactComponent as RecompLogo} from '../recompLogo.svg';
 
-export default function Header({ isLoggedIn, thisUser}) {
+export default function Header({ isLoggedIn, thisUser }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
-      <Navbar  fixed="top" color="dark" dark expand="md">
+    <div className="relative">
+      <Navbar fixed="top" color="dark" dark expand="md">
+        <NavbarBrand>
+      <RecompLogo width="30" height="30" fill="#f0f8ff"/>
+        </NavbarBrand>
         <NavbarBrand tag={RRNavLink} to="/">
           RECOMP RESOURCE
         </NavbarBrand>
 
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-
-          <Nav className="mr-auto" navbar>
+          <Nav navbar>
             {isLoggedIn && (
               <>
-
-              {thisUser?.userTypeId === 1 
-              ?  
-              <> 
-                <NavItem>
-                    <NavLink tag={RRNavLink} to="/resource/adminList">
+                {thisUser?.userTypeId === 1 ? (
+                  <>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/resource/adminList">
+                        Resources
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/quote/list">
+                        Quotes
+                      </NavLink>
+                    </NavItem>
+                  </>
+                ) : (
+                  <NavItem>
+                    <NavLink tag={RRNavLink} to="/resource/userList">
                       Resources
                     </NavLink>
                   </NavItem>
-                  <NavItem>
-                  <NavLink tag={RRNavLink} to="/quote/list">
-                    Quotes
-                  </NavLink>
-                  
-                </NavItem>
-              </>
-              :
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/resource/userList">
-                    Resources
-                  </NavLink>
-                </NavItem>
-               }
+                )}
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/user/myProfile">
                     My Profile
@@ -62,24 +63,19 @@ export default function Header({ isLoggedIn, thisUser}) {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink 
-                onClick={logout}
-                href="/login" 
-                >Log out</NavLink>
-              </NavItem>
-                
-                <NavbarBrand>
-                   {thisUser?.userTypeId === 1 
-                   ?  
-                   <div>
-                      Welcome, Amin {thisUser?.displayName}
-                   </div>
-                   : 
-                   <div>
-                      Welcome, {thisUser?.displayName}
-                   </div>} 
+                  <NavLink onClick={logout} href="/login">
+                    Log out
+                  </NavLink>
+                </NavItem>
+
+                <NavbarBrand className="welcome">
+                  {thisUser?.userTypeId === 1 ? (
+                    <div>Welcome, Amin {thisUser?.displayName}</div>
+                  ) : (
+                    <div>Welcome, {thisUser?.displayName}</div>
+                  )}
                 </NavbarBrand>
-            
+                
               </>
             )}
             {!isLoggedIn && (

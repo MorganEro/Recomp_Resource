@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
+  Badge,
   Button,
   Card,
   CardBody,
@@ -44,15 +45,14 @@ const AdminResourceDetails = () => {
 
   const DeleteButton = () => {
     DeleteResource(id).then(() => {
-      navigate("../../resource/adminList")
-    })
-    
+      navigate("../../resource/adminList");
+    });
   };
   const handleCancelButtonClick = () => {
-      deleteToggle();
+    deleteToggle();
   };
   const handleBackButtonClick = () => {
-      navigate("../../resource/adminList");
+    navigate("../../resource/adminList");
   };
 
   return (
@@ -73,25 +73,37 @@ const AdminResourceDetails = () => {
           ></iframe>
         </div>
 
-        <p>Category: {resource.category?.goal}</p>
-        <p>Topic: {resource.topic}</p>
-        <p>Date Added: {new Date(resource.dateAdded).toDateString()}</p>
-        <p>Saves: {resource.numberOfSaves}</p>
-
-        <ListGroup>
-          {comments.map((comment) => (
-            <ListGroupItem key={comment.id}>
+        <p>
+          <strong>Category</strong> {resource.category?.goal}
+        </p>
+        <p>
+          <strong>Topics </strong> {resource.topic}
+        </p>
+        <p>
+          <strong>Added On</strong>{" "}
+          {new Date(resource.dateAdded).toDateString()}
+        </p>
+        <p>
+          <strong>Saves</strong> <Badge pill>{resource.numberOfSaves}</Badge>
+        </p>
+        <div className="comment_section">
+          <ListGroup>
+            {comments.map((comment) => (
+              <ListGroupItem key={comment.id}>
                 <CardImg
-              src={comment?.user?.imageAddress}
-              style={{ width: "3%" }}
-              alt="Avatar"
-            />
-            {"  "}
-              <span>{comment?.user?.displayName}: </span>
-              <span>{comment.content}</span>
-            </ListGroupItem>
-          ))}
-        </ListGroup>
+                  src={comment?.user?.imageAddress}
+                  style={{ width: "2%" }}
+                  alt="Avatar"
+                />
+                {"  "}
+                <Link to={`../../user/details/${comment?.userId}`}>
+                  <span>{comment?.user?.displayName} </span>
+                </Link>
+                <span>{comment.content}</span>
+              </ListGroupItem>
+            ))}
+          </ListGroup>
+        </div>
 
         <div>
           <EnterComment resourceId={resource.id} getComments={getComments} />
@@ -99,7 +111,12 @@ const AdminResourceDetails = () => {
       </CardBody>
       {/*--------------Modals-------------*/}
       <CardFooter justified="true">
-      <Button color="secondary" size="sm" className="mx-5" onClick={handleBackButtonClick}>
+        <Button
+          color="secondary"
+          size="sm"
+          className="mx-5"
+          onClick={handleBackButtonClick}
+        >
           Back
         </Button>
         <Button outline color="primary" className="mx-5" onClick={toggle}>
@@ -110,7 +127,12 @@ const AdminResourceDetails = () => {
             </ModalBody>
           </Modal>
         </Button>
-        <Button color="danger" size="sm" className="mx-5" onClick={deleteToggle}>
+        <Button
+          color="danger"
+          size="sm"
+          className="mx-5"
+          onClick={deleteToggle}
+        >
           Delete
         </Button>
         <Modal isOpen={deleteModal} toggle={deleteToggle}>
@@ -118,8 +140,19 @@ const AdminResourceDetails = () => {
             You are about to delete a valuable resource. Are you sure?
           </ModalBody>
           <ModalFooter>
-            <Button size="sm" className= "mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
-            <Button size="sm" className="mx-5" color="danger" onClick={DeleteButton}>
+            <Button
+              size="sm"
+              className="mx-5"
+              onClick={handleCancelButtonClick}
+            >
+              Cancel
+            </Button>
+            <Button
+              size="sm"
+              className="mx-5"
+              color="danger"
+              onClick={DeleteButton}
+            >
               Delete
             </Button>
           </ModalFooter>

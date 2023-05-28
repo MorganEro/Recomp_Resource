@@ -3,7 +3,7 @@ import { useState } from "react";
 import { addResource } from "../../modules/resourceManager";
 import { Button, Card, CardBody, CardFooter, CardHeader, Form, FormGroup, Input, Label } from "reactstrap";
 
-const AddResource = ({toggle, getAllResources}) => {
+const AddResource = ({toggle}) => {
 
 
   const [resource, setResource] = useState({

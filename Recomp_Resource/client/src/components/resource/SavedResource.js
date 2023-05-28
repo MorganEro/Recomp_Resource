@@ -23,7 +23,7 @@ const SavedResource = ({ savedResource, getSavedResources }) => {
             <strong>{savedResource?.resource?.title}</strong>
           </Link>
         </p>
-        <p>Current Focus: {savedResource?.resource?.topic}</p>
+        <p><strong>Focus</strong> {savedResource?.resource?.topic}</p>
       </CardBody>
       <CardFooter>
         <Button color= "danger" onClick={UnSaveButton}>UnSave</Button>

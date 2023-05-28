@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Card,
@@ -38,9 +38,9 @@ const UserResourceDetails = () => {
     getComments();
   }, []);
 
-  const handleBackButtonClick = () => { 
-    navigate(-1)
-  ;}
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
 
   const handleSaveButtonClick = () => {
     savedResource.resourceId = resource.id;
@@ -64,34 +64,57 @@ const UserResourceDetails = () => {
             allowFullScreen
           ></iframe>
         </div>
-        <p>Category: {resource.category?.goal}</p>
-        <p>Topic {resource.topic}</p>
-        <p>Date Added: {new Date(resource.dateAdded).toDateString()}</p>
-
-        <ListGroup>
-          {comments.map((comment) => (
-            <ListGroupItem key={comment.id}>
+        <p>
+          <strong>Category</strong> {resource.category?.goal}
+        </p>
+        <p>
+          <strong
+          title="List of topics are keywords that allow you to search for videos similar to your current focus"
+          >Topic</strong> {resource.topic}
+        </p>
+        <p>
+          <strong>Added On</strong>{" "}
+          {new Date(resource.dateAdded).toDateString()}
+        </p>
+        <div className="comment_section">
+          <ListGroup>
+            {comments.map((comment) => (
+              <ListGroupItem key={comment.id}>
                 <CardImg
-              src={comment?.user?.imageAddress}
-              style={{ width: "3%" }}
-              alt="Avatar"
-            />
-            {"  "}
-              <span>{comment?.user?.displayName}: </span>
-              <span>{comment.content}</span>
-            </ListGroupItem>
-          ))}
-        </ListGroup>
+                  src={comment?.user?.imageAddress}
+                  style={{ width: "2%" }}
+                  alt="Avatar"
+                />
+                {"  "}
+                <Link to={`../../user/details/${comment?.userId}`}>
+                  <span>{comment?.user?.displayName} </span>
+                </Link>
+                <span>{comment.content}</span>
+              </ListGroupItem>
+            ))}
+          </ListGroup>
 
-        <div>
-          <EnterComment resourceId={resource.id} getComments={getComments} />
         </div>
+          <div>
+            <EnterComment resourceId={resource.id} getComments={getComments} />
+          </div>
       </CardBody>
 
       <CardFooter>
-
-        <Button className="mx-5" onClick={handleBackButtonClick}>Back</Button>
-        <Button color="success" className="mx-5" onClick={handleSaveButtonClick}>Save Resource</Button>
+        <Button className="mx-5" onClick={handleBackButtonClick}>
+          Back
+        </Button>
+        {resource.saved == true ? (
+          <Button disabled>SAVED</Button>
+        ) : (
+          <Button
+            color="success"
+            className="mx-5"
+            onClick={handleSaveButtonClick}
+          >
+            Save Resource
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

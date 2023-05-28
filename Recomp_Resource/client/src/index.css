@@ -31,10 +31,34 @@ code {
 
 .centerText {
 position: absolute;
-color: aliceblue;
+color: #f0f8ff;
 font-size: 4rem;
 font-weight: bolder;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+a {
+  text-decoration: none;
+  
+}
+
+.carousel-indicators{
+  filter: invert(1)
+}
+
+.comment_section{
+  border-top: solid 1px rgb(185, 183, 183);
+  border-radius: 1%;
+  height: 20vh;
+  overflow: scroll;
+}
+
+.relative {
+  position: relative;
+}
+.welcome {
+  position:absolute;
+  right: 0;
 }

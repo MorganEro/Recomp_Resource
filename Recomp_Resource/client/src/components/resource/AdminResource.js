@@ -12,12 +12,12 @@ const AdminResource = ({ resource }) => {
         </Link>
       </CardTitle>
       <ListGroup flush>
-        <ListGroupItem>Current Focus: {resource.topic}</ListGroupItem>
-        <ListGroupItem>Comments
+        <ListGroupItem><strong>Focus</strong> {" "} {resource.topic}</ListGroupItem>
+        <ListGroupItem><strong>Comments</strong> {" "}
         <Badge pill>{resource.numberOfComments}</Badge>
            </ListGroupItem>
         <ListGroupItem>
-          Number Of Saves
+          <strong>Saves</strong>{" "}
           <Badge pill>{resource.numberOfSaves}</Badge>
         </ListGroupItem>
       </ListGroup>

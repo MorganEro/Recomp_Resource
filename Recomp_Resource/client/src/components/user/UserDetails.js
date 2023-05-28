@@ -41,26 +41,28 @@ const UserDetails = () => {
           <strong>{user.displayName}</strong>
         </CardTitle>
         <CardBody className="container">
-          <ListGroup className="row">
-            <ListGroup className="col">
+          <section className="row">
+            <section className="col">
               <CardImg src={user.imageAddress} alt="user" />
-            </ListGroup>
-            <ListGroup className="col">
-              <ListGroupItem>Age: {user.age}</ListGroupItem>
-              <ListGroupItem>Current Focus: {user.currentFocus}</ListGroupItem>
-              <ListGroupItem>Goal: {user?.category?.goal}</ListGroupItem>
-              <ListGroupItem>
-                Member Since: {new Date(user.joinDate).toDateString()}
-              </ListGroupItem>
-              <ListGroupItem>Bio: {user.bio}</ListGroupItem>
-              <ListGroupItem>
-                Active:{" "}
+            </section>
+            <section className="col my-3">
+              <div><strong>Age</strong>{" "}
+ {user.age}</div>
+              <div><strong>Current Focus</strong>{" "}
+ {user.currentFocus}</div>
+              <div><strong>Goal</strong>{" "} {user?.category?.goal}</div>
+              <div>
+              <strong>Member Since</strong>{" "}{new Date(user.joinDate).toDateString()}
+              </div>
+              <div><strong>Bio</strong>{" "} {user.bio}</div>
+              <div>
+              <strong>Active</strong>{" "}
                 {user?.deactivated?.toString() === "false"
                   ? "Account Active"
                   : "Account Deactivated"}
-              </ListGroupItem>
-            </ListGroup>
-          </ListGroup>
+              </div>
+            </section>
+          </section>
         </CardBody>
       </Card>
     </div>

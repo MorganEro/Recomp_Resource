@@ -89,7 +89,7 @@ const AdminResourceList = () => {
         ADD
         <Modal isOpen={modal} toggle={toggle}>
           <ModalBody>
-            <AddResource toggle={toggle} getAllResources={getAllResources} />
+            <AddResource toggle={toggle} />
           </ModalBody>
         </Modal>
       </Button>

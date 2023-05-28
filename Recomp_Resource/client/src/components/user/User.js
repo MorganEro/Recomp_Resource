@@ -5,7 +5,7 @@ import { Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
 const User = ({ user }) => {
   return (
     <Card>
-      <CardBody>
+      <CardBody style={{backgroundColor: '#E5E7E9'}}>
         <CardTitle tag="h3">
           <Link to={`../../user/details/${user.id}`}>
             <strong>{user.displayName}</strong>
@@ -20,16 +20,17 @@ const User = ({ user }) => {
             />
           </Col>
           <Col>
-          <p>Current Focus: {user.currentFocus}</p>
-        <p>Goal: {user?.category?.goal}</p>
-        <p>Join Date: {user.joinDate}</p>
+          <p><strong>Current Focus</strong> {" "}{user.currentFocus}</p>
+        <p><strong>Goal</strong>{" "} {user?.category?.goal}</p>
+        <p><strong>Join Date</strong>{" "} {user.joinDate}</p>
         <p>
-          Active:{" "}
+        <strong>Active</strong>{" "}
           {user?.deactivated?.toString() === "false"
             ? "Account Active"
             : "Account Deactivated"}
         </p></Col>
         </Row>
+        <strong></strong>
 
       </CardBody>
     </Card>
