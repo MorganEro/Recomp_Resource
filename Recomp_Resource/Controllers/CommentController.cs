@@ -48,6 +48,22 @@ namespace Recomp_Resource.Controllers
             return Ok(comment);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var user = GetCurrentUserProfile();
+            if (user.UserTypeId == 1)
+            {
+                _commentRepository.Delete(id);
+
+            }
+            else
+            {
+                return Unauthorized();
+            }
+            return NoContent();
+        }
+
         private User GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

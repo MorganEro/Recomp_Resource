@@ -7,7 +7,9 @@ namespace Recomp_Resource.Repositories
     {
         void Add(Message message);
         void Delete(int id);
-        List<Message> GetAllMessages();
+        List<Message> GetAllMessagesOfUser(int id);
+        List<Message> GetAllMessagesSentByUser(int id);
+        List<Message> GetAllMessagesReceivedByUser(int id);
         Message GetMessageById(int id);
     }
 }

@@ -45,3 +45,14 @@ export const addComment = (comment) => {
   });
 };
 
+export const DeleteComment = (id) => {
+  return getToken().then((token) => {
+      return fetch(`${apiUrl}/${id}`, {
+          method: "DELETE",
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      })
+  })
+};
+

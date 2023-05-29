@@ -19,6 +19,9 @@ import UserResourceList from "./resource/UserResourceList";
 import AdminResourceDetails from "./resource/AdminResourceDetails";
 import UserResourceDetails from "./resource/UserResourceDetails";
 import UserListCarousel from "./user/UserListCarousel";
+import MessageList from "./message/MessageList";
+import CreateMessage from "./message/CreateMessage";
+import MessageDetails from "./message/MessageDetails";
 
 
 
@@ -50,6 +53,11 @@ export default function ApplicationViews({ isLoggedIn }) {
             <Route path="list" element={< QuoteList />} />
             <Route path="create" element={  < AddQuote /> } />
             <Route path="edit/:id" element={< QuoteEdit /> } />
+        </Route>
+        <Route path="message">
+            <Route path="list" element={< MessageList />} />
+            <Route path="create" element={  < CreateMessage /> } />
+            <Route path="details/:id" element={< MessageDetails /> } />
         </Route>
 
 

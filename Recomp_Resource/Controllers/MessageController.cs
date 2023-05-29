@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Recomp_Resource.Models;
 using Recomp_Resource.Repositories;
 using System;
+using System.Security.Claims;
 
 namespace Recomp_Resource.Controllers
 {
@@ -13,17 +14,36 @@ namespace Recomp_Resource.Controllers
     public class MessageController : ControllerBase
     {
         private readonly IMessageRepository _messageRepository;
+        private readonly IUserRepository _userRepository;
 
 
-        public MessageController(IMessageRepository messageRepository)
+        public MessageController(IMessageRepository messageRepository, IUserRepository userRepository)
         {
             _messageRepository = messageRepository;
+            _userRepository = userRepository;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpGet("user")]
+        public IActionResult GetAllMessagesOfUser()
         {
-            var messages = _messageRepository.GetAllMessages();
+            var user = GetCurrentUserProfile();
+            var messages = _messageRepository.GetAllMessagesOfUser(user.Id);
+            return Ok(messages);
+        }
+
+        [HttpGet("sender")]
+        public IActionResult GetAllMessagesSentByUser()
+        {
+            var user = GetCurrentUserProfile();
+            var messages = _messageRepository.GetAllMessagesOfUser(user.Id);
+            return Ok(messages);
+        }
+
+        [HttpGet("recipient")]
+        public IActionResult GetAllMessagesReceivedByUser()
+        {
+            var user = GetCurrentUserProfile();
+            var messages = _messageRepository.GetAllMessagesReceivedByUser(user.Id);
             return Ok(messages);
         }
 
@@ -41,17 +61,27 @@ namespace Recomp_Resource.Controllers
         [HttpPost]
         public IActionResult Add(Message message)
         {
+            var user = GetCurrentUserProfile();
+            message.SenderId = user.Id;
             message.DateCreated = DateTime.Now;
             _messageRepository.Add(message);
 
-            return CreatedAtAction("Get", new { id = message.Id }, message);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var user = GetCurrentUserProfile();
             _messageRepository.Delete(id);
             return NoContent();
         }
+
+        private User GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
     }
 }

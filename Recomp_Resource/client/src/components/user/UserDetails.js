@@ -8,13 +8,18 @@ import {
   CardTitle,
   ListGroup,
   ListGroupItem,
+  Modal,
+  ModalBody,
 } from "reactstrap";
 import { getUserById } from "../../modules/userManager";
+import SendMessage from "../message/SendMessage";
 
 const UserDetails = () => {
   const [user, setUser] = useState({});
   const { id } = useParams();
   const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
 
   useEffect(() => {
     getUserById(id).then((user) => setUser(user));
@@ -26,7 +31,7 @@ const UserDetails = () => {
 
   return (
     <>
-    <div className="d-flex ">
+    <div className="d-flex">
 
       <Button className="my-2" onClick={handleBackButtonClick}>Back</Button>
     </div>
@@ -40,6 +45,7 @@ const UserDetails = () => {
         <CardTitle tag="h1">
           <strong>{user.displayName}</strong>
         </CardTitle>
+       
         <CardBody className="container">
           <section className="row">
             <section className="col">
@@ -61,6 +67,18 @@ const UserDetails = () => {
                   ? "Account Active"
                   : "Account Deactivated"}
               </div>
+              <Button 
+              title={`Send ${user.displayName} a Message`}
+              outline size="sm" 
+              onClick={toggle}>
+              <i className="fa fa-envelope fa-lg"></i>
+            </Button>
+            <Modal isOpen={modal}
+            toggle={toggle}>
+              <ModalBody>
+              <SendMessage toggle= {toggle} recipientId={user.id} recipientName ={user.displayName}/>
+              </ModalBody>
+            </Modal>
             </section>
           </section>
         </CardBody>
