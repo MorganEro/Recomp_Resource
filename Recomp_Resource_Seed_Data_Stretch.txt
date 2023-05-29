@@ -1,0 +1,78 @@
+﻿USE [Recomp_Resource]
+GO
+
+
+
+
+INSERT INTO [UserType] ([Type]) VALUES ('Admin'), ('User') ;
+
+
+INSERT INTO [Category] (Goal) VALUES ('Fat Loss'), ('Weight Gain') ;
+
+
+INSERT INTO [Quote] ([Content]) VALUES 
+	('All progress takes place outside the comfort zone.- Michal Joan Bobak'),
+	('Look in the mirror. That’s your competition. – John Assaraf '),
+	('Put all excuses aside and remember this: You are capable. – Zig Ziglar'),
+	('The only place where success comes before work is in the dictionary.- Vidal Sassoon '),
+	('The clock is ticking. Are you becoming the person you want to be? - Greg Plitt'),
+	('Whether you think you can, or you think you can’t, you’re right. - Henry Ford '),
+	('Success is what comes after your stop making excuses. – Luis Galarza '),
+	('Discipline is the bridge between goals and accomplishment.– Jim Rohn'),
+	('The pain you feel today will be the strength you feel tomorrow. – Arnold Schwarzenegger'),
+	('Action is the foundational key to all success.- Pablo Picasso '),
+	('Get comfortable with being uncomfortable! – Jillian Michaels '),
+	('If something stands between you and your success, move it. Never be denied.- Dwayne Johnson '),
+	('Number one, like yourself. Number two, you have to eat healthy. And number three, you have to squeeze your buns. That is my formula.- Richard Simmons '),
+	('Sometimes you don’t realize your own strength until you come face to face with your greatest weakness. – Susan Gale '),
+	('You must do the thing you think you cannot do. – Eleanor Roosevelt '),
+	('If you want something you’ve never had, you must be willing to do something you’ve never done. —Thomas Jefferson '),
+	('Nothing will work unless you do. —Maya Angelou'),
+	('Our greatest glory is not in never failing, but in rising every time we fall. – Confucius '),
+	('Believe in yourself. You are braver than you think, more talented than you know, and capable of more than you imagine. – Roy T. Bennett '),
+	('Don’t count the days, make the days count. —Muhammad Ali '),
+	('Do what you have to do until you can do what you want to do. —Oprah Winfrey'),
+	('No matter how many mistakes you make or how slow you progress, you are still way ahead of everyone who isn’t trying.—Tony Robbins '),
+	('All great achievements require time. —Maya Angelou'),
+	('Your current body is the only body that can take you to your new body — so be kind to it. - Elaine Moran'),
+	('Fitness is not about being better than someone else. It’s about being better than you used to be.- Khloe Kardashian'),
+	('If it doesn’t challenge you, it won’t change you. - Fred Devito'),
+	('Living a healthy lifestyle will only deprive you of poor health, lethargy, and fat.– Jill Johnson'),
+	('The best way to predict the future is to create it.-Abraham Lincoln'),
+	('What seems impossible today will one day become your warm-up.'),
+	('Go the extra mile. It’s never crowded. '),
+	('If you change the way you look at things, the things you look at change.-Wayne Dyer'),
+	('Do something today that your future self will thank you for.-Sean Patrick Flanery'),
+	('Push harder than yesterday if you want a different tomorrow.'),
+	('You can either suffer the pain of discipline or the pain of regret.-Jim Rohn '),
+	('No matter how slow you go you’re still lapping everyone on the couch.'),
+	('The mind is the most important part of achieving any fitness goal. Mental change always comes before physical change.-Matt McGorry '),
+	('I will beat her. I will train harder. I will eat cleaner. I know her strengths and weaknesses. She is going down. I have the advantage because I know her well. She is the old me '),
+	('Believe in yourself and all that you are. Know that there is something inside of you that is greater than any obstacle. -Christian D. Larson '),
+	('The only person you are destined to become is the person you decide to be. '),
+	('Well done is better than well said.~ Benjamin Franklin '),
+	('Sweat is fat crying.~ Anonymous '),
+	('Tough times don’t last. Tough people do.~ Robert H. Schuller '),
+	('You’re only one workout away from a good mood. ~ Anonymous '),
+	('The groundwork for all happiness is good health. ~ Leigh Huntfs ');
+
+
+
+
+INSERT INTO [User] (
+FirstName, LastName, DisplayName, Birthday, Weight, Height, BFPercentage, BMR, CurrentFocus, CategoryId, ImageAddress, Bio, Email, UserTypeId, FirebaseUserId, Deactivated
+)
+VALUES
+  ('Morgan', 'Ero', 'BeastMode', '1979-06-21', '222', '6''0"', '10.0', '2300', 'Gaining, leaning out', 1,'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80', 'Fitness enthusiast', 'm_ero@hotmail.com', 1, 'fXB4sff89thNBN29p4BtedD1FiT2', 0),
+  ('Leslie', 'Pesarchick', 'Squater', '1984-03-08', '250', '5''6"', '18.0', '2000', 'health', 1,'https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjZ8fGZhY2VzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1400&q=60', 'body love', 'rruser@rra.com', 2, 'qtA8S7LW6lMAblKHCu07NFKnhve2', 0);
+
+
+
+
+INSERT INTO [Resource] ([Title], [CategoryId], [Topic], [DateAdded], [Content]) VALUES 
+	('Volume And Hypertrophy', 2, 'lifting, gaining, reps, heavy', 2023-05-01, 'www.youtube.com/embed/zBBYOc7M02o'),
+	('Core Activation ', 1, 'health, lifting, transverse', 2023-02-11, 'https://www.youtube.com/embed/X0HzXm3epAU'),
+('3 breathing exercises that could save your life ', 1, 'health, core', 2023-02-12, 'https://www.youtube.com/embed/f-1kuahbLl4'),
+('How to lose fat the right way ', 1, 'health', 2023-02-13, 'https://www.youtube.com/embed/X0HzXm3epAU'),
+('Unlearning industry myths', 1, 'health, stan', 2023-02-14, 'https://www.youtube.com/embed/HcCTcVPFTPM');
+

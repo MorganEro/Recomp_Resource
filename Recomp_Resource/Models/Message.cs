@@ -36,5 +36,8 @@ namespace Recomp_Resource.Models
         public User Recipient { get; set; }
         public string Content { get; set; }
 
+        public bool RecipientHidden { get; set; }
+
+        public bool SenderHidden { get; set; }
     }
 }

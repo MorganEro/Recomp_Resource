@@ -132,18 +132,18 @@ namespace Recomp_Resource.Repositories
                         INSERT INTO [User] (DisplayName, FirstName, LastName, Birthday, CurrentFocus, CategoryId, Email, ImageAddress, JoinDate, Deactivated, UserTypeId, FirebaseUserId)
                         OUTPUT INSERTED.ID
                         VALUES (@displayName, @firstName, @lastName, @birthday, @currentFocus, @categoryId, @email, @imageAddress, @joinDate, @deactivated, @userTypeId, @firebaseUserId)";
-                    cmd.Parameters.AddWithValue("@displayName", user.DisplayName);
-                    cmd.Parameters.AddWithValue("@firstName", user.FirstName);
-                    cmd.Parameters.AddWithValue("@lastName", user.LastName);
-                    cmd.Parameters.AddWithValue("@birthday", user.Birthday);
-                    cmd.Parameters.AddWithValue("@currentFocus", user.CurrentFocus);
-                    cmd.Parameters.AddWithValue("@categoryId", user.CategoryId);
-                    cmd.Parameters.AddWithValue("@email", user.Email);
-                    cmd.Parameters.AddWithValue("@imageAddress", user.ImageAddress);
-                    cmd.Parameters.AddWithValue("@joinDate", user.JoinDate);
-                    cmd.Parameters.AddWithValue("@deactivated", user.Deactivated);
-                    cmd.Parameters.AddWithValue("@userTypeId", user.UserTypeId);
-                    cmd.Parameters.AddWithValue("@firebaseUserId", user.FirebaseUserId);
+                    DbUtils.AddParameter(cmd, "@displayName", user.DisplayName);
+                    DbUtils.AddParameter(cmd, "@firstName", user.FirstName);
+                    DbUtils.AddParameter(cmd, "@lastName", user.LastName);
+                    DbUtils.AddParameter(cmd, "@birthday", user.Birthday);
+                    DbUtils.AddParameter(cmd, "@currentFocus", user.CurrentFocus);
+                    DbUtils.AddParameter(cmd, "@categoryId", user.CategoryId);
+                    DbUtils.AddParameter(cmd, "@email", user.Email);
+                    DbUtils.AddParameter(cmd, "@imageAddress", user.ImageAddress);
+                    DbUtils.AddParameter(cmd, "@joinDate", user.JoinDate);
+                    DbUtils.AddParameter(cmd, "@deactivated", user.Deactivated);
+                    DbUtils.AddParameter(cmd, "@userTypeId", user.UserTypeId);
+                    DbUtils.AddParameter(cmd, "@firebaseUserId", user.FirebaseUserId);
 
                     user.Id = (int)cmd.ExecuteScalar();
                 }
@@ -178,24 +178,24 @@ namespace Recomp_Resource.Repositories
                                UserTypeId = @UserTypeId,
                                FirebaseUserId = @FirebaseUserId
                          WHERE Id = @id";
-                    cmd.Parameters.AddWithValue("@id", user.Id);
-                    cmd.Parameters.AddWithValue("@displayName", user.DisplayName);
-                    cmd.Parameters.AddWithValue("@firstName", user.FirstName);
-                    cmd.Parameters.AddWithValue("@lastName", user.LastName);
-                    cmd.Parameters.AddWithValue("@birthday", user.Birthday);
-                    cmd.Parameters.AddWithValue("@weight", user.Weight);
-                    cmd.Parameters.AddWithValue("@height", user.Height);
-                    cmd.Parameters.AddWithValue("@bFPercentage", user.BFPercentage);
-                    cmd.Parameters.AddWithValue("@bMR", user.BMR);
-                    cmd.Parameters.AddWithValue("@currentFocus", user.CurrentFocus);
-                    cmd.Parameters.AddWithValue("@categoryId", user.CategoryId);
-                    cmd.Parameters.AddWithValue("@email", user.Email);
-                    cmd.Parameters.AddWithValue("@imageAddress", user.ImageAddress);
-                    cmd.Parameters.AddWithValue("@joinDate", user.JoinDate);
-                    cmd.Parameters.AddWithValue("@deactivated", user.Deactivated);
-                    cmd.Parameters.AddWithValue("@bio", user.Bio);
-                    cmd.Parameters.AddWithValue("@userTypeId", user.UserTypeId);
-                    cmd.Parameters.AddWithValue("@firebaseUserId", user.FirebaseUserId);
+                    DbUtils.AddParameter(cmd, "@id", user.Id);
+                    DbUtils.AddParameter(cmd, "@displayName", user.DisplayName);
+                    DbUtils.AddParameter(cmd, "@firstName", user.FirstName);
+                    DbUtils.AddParameter(cmd, "@lastName", user.LastName);
+                    DbUtils.AddParameter(cmd, "@birthday", user.Birthday);
+                    DbUtils.AddParameter(cmd, "@weight", user.Weight);
+                    DbUtils.AddParameter(cmd, "@height", user.Height);
+                    DbUtils.AddParameter(cmd, "@bFPercentage", user.BFPercentage);
+                    DbUtils.AddParameter(cmd, "@bMR", user.BMR);
+                    DbUtils.AddParameter(cmd, "@currentFocus", user.CurrentFocus);
+                    DbUtils.AddParameter(cmd, "@categoryId", user.CategoryId);
+                    DbUtils.AddParameter(cmd, "@email", user.Email);
+                    DbUtils.AddParameter(cmd, "@imageAddress", user.ImageAddress);
+                    DbUtils.AddParameter(cmd, "@joinDate", user.JoinDate);
+                    DbUtils.AddParameter(cmd, "@deactivated", user.Deactivated);
+                    DbUtils.AddParameter(cmd, "@bio", user.Bio);
+                    DbUtils.AddParameter(cmd, "@userTypeId", user.UserTypeId);
+                    DbUtils.AddParameter(cmd, "@firebaseUserId", user.FirebaseUserId);
 
                     cmd.ExecuteNonQuery();
                 }

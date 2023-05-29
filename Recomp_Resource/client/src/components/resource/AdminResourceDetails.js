@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 import { DeleteResource, getResourceById } from "../../modules/resourceManager";
 import EnterComment from "../comment/EnterComment";
-import { getAllCommentsByResourceId } from "../../modules/commentManager";
+import { DeleteComment, getAllCommentsByResourceId } from "../../modules/commentManager";
 import ResourceEdit from "./ResourceEdit";
 
 const AdminResourceDetails = () => {
@@ -46,6 +46,11 @@ const AdminResourceDetails = () => {
   const DeleteButton = () => {
     DeleteResource(id).then(() => {
       navigate("../../resource/adminList");
+    });
+  };
+  const handleDeleteCommentButtonClick = () => {
+    DeleteComment(id).then(() => {
+     getComments()
     });
   };
   const handleCancelButtonClick = () => {
@@ -100,6 +105,9 @@ const AdminResourceDetails = () => {
                   <span>{comment?.user?.displayName} </span>
                 </Link>
                 <span>{comment.content}</span>
+                <Button outline size="sm" color="secondary" onClick={handleDeleteCommentButtonClick}>
+            <i className="fa fa-trash fa-lg"></i>
+          </Button>
               </ListGroupItem>
             ))}
           </ListGroup>

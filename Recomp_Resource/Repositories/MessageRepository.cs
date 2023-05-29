@@ -11,7 +11,8 @@ namespace Recomp_Resource.Repositories
         public MessageRepository(IConfiguration configuration) : base(configuration) { }
 
 
-        public List<Message> GetAllMessages()
+
+            public List<Message> GetAllMessagesOfUser(int id)
         {
             using (var conn = Connection)
             {
@@ -19,11 +20,11 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT m.Id, m.Subject, m.DateCreated, m.Opened, m.Content, m.SenderId, m.RecipientId,
+                         SELECT m.Id, m.Subject, m.DateCreated, m.Opened, m.Content, m.SenderId, m.RecipientId, m.SenderHidden, m.RecipientHidden,
 
-                                s.Id AS SId, s.DisplayName AS SDisplayName, s.FirstName AS SFirstName, s.LastName AS SLastName, s.Birthday AS SBirthday, s.Weight AS SWeight, s.Height AS SHeight, s.BFPercentage AS SBFPercentage, s.BMR AS SBMR, s.CurrentFocus AS SCurrentFocus, s.Deactivate AS SDeactivated, s.CategoryId AS SCategoryId, s.UserTypeId As SUserTypeId, s.JoinDate AS SJoinDate, s.ImageAddress AS SImageAddress, s.Bio AS SBio, s.Email AS SEmail 
+                                s.Id AS SId, s.DisplayName AS SDisplayName, s.FirstName AS SFirstName, s.LastName AS SLastName, s.Birthday AS SBirthday, s.Weight AS SWeight, s.Height AS SHeight, s.BFPercentage AS SBFPercentage, s.BMR AS SBMR, s.CurrentFocus AS SCurrentFocus, s.Deactivated AS SDeactivated, s.CategoryId AS SCategoryId, s.UserTypeId As SUserTypeId, s.JoinDate AS SJoinDate, s.ImageAddress AS SImageAddress, s.Bio AS SBio, s.Email AS SEmail,
                           
-                                r.Id AS RId, r.DisplayName AS RDisplayName, r.FirstName AS RFirstName, r.LastName AS RLastName, s.Birthday AS RBirthday, r.Weight AS RWeight, r.Height AS RHeight, r.BFPercentage AS RBFPercentage, r.BMR AS RBMR, r.CurrentFocus AS RCurrentFocus, r.Deactivate AS RDeactivated, r.CategoryId AS RCategoryId, r.UserTypeId As RUserTypeId, r.JoinDate AS RJoinDate, r.ImageAddress AS RImageAddress, r.Bio AS RBio, r.Email AS REmail,
+                                r.Id AS RId, r.DisplayName AS RDisplayName, r.FirstName AS RFirstName, r.LastName AS RLastName, s.Birthday AS RBirthday, r.Weight AS RWeight, r.Height AS RHeight, r.BFPercentage AS RBFPercentage, r.BMR AS RBMR, r.CurrentFocus AS RCurrentFocus, r.Deactivated AS RDeactivated, r.CategoryId AS RCategoryId, r.UserTypeId As RUserTypeId, r.JoinDate AS RJoinDate, r.ImageAddress AS RImageAddress, r.Bio AS RBio, r.Email AS REmail,
 
                                 cs.Goal AS SGoal,
                                 cr.Goal AS RGoal,
@@ -32,13 +33,112 @@ namespace Recomp_Resource.Repositories
                                 ur.Type AS RType
 
                           FROM Message m
-                                LEFT JOIN User s ON m.SenderId = s.Id
-                                LEFT JOIN User r ON m.RecipientId = r.Id
+                                LEFT JOIN [User] s ON m.SenderId = s.Id
+                                LEFT JOIN [User] r ON m.RecipientId = r.Id
                                 LEFT JOIN Category cs ON cs.Id = s.CategoryId
-                                JOIN Category cr ON cr.Id = r.CategoryId
-                                JOIN UserType ur ON ur.Id = r.UserTypeId
-                                JOIN UserType us ON us.Id = s.UserTypeId";
+                                LEFT JOIN Category cr ON cr.Id = r.CategoryId
+                                LEFT JOIN UserType ur ON ur.Id = r.UserTypeId
+                                LEFT JOIN UserType us ON us.Id = s.UserTypeId
+                                WHERE m.SenderId = @id OR m.RecipientId = @id
+                                ORDER by m.DateCreated DESC
+                                ";
 
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    var reader = cmd.ExecuteReader();
+
+                    var resources = new List<Message>();
+
+                    while (reader.Read())
+                    {
+                        resources.Add(NewMessageFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return resources;
+                }
+            }
+        }
+        public List<Message> GetAllMessagesSentByUser(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         SELECT m.Id, m.Subject, m.DateCreated, m.Opened, m.Content, m.SenderId, m.RecipientId, m.SenderHidden, m.RecipientHidden,
+
+                                s.Id AS SId, s.DisplayName AS SDisplayName, s.FirstName AS SFirstName, s.LastName AS SLastName, s.Birthday AS SBirthday, s.Weight AS SWeight, s.Height AS SHeight, s.BFPercentage AS SBFPercentage, s.BMR AS SBMR, s.CurrentFocus AS SCurrentFocus, s.Deactivated AS SDeactivated, s.CategoryId AS SCategoryId, s.UserTypeId As SUserTypeId, s.JoinDate AS SJoinDate, s.ImageAddress AS SImageAddress, s.Bio AS SBio, s.Email AS SEmail,
+                          
+                                r.Id AS RId, r.DisplayName AS RDisplayName, r.FirstName AS RFirstName, r.LastName AS RLastName, s.Birthday AS RBirthday, r.Weight AS RWeight, r.Height AS RHeight, r.BFPercentage AS RBFPercentage, r.BMR AS RBMR, r.CurrentFocus AS RCurrentFocus, r.Deactivated AS RDeactivated, r.CategoryId AS RCategoryId, r.UserTypeId As RUserTypeId, r.JoinDate AS RJoinDate, r.ImageAddress AS RImageAddress, r.Bio AS RBio, r.Email AS REmail,
+
+                                cs.Goal AS SGoal,
+                                cr.Goal AS RGoal,
+
+                                us.Type AS SType,
+                                ur.Type AS RType
+
+                          FROM Message m
+                                LEFT JOIN [User] s ON m.SenderId = s.Id
+                                LEFT JOIN [User] r ON m.RecipientId = r.Id
+                                LEFT JOIN Category cs ON cs.Id = s.CategoryId
+                                LEFT JOIN Category cr ON cr.Id = r.CategoryId
+                                LEFT JOIN UserType ur ON ur.Id = r.UserTypeId
+                                LEFT JOIN UserType us ON us.Id = s.UserTypeId
+                                WHERE m.SenderId = @id
+                                ORDER by m.DateCreated DESC
+                                ";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    var reader = cmd.ExecuteReader();
+
+                    var resources = new List<Message>();
+
+                    while (reader.Read())
+                    {
+                        resources.Add(NewMessageFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return resources;
+                }
+            }
+        }
+
+        public List<Message> GetAllMessagesReceivedByUser(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         SELECT m.Id, m.Subject, m.DateCreated, m.Opened, m.Content, m.SenderId, m.RecipientId, m.SenderHidden, m.RecipientHidden,
+
+                                s.Id AS SId, s.DisplayName AS SDisplayName, s.FirstName AS SFirstName, s.LastName AS SLastName, s.Birthday AS SBirthday, s.Weight AS SWeight, s.Height AS SHeight, s.BFPercentage AS SBFPercentage, s.BMR AS SBMR, s.CurrentFocus AS SCurrentFocus, s.Deactivated AS SDeactivated, s.CategoryId AS SCategoryId, s.UserTypeId As SUserTypeId, s.JoinDate AS SJoinDate, s.ImageAddress AS SImageAddress, s.Bio AS SBio, s.Email AS SEmail,
+                          
+                                r.Id AS RId, r.DisplayName AS RDisplayName, r.FirstName AS RFirstName, r.LastName AS RLastName, s.Birthday AS RBirthday, r.Weight AS RWeight, r.Height AS RHeight, r.BFPercentage AS RBFPercentage, r.BMR AS RBMR, r.CurrentFocus AS RCurrentFocus, r.Deactivated AS RDeactivated, r.CategoryId AS RCategoryId, r.UserTypeId As RUserTypeId, r.JoinDate AS RJoinDate, r.ImageAddress AS RImageAddress, r.Bio AS RBio, r.Email AS REmail,
+
+                                cs.Goal AS SGoal,
+                                cr.Goal AS RGoal,
+
+                                us.Type AS SType,
+                                ur.Type AS RType
+
+                          FROM Message m
+                                LEFT JOIN [User] s ON m.SenderId = s.Id
+                                LEFT JOIN [User] r ON m.RecipientId = r.Id
+                                LEFT JOIN Category cs ON cs.Id = s.CategoryId
+                                LEFT JOIN Category cr ON cr.Id = r.CategoryId
+                                LEFT JOIN UserType ur ON ur.Id = r.UserTypeId
+                                LEFT JOIN UserType us ON us.Id = s.UserTypeId
+                                WHERE m.RecipientId = @id
+                                ORDER by m.DateCreated DESC
+                                ";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
 
                     var resources = new List<Message>();
@@ -62,11 +162,10 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT m.Id, m.Subject, m.DateCreated, m.Opened, m.Content, m.SenderId, m.RecipientId,
-
-                                s.Id AS SId, s.DisplayName AS SDisplayName, s.FirstName AS SFirstName, s.LastName AS SLastName, s.Birthday AS SBirthday, s.Weight AS SWeight, s.Height AS SHeight, s.BFPercentage AS SBFPercentage, s.BMR AS SBMR, s.CurrentFocus AS SCurrentFocus, s.Deactivate AS SDeactivated, s.CategoryId AS SCategoryId, s.UserTypeId As SUserTypeId, s.JoinDate AS SJoinDate, s.ImageAddress AS SImageAddress, s.Bio AS SBio, s.Email AS SEmail 
+                         SELECT m.Id, m.Subject, m.DateCreated, m.Opened, m.Content, m.SenderId, m.RecipientId, m.SenderHidden, m.RecipientHidden,
+                                s.Id AS SId, s.DisplayName AS SDisplayName, s.FirstName AS SFirstName, s.LastName AS SLastName, s.Birthday AS SBirthday, s.Weight AS SWeight, s.Height AS SHeight, s.BFPercentage AS SBFPercentage, s.BMR AS SBMR, s.CurrentFocus AS SCurrentFocus, s.Deactivated AS SDeactivated, s.CategoryId AS SCategoryId, s.UserTypeId As SUserTypeId, s.JoinDate AS SJoinDate, s.ImageAddress AS SImageAddress, s.Bio AS SBio, s.Email AS SEmail,
                           
-                                r.Id AS RId, r.DisplayName AS RDisplayName, r.FirstName AS RFirstName, r.LastName AS RLastName, s.Birthday AS RBirthday, r.Weight AS RWeight, r.Height AS RHeight, r.BFPercentage AS RBFPercentage, r.BMR AS RBMR, r.CurrentFocus AS RCurrentFocus, r.Deactivate AS RDeactivated, r.CategoryId AS RCategoryId, r.UserTypeId As RUserTypeId, r.JoinDate AS RJoinDate, r.ImageAddress AS RImageAddress, r.Bio AS RBio, r.Email AS REmail,
+                                r.Id AS RId, r.DisplayName AS RDisplayName, r.FirstName AS RFirstName, r.LastName AS RLastName, s.Birthday AS RBirthday, r.Weight AS RWeight, r.Height AS RHeight, r.BFPercentage AS RBFPercentage, r.BMR AS RBMR, r.CurrentFocus AS RCurrentFocus, r.Deactivated AS RDeactivated, r.CategoryId AS RCategoryId, r.UserTypeId As RUserTypeId, r.JoinDate AS RJoinDate, r.ImageAddress AS RImageAddress, r.Bio AS RBio, r.Email AS REmail,
 
                                 cs.Goal AS SGoal,
                                 cr.Goal AS RGoal,
@@ -75,8 +174,8 @@ namespace Recomp_Resource.Repositories
                                 ur.Type AS RType
 
                           FROM Message m
-                                LEFT JOIN User s ON m.SenderId = s.Id
-                                LEFT JOIN User r ON m.RecipientId = r.Id
+                                LEFT JOIN [User] s ON m.SenderId = s.Id
+                                LEFT JOIN [User] r ON m.RecipientId = r.Id
                                 LEFT JOIN Category cs ON cs.Id = s.CategoryId
                                 JOIN Category cr ON cr.Id = r.CategoryId
                                 JOIN UserType ur ON ur.Id = r.UserTypeId
@@ -109,15 +208,17 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Message (Subject, DateCreated, Opened, SenderId, RecipientId, Content)
+                        INSERT INTO Message (Subject, DateCreated, Opened, SenderId, RecipientId, Content, SenderHidden, RecipientHidden)
                         OUTPUT INSERTED.ID
-                        VALUES (@Subject, @DateCreated, @Opened, @SenderId, @RecipientId, @Content)";
-                    cmd.Parameters.AddWithValue("@Subject", message.Subject);
-                    cmd.Parameters.AddWithValue("@DateCreated", message.DateCreated);
-                    cmd.Parameters.AddWithValue("@Opened", message.Opened);
-                    cmd.Parameters.AddWithValue("@SenderId", message.SenderId);
-                    cmd.Parameters.AddWithValue("@RecipientId", message.RecipientId);
-                    DbUtils.AddParameter(cmd, "@Content", message.Content);
+                        VALUES (@Subject, @DateCreated, @Opened, @SenderId, @RecipientId, @Content, @SenderHidden, @RecipientHidden)";
+                   DbUtils.AddParameter(cmd, "@Subject", message.Subject);
+                   DbUtils.AddParameter(cmd, "@DateCreated", message.DateCreated);
+                   DbUtils.AddParameter(cmd, "@Opened", message.Opened);
+                   DbUtils.AddParameter(cmd, "@SenderId", message.SenderId);
+                   DbUtils.AddParameter(cmd, "@RecipientId", message.RecipientId);
+                   DbUtils.AddParameter(cmd, "@Content", message.Content);
+                   DbUtils.AddParameter(cmd, "@SenderHidden", message.SenderHidden);
+                    DbUtils.AddParameter(cmd, "@RecipientHidden", message.RecipientHidden);
 
                     message.Id = (int)cmd.ExecuteScalar();
                 }
@@ -149,7 +250,8 @@ namespace Recomp_Resource.Repositories
                 DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
                 Opened = reader.GetBoolean(reader.GetOrdinal("Opened")),
                 Content = DbUtils.GetString(reader, "Content"),
-                SenderId = DbUtils.GetInt(reader, "SenderId"),
+                SenderHidden= reader.GetBoolean(reader.GetOrdinal("SenderHidden")),
+                RecipientHidden= reader.GetBoolean(reader.GetOrdinal("RecipientHidden")),
                 RecipientId = DbUtils.GetInt(reader, "RecipientId"),
                 Sender = new User()
                 {
