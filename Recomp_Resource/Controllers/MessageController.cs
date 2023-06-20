@@ -51,6 +51,8 @@ namespace Recomp_Resource.Controllers
         public IActionResult Get(int id)
         {
             var message = _messageRepository.GetMessageById(id);
+            message.Opened = true;
+            _messageRepository.Edit(message);
             if (message == null)
             {
                 return NotFound();
@@ -66,7 +68,7 @@ namespace Recomp_Resource.Controllers
             message.DateCreated = DateTime.Now;
             _messageRepository.Add(message);
 
-            return Ok();
+            return CreatedAtAction("Get", new { id = message.Id }, message);
         }
 
         [HttpDelete("{id}")]

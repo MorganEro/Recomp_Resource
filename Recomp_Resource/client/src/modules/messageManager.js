@@ -2,6 +2,25 @@ import { getToken } from "./authManager";
 
 const apiUrl = "/api/message";
 
+export const getMessageById = (id) => {
+  return getToken().then((token) => {
+    return fetch(`${apiUrl}/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to get this message.",
+        );
+      }
+    });
+  });
+};
+
 export const getAllMessagesOfUser = () => {
   return getToken().then((token) => {
     return fetch(`${apiUrl}/user`, {

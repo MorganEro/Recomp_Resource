@@ -75,7 +75,7 @@ const UserResourceList = () => {
         <section className="container">
           <div className="row">
             <div className="col justify-content-center">
-              <h2> Current Goal Resources</h2>
+              <h2> Current Goal's Resources</h2>
               {resources.map((resource) => (
                 <div className="d-flex flex-column mt-3" key={resource.id}>
                   <UserResource resource={resource} key={resource.id} />

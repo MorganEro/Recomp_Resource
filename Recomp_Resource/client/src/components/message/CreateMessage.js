@@ -16,7 +16,7 @@ import {
 import { addMessage } from "../../modules/messageManager";
 import { getAllUsers, getUserSearch } from "../../modules/userManager";
 
-const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
+const CreateMessage = ({ toggle}) => {
   const [message, setMessage] = useState({
     recipientId: 0,
     subject: "",
@@ -26,10 +26,6 @@ const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
   // const [searchParams, setSearchParams] = useState("");
 
   const handleSubmitButtonClick = () => {
-    if(message.recipientId === 0){
-
-      message.recipientId = RecipientId;
-    }
     addMessage(message).then(() => {
       toggle(false);
       window.location.reload(false);
@@ -55,7 +51,7 @@ const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
       <CardHeader>
         <h2> Compose A Message</h2>
       </CardHeader>
-      {}
+      <br/>
       <CardBody>
         <Form className="text-upper">
           <FormGroup>
@@ -71,6 +67,7 @@ const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
                 setMessage(copy);
               }}
             >
+              <option value="0">Choose Recipient</option>
               {users.map((user) => (
                 <option key={user.id} id={user.id} value={user.id}>
                   {user.displayName}
@@ -116,7 +113,7 @@ const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
         <Button className="mx-5" onClick={handleCancelButtonClick}>
           Cancel
         </Button>
-        {message.content === "" || message.subject === "" ? (
+        {message.content === "" || message.subject === ""|| message.recipientId === 0? (
           <Button disabled className="mx-5">
             Complete Message
           </Button>

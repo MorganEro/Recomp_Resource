@@ -199,6 +199,25 @@ namespace Recomp_Resource.Repositories
                 }
             }
         }
+        public void Edit(Message message)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Message
+                           SET
+                               Opened = @Opened    
+                         WHERE Id = @id";
+                    DbUtils.AddParameter(cmd, "@id", message.Id);
+                    DbUtils.AddParameter(cmd, "@Opened", message.Opened);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
         public void Add(Message message)
         {

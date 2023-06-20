@@ -52,7 +52,7 @@ a {
   border-top: solid 1px rgb(185, 183, 183);
   border-radius: 1%;
   height: 20vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .relative {
@@ -67,4 +67,8 @@ a {
   position: fixed;
   bottom: 8px;
   right: 8px;
+}
+
+.messageList {
+  width: 50vw;
 }
