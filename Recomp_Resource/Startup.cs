@@ -88,7 +88,16 @@ namespace Recomp_Resource
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Recomp_Resource v1"));
+
+                app.UseCors(options =>
+                {
+                    options.WithOrigins("https://icy-cliff-07a5e8810.3.azurestaticapps.net");
+                    options.AllowAnyMethod();
+                    options.AllowAnyHeader();
+                });
             }
+
+            
 
             app.UseHttpsRedirection();
 
