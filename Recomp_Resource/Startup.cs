@@ -91,7 +91,7 @@ namespace Recomp_Resource
 
                 app.UseCors(options =>
                 {
-                    options.WithOrigins("http://localhost:3000", "https://icy-cliff-07a5e8810.3.azurestaticapps.net");
+                    options.WithOrigins("http://localhost:3000", "https://happy-glacier-021c34210.3.azurestaticapps.net");
                     options.AllowAnyMethod();
                     options.AllowAnyHeader();
                 });
