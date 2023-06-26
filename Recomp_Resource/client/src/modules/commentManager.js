@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const apiUrl = "/api/comment";
+const apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/comment`;
 
 export const getAllCommentsByResourceId = (resourceId) => {
   return getToken().then((token) => {

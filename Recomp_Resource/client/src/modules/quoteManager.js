@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const apiUrl = "/api/quote";
+const apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/quote`;
 
 export const getAllQuotes = () => {
   return getToken().then((token) => {

@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const apiUrl = "/api/user";
+const apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/user`;
 
 export const getAllUsers = () => {
   return getToken().then((token) => {
