@@ -9,12 +9,10 @@ import {
   Form,
   FormGroup,
   Input,
-  InputGroup,
-  InputGroupText,
   Label,
 } from "reactstrap";
 import { addMessage } from "../../modules/messageManager";
-import { getAllUsers, getUserSearch } from "../../modules/userManager";
+import { getAllUsers } from "../../modules/userManager";
 
 const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
   const [message, setMessage] = useState({

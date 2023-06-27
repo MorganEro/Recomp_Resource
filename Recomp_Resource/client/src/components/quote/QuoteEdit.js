@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getQuoteById } from "../../modules/quoteManager";
 import { UpdateQuote } from "../../modules/quoteManager";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Form, FormGroup, Input } from "reactstrap";
 
 
 const QuoteEdit = ({toggle, quoteId}) => {

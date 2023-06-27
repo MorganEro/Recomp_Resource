@@ -4,7 +4,6 @@ import User from "./User";
 import {
   Carousel,
   CarouselItem,
-  CarouselControl,
   CarouselIndicators,
   Button,
   Row,
@@ -15,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const UserListCarousel = () => {
   const [users, setUsers] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
+  const [animating] = useState(false);
   const navigate = useNavigate();
 
   const getUsers = () => {

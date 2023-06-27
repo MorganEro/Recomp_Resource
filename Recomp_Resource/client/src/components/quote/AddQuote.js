@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { addQuote } from "../../modules/quoteManager";
-import { Button, Card, CardFooter,  CardTitle, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Form, FormGroup, Input } from "reactstrap";
 
 const AddQuote = ({ getQuotes, toggle }) => {
   const [quote, setQuote] = useState({

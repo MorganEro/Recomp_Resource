@@ -104,7 +104,7 @@ const UserResourceDetails = () => {
         <Button className="mx-5" onClick={handleBackButtonClick}>
           Back
         </Button>
-        {resource.saved == true ? (
+        {resource.saved === true ? (
           <Button disabled>SAVED</Button>
         ) : (
           <Button

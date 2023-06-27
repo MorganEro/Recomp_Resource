@@ -5,7 +5,6 @@ import {
   CardBody,
   CardFooter,
   CardImg,
-  CardTitle,
 } from "reactstrap";
 import { ThisUser } from "../../modules/userManager";
 

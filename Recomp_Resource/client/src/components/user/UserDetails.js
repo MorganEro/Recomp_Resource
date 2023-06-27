@@ -6,8 +6,6 @@ import {
   CardBody,
   CardImg,
   CardTitle,
-  ListGroup,
-  ListGroupItem,
   Modal,
   ModalBody,
 } from "reactstrap";

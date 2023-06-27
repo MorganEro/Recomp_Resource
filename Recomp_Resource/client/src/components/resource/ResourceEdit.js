@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Form, Button, FormGroup, Input, Label } from "reactstrap";
-import { Card, CardBody, CardFooter } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { UpdateResource, getResourceById } from "../../modules/resourceManager";
 
 const ResourceEdit = ({ toggle }) => {
