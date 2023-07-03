@@ -94,6 +94,7 @@ namespace Recomp_Resource
                     options.WithOrigins("http://localhost:3000", "https://happy-glacier-021c34210.3.azurestaticapps.net");
                     options.AllowAnyMethod();
                     options.AllowAnyHeader();
+                    options.AllowCredentials();
                 });
             }
 
