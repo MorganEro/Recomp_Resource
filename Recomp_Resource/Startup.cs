@@ -89,13 +89,6 @@ namespace Recomp_Resource
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Recomp_Resource v1"));
 
-                app.UseCors(options =>
-                {
-                    options.WithOrigins("http://localhost:3000", "https://happy-glacier-021c34210.3.azurestaticapps.net");
-                    options.AllowAnyMethod();
-                    options.AllowAnyHeader();
-                    options.AllowCredentials();
-                });
             }
 
             
@@ -103,6 +96,14 @@ namespace Recomp_Resource
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(options =>
+            {
+                options.WithOrigins("http://localhost:3000", "https://happy-glacier-021c34210.3.azurestaticapps.net");
+                options.AllowAnyMethod();
+                options.AllowAnyHeader();
+                options.AllowCredentials();
+            });
 
             app.UseAuthentication();
 
