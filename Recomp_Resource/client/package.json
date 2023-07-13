@@ -1,6 +1,5 @@
 {
   "name": "client",
-  
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +12,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
     "firebase": "^8.7.1",
+    "mdb-ui-kit": "^6.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.0",

@@ -1,137 +1,169 @@
 import React, { useState } from "react";
-import { NavLink as RRNavLink } from "react-router-dom";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  Button,
-  Modal,
-  ModalBody,
-} from "reactstrap";
+import { Button, Modal, ModalBody } from "reactstrap";
 import { logout } from "../modules/authManager";
 import { ReactComponent as RecompLogo } from "../recompLogo.svg";
 import SendMessage from "./message/SendMessage";
 
 export default function Header({ isLoggedIn, thisUser }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
   const [modal, setModal] = useState(false);
-  const toggle2 = () => setModal(!modal);
-  const AdminId = 1
+  const toggle = () => setModal(!modal);
+  const AdminId = 1;
 
   return (
     <div className="relative">
-      <Navbar fixed="top" color="dark" dark expand="md">
-        <NavbarBrand>
-          <RecompLogo width="30" height="30" fill="#f0f8ff" />
-        </NavbarBrand>
-        <NavbarBrand tag={RRNavLink} to="/">
-          RECOMP RESOURCE
-        </NavbarBrand>
-
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav navbar>
-            {isLoggedIn && (
-              <>
-                {thisUser?.userTypeId === 1 ? (
-                  <>
-                    <NavItem>
-                      <NavLink tag={RRNavLink} to="/resource/adminList">
-                        Resources
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink tag={RRNavLink} to="/quote/list">
-                        Quotes
-                      </NavLink>
-                    </NavItem>
-                  </>
-                ) : (
-                  <NavItem>
-                    <NavLink tag={RRNavLink} to="/resource/userList">
-                      Resources
-                    </NavLink>
-                  </NavItem>
-                )}
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/user/myProfile">
-                    My Profile
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/user/list">
-                    Members
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/message/list">
-                    Messages
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink onClick={logout} href="/login">
-                    Log out
-                  </NavLink>
-                </NavItem>
-
-                <NavbarBrand className="welcome">
-                  {thisUser?.userTypeId === 1 ? (
-                    <div>Welcome, Amin {thisUser?.displayName}</div>
-                  ) : (
-                    <div>Welcome, {thisUser?.displayName}</div>
-                  )}
-                </NavbarBrand>
-              </>
-            )}
-            {!isLoggedIn && (
-              <>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/login">
-                    Login
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/register">
-                    Register
-                  </NavLink>
-                </NavItem>
-              </>
-            )}
-          </Nav>
-        </Collapse>
-      </Navbar>
-      {isLoggedIn && (
-        <>
-        {thisUser?.userTypeId == 2?
-                         
-      (
-      <footer className="mail_admin">
-        <Button
-        color="primary"
-          title="Message Admin"
-          outline
-          size="sm"
-          onClick={toggle2 }
+      <div className="container">
+        <nav
+          className="navbar fixed-top bg-dark navbar-expand-md"
+          data-bs-theme="dark"
         >
-          <i className="fa fa-envelope fa-lg"></i>
-        </Button>
-        <Modal isOpen={modal}
-            toggle={toggle2}>
-              <ModalBody>
-              <SendMessage toggle= {toggle2} RecipientId={AdminId} recipientName ={"Admin"}/>
-              </ModalBody>
-            </Modal>
-      </footer>
-      )
-      :
-      ("")
-            }
-        </>)}
+          <a className="navbar-brand mx-2" href="/">
+            <RecompLogo width="30" height="30" fill="#f0f8ff" />
+          </a>
+          <a className="navbar-brand" href="/">
+            RECOMP RESOURCE
+          </a>
+
+          <button
+            className="navbar-toggler mx-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              {isLoggedIn && (
+                <>
+                  {thisUser?.userTypeId === 1 ? (
+                    <>
+                      <li className="nav-item">
+                        <a className="nav-link" href="/resource/adminList">
+                          Resources
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" href="/quote/list">
+                          Quotes
+                        </a>
+                      </li>
+                    </>
+                  ) : (
+                    <li className="nav-item">
+                      <a className="nav-link" href="/resource/userList">
+                        Resources
+                      </a>
+                    </li>
+                  )}
+
+                  <li className="nav-item">
+                    <a className="nav-link" href="/user/list">
+                      Members
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/message/list">
+                      Messages
+                    </a>
+                  </li>
+                  <li className="navbar-brand ms-md-5">
+                    {thisUser?.userTypeId === 1 ? (
+                      <span className="navbar-text">
+                        Welcome, Admin {thisUser?.displayName}
+                      </span>
+                    ) : (
+                      <span className="navbar-text">
+                        Welcome, {thisUser?.displayName}
+                      </span>
+                    )}
+                  </li>
+                  <li className="nav-item dropdown">
+                    <span
+                      className="dropdown-toggle d-flex align-items-center"
+                      id="navbarDropdownMenuAvatar"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <img
+                        src={thisUser?.imageAddress}
+                        className="rounded mx-2"
+                        height="40"
+                        alt="my avatar"
+                        loading="lazy"
+                      />
+                    </span>
+                    <ul
+                      className="dropdown-menu"
+                      aria-label="navbarDropdownMenuAvatar"
+                    >
+                      <li>
+                        <a className="dropdown-item" href="/user/myProfile">
+                          My profile
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          className="dropdown-item"
+                          href="/login"
+                          onClick={logout}
+                        >
+                          Log Out
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </>
+              )}
+              {!isLoggedIn && (
+                <>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/login">
+                      Login
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/register">
+                      Register
+                    </a>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+        </nav>
+        {isLoggedIn && (
+          <>
+            {thisUser?.userTypeId === 2 ? (
+              <footer className="mail_admin">
+                <Button
+                  color="primary"
+                  title="Message Admin"
+                  outline
+                  size="sm"
+                  onClick={toggle}
+                >
+                  <i className="fa fa-envelope fa-lg"></i>
+                </Button>
+                <Modal isOpen={modal} toggle={toggle}>
+                  <ModalBody>
+                    <SendMessage
+                      toggle={toggle}
+                      RecipientId={AdminId}
+                      recipientName={"Admin"}
+                    />
+                  </ModalBody>
+                </Modal>
+              </footer>
+            ) : (
+              ""
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

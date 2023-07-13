@@ -57,7 +57,7 @@ const UserListCarousel = () => {
             <i className="fa fa-chevron-circle-left"></i>
           </Button>
         </Col>
-        <Col xs= "8">
+        <Col xs="8">
           <Carousel activeIndex={activeIndex} next={next} previous={previous}>
             <CarouselIndicators
               items={users}
@@ -65,8 +65,8 @@ const UserListCarousel = () => {
               onClickHandler={goToIndex}
             />
             {users.map((user) => (
-              <CarouselItem>
-                <User user={user} key={user.id} />
+              <CarouselItem key={user.id}>
+                <User user={user} />
               </CarouselItem>
             ))}
           </Carousel>
