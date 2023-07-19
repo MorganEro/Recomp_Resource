@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardImg,
-  CardTitle,
-  ListGroup,
-  ListGroupItem,
-} from "reactstrap";
+import { useNavigate, useParams } from "react-router-dom";
 import { getResourceById, saveResource } from "../../modules/resourceManager";
 import EnterComment from "../comment/EnterComment";
 import { getAllCommentsByResourceId } from "../../modules/commentManager";
@@ -48,75 +38,96 @@ const UserResourceDetails = () => {
     navigate("../../resource/userList");
   };
   return (
-    <Card>
-      <CardBody>
-        <CardTitle tag="h3">
-          <strong>{resource.title}</strong>
-        </CardTitle>
-        <div>
-          <iframe
-            width="560"
-            height="315"
-            src={resource.content}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
-        </div>
-        <p>
-          <strong>Category</strong> {resource.category?.goal}
-        </p>
-        <p>
-          <strong
-          title="List of topics are keywords that allow you to search for videos similar to your current focus"
-          >Topic</strong> {resource.topic}
-        </p>
-        <p>
-          <strong>Added On</strong>{" "}
-          {new Date(resource.dateAdded).toDateString()}
-        </p>
-        <div className="comment_section">
-          <ListGroup>
-            {comments.map((comment) => (
-              <ListGroupItem key={comment.id}>
-                <CardImg
-                  src={comment?.user?.imageAddress}
-                  style={{ width: "2%" }}
-                  alt="Avatar"
-                />
-                {"  "}
-                <Link to={`../../user/details/${comment?.userId}`}>
-                  <span>{comment?.user?.displayName} </span>
-                </Link>
-                <span>{comment.content}</span>
-              </ListGroupItem>
-            ))}
-          </ListGroup>
+    <div className="container d-flex justify-content-center mb-3">
+      <div className="card shadow-sm" style={{ width: "80vw" }}>
+        <div className="card-body">
+          {/*--------------Header-------------*/}
+          <p>
+            <strong>{resource.title}</strong>
+          </p>
 
-        </div>
+          {/*-------------YouTube-------------*/}
+          <div className="mb-3">
+            <iframe
+              width="90%"
+              height="315"
+              src={resource.content}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
+          </div>
+          <table className="table table-borderless table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Topic</th>
+                <th scope="col">Added On</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{resource.category?.goal}</td>
+                <td title="List of topics are keywords that allow you to search for videos similar to your current focus">
+                  {resource.topic}
+                </td>
+                <td>{new Date(resource.dateAdded).toDateString()}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          {/*--------------Comment List-------------*/}
+          <ul className="list-group mb-3">
+            {comments.map((comment) => (
+              <li className="list-group-item" key={comment.id}>
+                <div className="row align-items center">
+                  <div className="col">
+                    <img
+                      className="rounded"
+                      src={comment?.user?.imageAddress}
+                      alt="avatar"
+                      style={{ width: "45px" }}
+                    />
+                  </div>
+                  <div className="col">
+                    <a href={`../../user/details/${comment?.userId}`}>
+                      <span>{comment?.user?.displayName} </span>
+                    </a>
+                  </div>
+                  <div className="col-7 flex-grow-1 text-start">
+                    {comment.content}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          {/*-------------- Enter Comment-------------*/}
           <div>
             <EnterComment resourceId={resource.id} getComments={getComments} />
           </div>
-      </CardBody>
+        </div>
 
-      <CardFooter>
-        <Button className="mx-5" onClick={handleBackButtonClick}>
-          Back
-        </Button>
-        {resource.saved === true ? (
-          <Button disabled>SAVED</Button>
-        ) : (
-          <Button
-            color="success"
-            className="mx-5"
-            onClick={handleSaveButtonClick}
-          >
-            Save Resource
-          </Button>
-        )}
-      </CardFooter>
-    </Card>
+        {/*--------------Buttons-------------*/}
+
+        <div className="d-flex justify-content-evenly mb-3">
+          <button className="btn btn-secondary" onClick={handleBackButtonClick}>
+            Back
+          </button>
+          {resource.saved === true ? (
+            <button className="btn btn-sm btn-secondary" disabled>
+              {" "}
+              SAVED{" "}
+            </button>
+          ) : (
+            <button className="btn btn-success" onClick={handleSaveButtonClick}>
+              Save Resource
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 export default UserResourceDetails;

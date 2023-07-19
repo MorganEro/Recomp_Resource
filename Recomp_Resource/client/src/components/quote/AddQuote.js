@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { addQuote } from "../../modules/quoteManager";
-import { Button, Form, FormGroup, Input } from "reactstrap";
 
 const AddQuote = ({ getQuotes, toggle }) => {
   const [quote, setQuote] = useState({
@@ -21,16 +20,15 @@ const AddQuote = ({ getQuotes, toggle }) => {
   };
 
   return (
-    <Form>
-      <h2> Add A Quote</h2>
-      <FormGroup>
-        
-        <Input
+    <div className="card p-2">
+      <h2 className="card-title text-center mb-2"> Add Quote</h2>
+      <div className="form mb-2">
+        <textarea
           required
           autoFocus
-          className="my-3"
-          type="textarea"
-          placeholder="quote"
+          rows="3"
+          className="form-control mb-3 "
+          aria-label="add quote input field"
           value={quote.content}
           onChange={(evt) => {
             const copy = { ...quote };
@@ -38,13 +36,30 @@ const AddQuote = ({ getQuotes, toggle }) => {
             setQuote(copy);
           }}
         />
-        <Button color="success" className= "mx-5" onClick={handleSubmitButtonClick}>Submit Changes</Button>
-
-        <Button outline className= "mx-5"   onClick={handleCancelButtonClick}>Cancel</Button>
-      </FormGroup>
-     
-      
-    </Form>
+        <div className="d-flex justify-content-evenly mb-1">
+          {quote.content === "" ? (
+            <button className="btn btn-secondary mx-5" disabled>
+              Complete
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-success mx-5"
+              onClick={handleSubmitButtonClick}
+            >
+              Submit
+            </button>
+          )}
+          <button
+            type="button"
+            className="btn btn-outline-danger mx-5"
+            onClick={handleCancelButtonClick}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 export default AddQuote;

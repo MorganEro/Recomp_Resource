@@ -1,22 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UpdateUser, getUserById } from "../../modules/userManager";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardImg,
-  CardTitle,
-  Col,
-  Form,
-  FormGroup,
-  Input,
-  InputGroup,
-  InputGroupText,
-  Label,
-  Row,
-} from "reactstrap";
 
 const UserEdit = () => {
   const [user, setUser] = useState({
@@ -32,7 +16,6 @@ const UserEdit = () => {
     imageAddress: "",
     currentFocus: "",
     bio: "",
-
   });
   const { id } = useParams();
   const navigate = useNavigate();
@@ -53,288 +36,292 @@ const UserEdit = () => {
   };
 
   return (
-    <Card>
-      <br />
-      <CardBody>
-        <Row>
-          <Col className="my-3">
-            <CardTitle tag="h1"> User Edit</CardTitle>
+    <div className="container d-flex justify-content-center">
+      <div className="card" style={{ width: "80vw" }}>
+        <h2 className="card-title">
+          <strong>User Edit</strong>
+        </h2>
 
-            <CardImg
-              style={{
-                width: "25rem",
-              }}
-              src={user.imageAddress}
-              alt="profile's picture"
-            />
-          </Col>
-          <Col className="mx-3 d-flex align-items-center justify-content-center">
-            <Form>
-              <FormGroup>
-                <Row>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText>First Name</InputGroupText>
-                      <Input
-                        required
-                        autoFocus
-                        type="text"
-                        className=" "
-                        value={user.firstName}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.firstName = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText>Last Name</InputGroupText>
-                      <Input
-                        required
-                        autoFocus
-                        type="text"
-                        className=" "
-                        value={user.lastName}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.lastName = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText>Display Name</InputGroupText>
-                      <Input
-                        required
-                        autoFocus
-                        type="text"
-                        className=" "
-                        value={user.displayName}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.displayName = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                </Row>
-              </FormGroup>
-              <FormGroup>
-                <Row>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText>Birthday</InputGroupText>
-                      <Input
-                        required
-                        autoFocus
-                        type="date"
-                        className=" "
-                        value={user.birthday?.split("T")[0]}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.birthday = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText>Height</InputGroupText>
-                      <Input
-                        autoFocus
-                        type="text"
-                        className=" "
-                        value={user.height}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.height = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText>Weight</InputGroupText>
-                      <Input
-                        autoFocus
-                        type="text"
-                        className="form-control"
-                        value={user.weight}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.weight = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                </Row>
-              </FormGroup>
-              <FormGroup>
-                <Row>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText>Body Fat Percentage</InputGroupText>
-                      <Input
-                        autoFocus
-                        type="text"
-                        className=" "
-                        value={user.bfPercentage}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.bfPercentage = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText
-                      title="click here to go to a BMR calculator"
-                      >
-                        <Link 
-                        to={"https://tdeecalculator.net/"}
-                        target="blank"
-                        >
-                        Basal Metabolic Rate
-                        </Link>
-                        </InputGroupText>
-                      <Input
-                        autoFocus
-                        type="text"
-                        className=" "
-                        value={user.bmr}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.bmr = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                </Row>
-              </FormGroup>
-              <FormGroup>
-                <Row>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText>Goal</InputGroupText>
-                      <Input
-                        required
-                        autoFocus
-                        type="select"
-                        value={user.categoryId}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.categoryId = parseInt(evt.target.value);
-                          setUser(copy);
-                        }}
-                      >
-                        <option id="0" value="0">
-                          --Choose a Category--
-                        </option>
-                        <option id="1" value="1">
-                          Fat Loss
-                        </option>
-                        <option id="2" value="2">
-                          Weight Gain
-                        </option>
-                      </Input>
-                    </InputGroup>
-                  </Col>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText>Image Address</InputGroupText>
-                      <Input
-                        autoFocus
-                        type="text"
-                        className=" "
-                        value={user.imageAddress}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.imageAddress = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                  <Col>
-                    <InputGroup>
-                      <InputGroupText 
-                      title="current focus to reach your goal. (example: weights, running, sleep)">Current Focus</InputGroupText>
-                      <Input
-                        required
-                        autoFocus
-                        type="text"                        
-                        value={user.currentFocus}
-                        onChange={(evt) => {
-                          const copy = { ...user };
-                          copy.currentFocus = evt.target.value;
-                          setUser(copy);
-                        }}
-                      />
-                    </InputGroup>
-                  </Col>
-                </Row>
-              </FormGroup>
-              <FormGroup>
-                <Row>
-                  <Label for="exampleText">About Me</Label>
-                  <Input
-                    autoFocus
-                    type="textarea"
-                    className="form-control"
-                    rows={3}
-                    value={user.bio}
-                    onChange={(evt) => {
-                      const copy = { ...user };
-                      copy.bio = evt.target.value;
-                      setUser(copy);
-                    }}
-                  />
-                </Row>
-              </FormGroup>
-            </Form>
-          </Col>
-        </Row>
-      </CardBody>
-      <CardFooter>
-        {user.currentFocus === "" ||
-        user.firstName === "" ||
-        user.lastName === "" ||
-        user.displayName === "" ||
-        user.goal === 0 ? (
-          <Button outline disabled color="primary">
-            Complete Changes
-          </Button>
-        ) : (
-          <Button
-            className="mx-5"
-            color="success"
-            onClick={handleSubmitButtonClick}
+        <img
+          className="card-image-top"
+          style={{
+            width: "100%",
+          }}
+          src={user.imageAddress}
+          alt="profile"
+        />
+        <div className="card-body">
+          <form>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                First Name
+              </span>
+              <input
+                required
+                autoFocus
+                value={user.firstName}
+                type="text"
+                className="form-control"
+                aria-label="First Name Field"
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.firstName = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                Last Name
+              </span>
+              <input
+                required
+                autoFocus
+                value={user.lastName}
+                type="text"
+                className="form-control"
+                aria-label="Last Name Field"
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.lastName = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                DisplayName
+              </span>
+              <input
+                required
+                autoFocus
+                className="form-control"
+                aria-label="Display Name Field"
+                type="text"
+                value={user.displayName}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.displayName = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                Weight
+              </span>
+              <input
+                required
+                autoFocus
+                className="form-control"
+                aria-label="Last Name Field"
+                type="text"
+                value={user.weight}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.weight = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                Height
+              </span>
+              <input
+                required
+                autoFocus
+                className="form-control"
+                aria-label="Height Field"
+                type="text"
+                value={user.height}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.height = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                Body Fat Percentage
+              </span>
+              <input
+                autoFocus
+                className="form-control"
+                aria-label="Body Fat Field"
+                type="text"
+                value={user.bfPercentage}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.bfPercentage = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                Basal Metabolic Rate
+              </span>
+              <input
+                autoFocus
+                className="form-control"
+                aria-label="Basal Metabolic Rate Field"
+                type="text"
+                value={user.bmr}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.bmr = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+              <span
+                className="input-group-text"
+                id="inputGroup-sizing-sm"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-title="Click for a BMR calculator"
+              >
+                <a href={"https://tdeecalculator.net/"} target="blank">
+                  <i className="fa fa-question-circle text-muted"></i>
+                </a>
+              </span>
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                Birthday
+              </span>
+              <input
+                required
+                autoFocus
+                className="form-control"
+                type="date"
+                aria-label="Birthday Field"
+                value={user.birthday?.split("T")[0]}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.birthday = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                Current Focus
+              </span>
+              <input
+                required
+                title="current focus to reach your goal. (example: weights, running, sleep)"
+                placeholder="ex: running, nutrition, lifting..."
+                autoFocus
+                className="form-control"
+                type="text"
+                aria-label="Current Focus Field"
+                value={user.currentFocus}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.currentFocus = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <label className="input-group-text" htmlFor="inputGroupSelect">
+                Goal
+              </label>
+              <select
+                required
+                autoFocus
+                className="form-select"
+                id="inputGroupSelect"
+                value={user.categoryId}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.categoryId = evt.target.value;
+                  setUser(copy);
+                }}
+              >
+                <option defaultValue={0}>Choose...</option>
+                <option id="1" value="1">
+                  Fat Loss
+                </option>
+                <option id="2" value="2">
+                  Weight Gain
+                </option>
+              </select>
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                Image URL
+              </span>
+              <input
+                required
+                autoFocus
+                className="form-control"
+                type="text"
+                aria-label="profile picture url Field"
+                value={user.imageAddress}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.imageAddress = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <span className="input-group-text" id="inputGroup-sizing-sm">
+                About Me
+              </span>
+              <textarea
+                rows={3}
+                autoFocus
+                className="form-control"
+                aria-label="about me Text area"
+                value={user.bio}
+                onChange={(evt) => {
+                  const copy = { ...user };
+                  copy.bio = evt.target.value;
+                  setUser(copy);
+                }}
+              />
+            </div>
+          </form>
+        </div>
+        <div className="card-footer">
+          {user.currentFocus === "" ||
+          user.firstName === "" ||
+          user.lastName === "" ||
+          user.displayName === "" ||
+          user.categoryId === "Choose..." ? (
+            <span
+              type="button"
+              className="btn btn-secondary mx-5 my-3"
+              disabled
+            >
+              Complete Changes
+            </span>
+          ) : (
+            <span
+              type="button"
+              className="btn btn-success mx-5 my-3"
+              color="success"
+              onClick={handleSubmitButtonClick}
+            >
+              Submit Changes
+            </span>
+          )}
+
+          <span
+            type="button"
+            className=" btn btn-danger my-3"
+            color="secondary"
+            onClick={handleCancelButtonClick}
           >
-            Submit Changes
-          </Button>
-        )}
-
-        <Button
-          className="mx-5"
-          color="secondary"
-          onClick={handleCancelButtonClick}
-        >
-          Cancel
-        </Button>
-      </CardFooter>
-    </Card>
+            Cancel
+          </span>
+        </div>
+      </div>
+    </div>
   );
 };
 

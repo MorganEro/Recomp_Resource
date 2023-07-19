@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardImg,
-  ListGroup,
-  ListGroupItem,
-  Modal,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import { Badge, Modal, ModalBody, ModalFooter } from "reactstrap";
 import { DeleteResource, getResourceById } from "../../modules/resourceManager";
 import EnterComment from "../comment/EnterComment";
-import { DeleteComment, getAllCommentsByResourceId } from "../../modules/commentManager";
+import {
+  DeleteComment,
+  getAllCommentsByResourceId,
+} from "../../modules/commentManager";
 import ResourceEdit from "./ResourceEdit";
 
 const AdminResourceDetails = () => {
@@ -50,7 +41,7 @@ const AdminResourceDetails = () => {
   };
   const handleDeleteCommentButtonClick = () => {
     DeleteComment(id).then(() => {
-     getComments()
+      getComments();
     });
   };
   const handleCancelButtonClick = () => {
@@ -61,112 +52,121 @@ const AdminResourceDetails = () => {
   };
 
   return (
-    <Card>
-      <CardBody>
-        <p>
-          <strong>{resource.title}</strong>
-        </p>
-        <div>
-          <iframe
-            width="560"
-            height="315"
-            src={resource.content}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
-        </div>
-
-        <p>
-          <strong>Category</strong> {resource.category?.goal}
-        </p>
-        <p>
-          <strong>Topics </strong> {resource.topic}
-        </p>
-        <p>
-          <strong>Added On</strong>{" "}
-          {new Date(resource.dateAdded).toDateString()}
-        </p>
-        <p>
-          <strong>Saves</strong> <Badge pill>{resource.numberOfSaves}</Badge>
-        </p>
-        <div className="comment_section">
-          <ListGroup>
+    <div className="container d-flex justify-content-center">
+      <div className="card shadow-sm mb-3" style={{ width: "80vw" }}>
+        {/*--------------header-------------*/}
+        <div className="card-body">
+          <p>
+            <strong>{resource.title}</strong>
+          </p>
+          {/*-------------YouTube-------------*/}
+          <div className="mb-3">
+            <iframe
+              width="90%"
+              height="315"
+              src={resource.content}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
+          </div>
+          <table class="table table-borderless table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Topic</th>
+                <th scope="col">Added On</th>
+                <th scope="col">Saves</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{resource.category?.goal}</td>
+                <td title="List of topics are keywords that allow you to search for videos similar to your current focus">
+                  {resource.topic}
+                </td>
+                <td>{new Date(resource.dateAdded).toDateString()}</td>
+                <td>
+                  <Badge pill>{resource.numberOfSaves}</Badge>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {/*--------------Comment List-------------*/}
+          <ul className="list-group mb-3">
             {comments.map((comment) => (
-              <ListGroupItem key={comment.id}>
-                <CardImg
-                  src={comment?.user?.imageAddress}
-                  style={{ width: "2%" }}
-                  alt="Avatar"
-                />
-                {"  "}
-                <Link to={`../../user/details/${comment?.userId}`}>
-                  <span>{comment?.user?.displayName} </span>
-                </Link>
-                <span>{comment.content}</span>
-                <Button outline size="sm" color="secondary" onClick={handleDeleteCommentButtonClick}>
-            <i className="fa fa-trash fa-lg"></i>
-          </Button>
-              </ListGroupItem>
+              <li className="list-group-item" key={comment.id}>
+                <div class="row align-items-center">
+                  <div class="col">
+                    <img
+                      className="rounded"
+                      src={comment?.user?.imageAddress}
+                      alt="avatar"
+                      style={{ width: "45px" }}
+                    />
+                  </div>
+                  <div class="col">
+                    <a href={`../../user/details/${comment?.userId}`}>
+                      <span>{comment?.user?.displayName} </span>
+                    </a>
+                  </div>
+                  <div className="col-7 flex-grow-1 text-start">
+                    {comment.content}
+                  </div>
+                  <div class="col">
+                    <button
+                      outline
+                      className="btn btn-outline-danger"
+                      onClick={handleDeleteCommentButtonClick}
+                    >
+                      <i className="fa fa-trash fa-sm"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
             ))}
-          </ListGroup>
+          </ul>
+          {/*--------------Add Comment Input-------------*/}
+          <div>
+            <EnterComment resourceId={resource.id} getComments={getComments} />
+          </div>
         </div>
 
-        <div>
-          <EnterComment resourceId={resource.id} getComments={getComments} />
-        </div>
-      </CardBody>
-      {/*--------------Modals-------------*/}
-      <CardFooter justified="true">
-        <Button
-          color="secondary"
-          size="sm"
-          className="mx-5"
-          onClick={handleBackButtonClick}
-        >
-          Back
-        </Button>
-        <Button outline color="primary" className="mx-5" onClick={toggle}>
-          Edit
-          <Modal isOpen={modal} toggle={toggle}>
+        {/*--------------Buttons and Modals-------------*/}
+        <div className="d-flex justify-content-evenly mb-3">
+          <button className="btn btn-secondary" onClick={handleBackButtonClick}>
+            Back
+          </button>
+
+          <button className="btn btn-primary " onClick={toggle}>
+            Edit
+            <Modal isOpen={modal} toggle={toggle}>
+              <ModalBody>
+                <ResourceEdit toggle={toggle} />
+              </ModalBody>
+            </Modal>
+          </button>
+
+          <button className="btn btn-danger " onClick={deleteToggle}>
+            Delete
+          </button>
+          <Modal isOpen={deleteModal} toggle={deleteToggle}>
             <ModalBody>
-              <ResourceEdit toggle={toggle} />
+              You are about to delete a valuable resource. Are you sure?
             </ModalBody>
+            <ModalFooter>
+              <button className="btn mx-5" onClick={handleCancelButtonClick}>
+                Cancel
+              </button>
+              <button className="btn btn-danger mx-5" onClick={DeleteButton}>
+                Delete
+              </button>
+            </ModalFooter>
           </Modal>
-        </Button>
-        <Button
-          color="danger"
-          size="sm"
-          className="mx-5"
-          onClick={deleteToggle}
-        >
-          Delete
-        </Button>
-        <Modal isOpen={deleteModal} toggle={deleteToggle}>
-          <ModalBody>
-            You are about to delete a valuable resource. Are you sure?
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              size="sm"
-              className="mx-5"
-              onClick={handleCancelButtonClick}
-            >
-              Cancel
-            </Button>
-            <Button
-              size="sm"
-              className="mx-5"
-              color="danger"
-              onClick={DeleteButton}
-            >
-              Delete
-            </Button>
-          </ModalFooter>
-        </Modal>
-      </CardFooter>
-    </Card>
+        </div>
+      </div>
+    </div>
   );
 };
 export default AdminResourceDetails;

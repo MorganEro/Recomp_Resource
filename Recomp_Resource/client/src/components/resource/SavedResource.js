@@ -1,34 +1,32 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter } from "reactstrap";
 import { UnSaveResource } from "../../modules/resourceManager";
 
 const SavedResource = ({ savedResource, getSavedResources }) => {
-  
-  
   const UnSaveButton = (e) => {
     e.preventDefault();
 
     UnSaveResource(savedResource?.id).then(() => {
-        getSavedResources()
-     });
-    
+      getSavedResources();
+    });
   };
 
   return (
-    <Card>
-      <CardBody>
+    <div className="card">
+      <div className="card-body">
         <p>
-          <Link to={`../../resource/savedDetails/${savedResource?.id}`}>
+          <a href={`../../resource/savedDetails/${savedResource?.id}`}>
             <strong>{savedResource?.resource?.title}</strong>
-          </Link>
+          </a>
         </p>
-        <p><strong>Focus</strong> {savedResource?.resource?.topic}</p>
-      </CardBody>
-      <CardFooter>
-        <Button color= "danger" onClick={UnSaveButton}>UnSave</Button>
-      </CardFooter>
-    </Card>
+        <p>
+          <strong>Focus</strong> {savedResource?.resource?.topic}
+        </p>
+      </div>
+
+      <button className="btn btn-danger mx-3 mb-3" onClick={UnSaveButton}>
+        UnSave
+      </button>
+    </div>
   );
 };
 export default SavedResource;

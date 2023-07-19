@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { login } from "../modules/authManager";
 
 export default function Login() {
@@ -17,29 +16,49 @@ export default function Login() {
   };
 
   return (
-    <Form onSubmit={loginSubmit}>
-      <fieldset>
-        <FormGroup>
-          <Label for="email">Email</Label>
-          <Input
-            id="email"
-            type="text"
-            autoFocus
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Button>Login</Button>
-        </FormGroup>
-      </fieldset>
-    </Form>
+    <div
+      className="container d-flex justify-content-center"
+      style={{ width: "70vw" }}
+    >
+      <form className="mb-3 row justify-content-center" onSubmit={loginSubmit}>
+        <fieldset className="mb-3 row">
+          <label htmlFor="username" className="col-sm-2 col-form-label">
+            Email
+          </label>
+          <div className="col-sm-10">
+            <input
+              autoFocus
+              type="email"
+              autoComplete="username"
+              className="form-control"
+              id="username"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        </fieldset>
+        <fieldset className="mb-3 row">
+          <label htmlFor="password" className="col-sm-2 col-form-label">
+            Password
+          </label>
+          <div className="col-sm-10">
+            <input
+              autoFocus
+              type="password"
+              autoComplete="current-password"
+              className="form-control"
+              id="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        </fieldset>
+        <button
+          className="btn btn-secondary"
+          style={{ width: "100px" }}
+          onClick={loginSubmit}
+        >
+          Login
+        </button>
+      </form>
+    </div>
   );
 }

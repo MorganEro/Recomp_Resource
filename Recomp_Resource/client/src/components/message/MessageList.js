@@ -4,7 +4,6 @@ import {
   getAllMessagesReceivedByUser,
   getAllMessagesSentByUser,
 } from "../../modules/messageManager";
-import { Link } from "react-router-dom";
 import { Button, Modal, ModalBody } from "reactstrap";
 import CreateMessage from "./CreateMessage";
 import Message from "./Message";

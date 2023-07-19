@@ -4,7 +4,7 @@ import {
   getResourceSearch,
 } from "../../modules/resourceManager";
 import AdminResource from "./AdminResource";
-import { Button, Input, InputGroup, Modal, ModalBody } from "reactstrap";
+import { Modal, ModalBody } from "reactstrap";
 import AddResource from "./AddResource";
 
 const AdminResourceList = () => {
@@ -44,56 +44,67 @@ const AdminResourceList = () => {
   };
 
   return (
-    <>
-      <div className="container m-4">
-        <InputGroup className="search-wrapper">
-          <Button outline size="sm" color="secondary" onClick={getResources}>
-            Show All
-          </Button>
-          <Input
-            type="search"
-            name="search-form"
-            id="search-form"
-            className="searchInput rounded"
-            placeholder="DisplayName/Focus..."
-            onChange={(event) => {
-              setSearchParams(event.target.value);
-            }}
-          />
-          <Button outline size="sm" color="secondary" onClick={search}>
-            <i className="fa fa-search fa-lg"></i>
-          </Button>
-        </InputGroup>
+    <div className="container-fluid mb-5" style={{ width: "80vw" }}>
+      {/* ------------search bar-------------------- */}
+      <form className="d-flex mb-5" role="search">
+        <button className="btn btn-dark" onClick={getResources}>
+          All
+        </button>
+        <input
+          type="search"
+          id="search-form"
+          className="form-control mx-2"
+          placeholder="DisplayName/Focus..."
+          onChange={(event) => {
+            setSearchParams(event.target.value);
+          }}
+        />
+        <button className="btn btn-secondary" onClick={search}>
+          <i className="fa fa-search fa-lg"></i>
+        </button>
+      </form>
+
+      {/* ------------Heading-------------------- */}
+      <h1 className="text-center">
+        <strong>RESOURCES</strong>{" "}
+      </h1>
+
+      {/* ------------Dropdown and Add buttons-------------------- */}
+      <div className="d-flex justify-content-between">
+        <div className="dropdown">
+          <button
+            className="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Sort Resources
+          </button>
+          <ul className="dropdown-menu">
+            <li className="dropdown-item" onClick={sortButtonDate}>
+              Oldest First
+            </li>
+            <li className="dropdown-item" onClick={sortButtonMostSaves}>
+              Most Saves
+            </li>
+          </ul>
+        </div>
+        <button
+          className="btn btn-outline-success mx-2"
+          title="Add Resource"
+          onClick={toggle}
+        >
+          <i className="fa fa-plus"></i>
+          {/* ------------Add Modal-------------------- */}
+          <Modal isOpen={modal} toggle={toggle}>
+            <ModalBody>
+              <AddResource toggle={toggle} />
+            </ModalBody>
+          </Modal>
+        </button>
       </div>
-      <h1 className="text-center"> RESOURCES</h1>
-      <Button
-        size="sm"
-        outline
-        className="mx-5"
-        color="primary"
-        onClick={sortButtonDate}
-      >
-        Oldest First
-      </Button>
-      <Button
-        size="sm"
-        outline
-        color="primary"
-        className="mx-5"
-        onClick={sortButtonMostSaves}
-      >
-        Most Saves
-      </Button>
 
-      <Button size="sm" className="mx-5" onClick={toggle}>
-        ADD
-        <Modal isOpen={modal} toggle={toggle}>
-          <ModalBody>
-            <AddResource toggle={toggle} />
-          </ModalBody>
-        </Modal>
-      </Button>
-
+      {/* ------------Resource List-------------------- */}
       <section className="container">
         <div>
           {resources.map((resource) => (
@@ -103,7 +114,7 @@ const AdminResourceList = () => {
           ))}
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

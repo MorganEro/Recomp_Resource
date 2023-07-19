@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  CardTitle,
-  Modal,
-  ModalBody,
-} from "reactstrap";
+import { Modal, ModalBody } from "reactstrap";
 import { getUserById } from "../../modules/userManager";
 import SendMessage from "../message/SendMessage";
 
@@ -28,61 +20,72 @@ const UserDetails = () => {
   };
 
   return (
-    <>
-    <div className="d-flex">
-
-      <Button className="my-2" onClick={handleBackButtonClick}>Back</Button>
-    </div>
-    <div>
-
-      <Card
-        style={{
-          width: "50rem",
-        }}
+    <div className="container d-flex flex-column align-items-center">
+      {/*--------------Back Button-------------*/}
+      <button
+        title="Previous page"
+        className="btn btn-secondary mb-2 align-self-start"
+        onClick={handleBackButtonClick}
       >
-        <CardTitle tag="h1">
+        <i className="fa fa-arrow-circle-left"></i>
+      </button>
+
+      {/*--------------Card-------------*/}
+      <div
+        className="card d-flex justify-content-start mb-5"
+        style={{ width: "20rem" }}
+      >
+        {/*--------------Image-------------*/}
+        <img className="card-img mb-3" src={user.imageAddress} alt="user" />
+
+        {/*--------------User Info-------------*/}
+        <h1 className="card-title">
           <strong>{user.displayName}</strong>
-        </CardTitle>
-       
-        <CardBody className="container">
-          <section className="row">
-            <section className="col">
-              <CardImg src={user.imageAddress} alt="user" />
-            </section>
-            <section className="col my-3">
-              <div><strong>Age</strong>{" "}
- {user.age}</div>
-              <div><strong>Current Focus</strong>{" "}
- {user.currentFocus}</div>
-              <div><strong>Goal</strong>{" "} {user?.category?.goal}</div>
-              <div>
-              <strong>Member Since</strong>{" "}{new Date(user.joinDate).toDateString()}
-              </div>
-              <div><strong>Bio</strong>{" "} {user.bio}</div>
-              <div>
-              <strong>Active</strong>{" "}
-                {user?.deactivated?.toString() === "false"
-                  ? "Account Active"
-                  : "Account Deactivated"}
-              </div>
-              <Button 
-              title={`Send ${user.displayName} a Message`}
-              outline size="sm" 
-              onClick={toggle}>
-              <i className="fa fa-envelope fa-lg"></i>
-            </Button>
-            <Modal isOpen={modal}
-            toggle={toggle}>
-              <ModalBody>
-              <SendMessage toggle= {toggle} recipientId={user.id} recipientName ={user.displayName}/>
-              </ModalBody>
-            </Modal>
-            </section>
-          </section>
-        </CardBody>
-      </Card>
+        </h1>
+
+        <div>
+          <strong>Age</strong> {user.age}
+        </div>
+        <div>
+          <strong>Current Focus</strong> {user.currentFocus}
+        </div>
+        <div>
+          <strong>Goal</strong> {user?.category?.goal}
+        </div>
+        <div>
+          <strong>Member Since</strong> {new Date(user.joinDate).toDateString()}
+        </div>
+        <div>
+          <strong>Bio</strong> {user.bio}
+        </div>
+        <div>
+          <strong>Active</strong>{" "}
+          {user?.deactivated?.toString() === "false"
+            ? "Account Active"
+            : "Account Deactivated"}
+        </div>
+        {/*--------------Email Button and Modal-------------*/}
+        <div>
+          <button
+            title={`Send ${user.displayName} a Message`}
+            className="btn btn-outline-secondary m-3"
+            style={{ width: "50px" }}
+            onClick={toggle}
+          >
+            <i className="fa fa-envelope fa-lg"></i>
+          </button>
+          <Modal isOpen={modal} toggle={toggle}>
+            <ModalBody>
+              <SendMessage
+                toggle={toggle}
+                recipientId={user.id}
+                recipientName={user.displayName}
+              />
+            </ModalBody>
+          </Modal>
+        </div>
+      </div>
     </div>
-    </>
   );
 };
 export default UserDetails;

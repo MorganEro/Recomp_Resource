@@ -6,9 +6,10 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 const CommentList = ({ resourceId }) => {
   const [comments, setComments] = useState([]);
 
-
   const getComments = () => {
-    getAllCommentsByResourceId(resourceId).then((comments) => setComments(comments));
+    getAllCommentsByResourceId(resourceId).then((comments) =>
+      setComments(comments)
+    );
   };
 
   useEffect(() => {
@@ -16,12 +17,14 @@ const CommentList = ({ resourceId }) => {
   }, []);
 
   return (
-      <ListGroup>
-          {comments.map((comment) => (
-            <ListGroupItem key = {comment.id}>
-              <Strong> {comment?.user?.displayName}</Strong><span>{comment.content}</span></ListGroupItem>
-          ))}
-        </ListGroup>
+    <ListGroup>
+      {comments.map((comment) => (
+        <ListGroupItem key={comment.id}>
+          <strong> {comment?.user?.displayName}</strong>
+          <span>{comment.content}</span>
+        </ListGroupItem>
+      ))}
+    </ListGroup>
   );
 };
 export default CommentList;

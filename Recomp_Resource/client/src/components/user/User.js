@@ -1,39 +1,43 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
 
 const User = ({ user }) => {
   return (
-    <Card>
-      <CardBody style={{backgroundColor: '#E5E7E9'}}>
-        <CardTitle tag="h3">
-          <Link to={`../../user/details/${user.id}`}>
-            <strong>{user.displayName}</strong>
-          </Link>
-        </CardTitle>
-        <Row>
-          <Col>
-            <CardImg
-              src={user.imageAddress}
-              style={{ width: "15em" }}
-              alt="Avatar"
-            />
-          </Col>
-          <Col>
-          <p><strong>Current Focus</strong> {" "}{user.currentFocus}</p>
-        <p><strong>Goal</strong>{" "} {user?.category?.goal}</p>
-        <p><strong>Join Date</strong>{" "} {user.joinDate}</p>
-        <p>
-        <strong>Active</strong>{" "}
-          {user?.deactivated?.toString() === "false"
-            ? "Account Active"
-            : "Account Deactivated"}
-        </p></Col>
-        </Row>
-        <strong></strong>
-
-      </CardBody>
-    </Card>
+    <div className="card h-100">
+      {/*--------------Image-------------*/}
+      <div className="row g-0 align-items-center">
+        <div className="col-4">
+          <img
+            className="img-fluid rounded p-2"
+            src={user.imageAddress}
+            alt="user"
+          />
+        </div>
+        {/*--------------User Info-------------*/}
+        <div className="col-8">
+          <div className="card-body">
+            <h1 className="card-title">
+              <a href={`../../user/details/${user.id}`}>
+                <strong>{user.displayName}</strong>{" "}
+              </a>
+            </h1>
+            <div className="card-text">
+              <div>
+                <strong>Current Focus</strong> {user.currentFocus}
+              </div>
+              <div>
+                <strong>Goal</strong> {user?.category?.goal}
+              </div>
+              <div>
+                <strong>Active</strong>{" "}
+                {user?.deactivated?.toString() === "false"
+                  ? "Account Active"
+                  : "Account Deactivated"}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 export default User;
