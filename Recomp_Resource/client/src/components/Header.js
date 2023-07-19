@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, ModalBody } from "reactstrap";
+import { Modal, ModalBody } from "reactstrap";
 import { logout } from "../modules/authManager";
 import { ReactComponent as RecompLogo } from "../recompLogo.svg";
 import SendMessage from "./message/SendMessage";
@@ -138,16 +138,15 @@ export default function Header({ isLoggedIn, thisUser }) {
         {isLoggedIn && (
           <>
             {thisUser?.userTypeId === 2 ? (
-              <footer className="mail_admin">
-                <Button
-                  color="primary"
+              <nav className="navbar fixed-bottom justify-content-end mx-2">
+                <button
                   title="Message Admin"
-                  outline
-                  size="sm"
+                  className="btn btn-sm btn-primary"
+                  style={{ width: "40px" }}
                   onClick={toggle}
                 >
                   <i className="fa fa-envelope fa-lg"></i>
-                </Button>
+                </button>
                 <Modal isOpen={modal} toggle={toggle}>
                   <ModalBody>
                     <SendMessage
@@ -157,7 +156,7 @@ export default function Header({ isLoggedIn, thisUser }) {
                     />
                   </ModalBody>
                 </Modal>
-              </footer>
+              </nav>
             ) : (
               ""
             )}

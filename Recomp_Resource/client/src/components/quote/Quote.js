@@ -1,60 +1,67 @@
 import React, { useState } from "react";
 
 import { DeleteQuote } from "../../modules/quoteManager";
-import {
-  Button,
-  Card,
-  CardBody,
-  Modal,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+import { Modal, ModalBody, ModalFooter } from "reactstrap";
 import QuoteEdit from "./QuoteEdit";
 
 const Quote = ({ quote, getQuotes }) => {
   const [modal, setModalQ] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const toggleQ = () => setModalQ(!modal);
-  const deleteToggle = () => setDeleteModal(!modal);
+  const deleteToggle = () => setDeleteModal(!deleteModal);
 
   const handleDeleteButtonClick = () => {
     DeleteQuote(quote.id).then(() => {
-      getQuotes()
-    })
-   
+      getQuotes();
+    });
   };
   const handleCancelButtonClick = () => {
     setDeleteModal(false);
-   }
+  };
 
   return (
-    <Card>
-      <CardBody >
-        <p>{quote.content}</p>
-        <Button outline color="primary" className="mx-5"  onClick={toggleQ}>
-          Edit
-          <Modal isOpen={modal} toggle={toggleQ}>
-            <ModalBody>
-              <QuoteEdit quoteId={quote.id} toggle={toggleQ} />
-            </ModalBody>
-          </Modal>
-        </Button>
-        <Button outline size="sm" color="danger"  className="mx-5"  onClick={deleteToggle}>
-          Delete
-        </Button>
-        <Modal isOpen={deleteModal} toggle={deleteToggle}>
-          <ModalBody>
-            You are about to delete a motivational quote. Are you sure?
-          </ModalBody>
-          <ModalFooter>
-            <Button className= "mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
-            <Button className= "mx-5" color="danger" onClick={handleDeleteButtonClick}>
-              Delete
-            </Button>
-          </ModalFooter>
-        </Modal>
-      </CardBody>
-    </Card>
+    <div className="card">
+      <div className="row gx-2 m-2 align-items-center">
+        {/* ------------Quote Content-------------------- */}
+        <div className="col-sm-6 col-md-8">
+          <p>{quote.content}</p>
+        </div>
+
+        {/* ------------Quote Edit and Delete Buttons-------------------- */}
+        <div className="col-sm-6 col-md-3 mx-2">
+          <span className="btn btn-outline-primary m-2" onClick={toggleQ}>
+            <i className="fa fa-pencil"></i>
+          </span>
+          <span className="btn btn-outline-danger m-2" onClick={deleteToggle}>
+            <i className="fa fa-trash"></i>
+          </span>
+        </div>
+      </div>
+
+      {/* ------------Modals-------------------- */}
+      <Modal isOpen={modal} toggle={toggleQ}>
+        <ModalBody>
+          <QuoteEdit quoteId={quote.id} toggle={toggleQ} />
+        </ModalBody>
+      </Modal>
+
+      <Modal isOpen={deleteModal} toggle={deleteToggle}>
+        <ModalBody>
+          You are about to delete a motivational quote. Are you sure?
+        </ModalBody>
+        <ModalFooter>
+          <button className="btn mx-5" onClick={handleCancelButtonClick}>
+            Cancel
+          </button>
+          <button
+            className="btn btn-danger mx-5"
+            onClick={handleDeleteButtonClick}
+          >
+            Delete
+          </button>
+        </ModalFooter>
+      </Modal>
+    </div>
   );
 };
 

@@ -5,7 +5,7 @@ body {
   font-family: "Kanit", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin: 100px !important;
+  margin-top: 100px !important;
 }
 
 code {
@@ -15,10 +15,6 @@ code {
 
 a {
   text-decoration: none;
-}
-
-.carousel-indicators {
-  filter: invert(1);
 }
 
 .comment_section {

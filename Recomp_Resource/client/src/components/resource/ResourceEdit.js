@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Form, Button, FormGroup, Input, Label } from "reactstrap";
-import { Card, CardBody } from "reactstrap";
 import { UpdateResource, getResourceById } from "../../modules/resourceManager";
 
 const ResourceEdit = ({ toggle }) => {
@@ -24,17 +22,19 @@ const ResourceEdit = ({ toggle }) => {
   };
 
   return (
-    <Card className="container">
-      <h2>Resource Edit</h2>
-      <CardBody>
-        <Form>
-          <FormGroup>
-            <Label htmlFor="title">Title </Label>
-            <Input
+    <div className="card p-2">
+      <h2 className="card-title text-center">Resource Edit</h2>
+      <div className="card-body">
+        <div className="form">
+          <div className="mb-2">
+            <label className="form-label" htmlFor="title">
+              Title{" "}
+            </label>
+            <input
               required
               autoFocus
               type="text"
-              className=" "
+              className="form-control "
               value={resource.title}
               onChange={(evt) => {
                 const copy = { ...resource };
@@ -42,13 +42,16 @@ const ResourceEdit = ({ toggle }) => {
                 setResource(copy);
               }}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="category">Goal </Label>
-            <Input
+          </div>
+          <div className="mb-2">
+            <label className="form-label" htmlFor="goal">
+              Goal
+            </label>
+            <select
               required
               autoFocus
-              type="select"
+              className="form-select"
+              aria-label="select goal"
               value={resource.categoryId}
               onChange={(evt) => {
                 const copy = { ...resource };
@@ -65,15 +68,17 @@ const ResourceEdit = ({ toggle }) => {
               <option id="2" value="2">
                 Weight Gain
               </option>
-            </Input>
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="topic">Topic </Label>
-            <Input
+            </select>
+          </div>
+          <div className="mb-2">
+            <label className="form-label" htmlFor="topic">
+              Topic
+            </label>
+            <input
               required
               autoFocus
               type="text"
-              className=" "
+              className="form-control "
               value={resource.topic}
               onChange={(evt) => {
                 const copy = { ...resource };
@@ -81,14 +86,16 @@ const ResourceEdit = ({ toggle }) => {
                 setResource(copy);
               }}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="content">Content </Label>
-            <Input
+          </div>
+          <div className="mb-2">
+            <label className="form-label" htmlFor="content">
+              Content
+            </label>
+            <textarea
               required
               autoFocus
-              type="text"
-              className=" "
+              rows="3"
+              className="form-control "
               value={resource.content}
               onChange={(evt) => {
                 const copy = { ...resource };
@@ -96,25 +103,36 @@ const ResourceEdit = ({ toggle }) => {
                 setResource(copy);
               }}
             />
-          </FormGroup>
-        </Form>
+          </div>
+        </div>
+      </div>
+      <div className="d-flex justify-content-evenly mb-2">
         {resource.content === "" ||
         resource.categoryId === "" ||
         resource.topic === "" ||
         resource.title === "" ? (
-          <Button outline className="mx-5">
-            Complete Form
-          </Button>
+          <button className="btn btn-secondary mx-5" disabled>
+            Complete
+          </button>
         ) : (
-          <Button color="success" className="mx-5" onClick={handleSubmitButtonClick}>
-            Submit Changes
-          </Button>
+          <button
+            type="button"
+            className="btn btn-success mx-5"
+            onClick={handleSubmitButtonClick}
+          >
+            Submit
+          </button>
         )}
-        <Button className="mx-5" onClick={handleCancelButtonClick}>Cancel</Button>
-      </CardBody>
-     
-     
-    </Card>
+
+        <button
+          type="button"
+          className="btn btn-outline-danger mx-5"
+          onClick={handleCancelButtonClick}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
   );
 };
 

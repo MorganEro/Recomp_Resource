@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllQuotes } from "../../modules/quoteManager";
 import Quote from "./Quote";
 
-import {
- 
-  Button,
-  Modal,
-  ModalBody,
-  
-} from "reactstrap";
+import { Modal, ModalBody } from "reactstrap";
 import AddQuote from "./AddQuote";
 
 const QuoteList = () => {
@@ -26,23 +20,36 @@ const QuoteList = () => {
 
   return (
     <>
-      <h1 className="text-center"> QUOTES </h1>
-      <Button onClick={toggle}>ADD</Button>
-      <Modal isOpen={modal} toggle={toggle}>
-        <ModalBody>
-          <AddQuote getQuotes={getQuotes} toggle={toggle}/>
-        </ModalBody>
-      </Modal>
+      {/* ------------Header-------------------- */}
+      <h1 className="text-center">
+        <strong> QUOTES </strong>{" "}
+      </h1>
+
+      {/* ------------Add Button-------------------- */}
+      <button
+        className="btn btn-outline-success mx-2"
+        title="Add Resource"
+        onClick={toggle}
+      >
+        <i className="fa fa-plus"></i>
+      </button>
+
+      {/* ------------Quote List-------------------- */}
       <section className="container">
         <div className="row justify-content-center">
           {quotes.map((quote) => (
             <div className="d-flex flex-column mt-3" key={quote.id}>
-            <Quote quote={quote} getQuotes ={getQuotes} />
+              <Quote quote={quote} getQuotes={getQuotes} />
             </div>
           ))}
-          
         </div>
       </section>
+      {/* ------------Add Modal-------------------- */}
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalBody>
+          <AddQuote getQuotes={getQuotes} toggle={toggle} />
+        </ModalBody>
+      </Modal>
     </>
   );
 };

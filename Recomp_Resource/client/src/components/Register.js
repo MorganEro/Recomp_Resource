@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Card, CardImg, CardBody, CardFooter } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { register } from "../modules/authManager";
 
@@ -34,11 +33,9 @@ export default function Register() {
   };
 
   return (
-    <Card className="container">
+    <div className="card mx-3">
       <h2>Create your account</h2>
-
-      <CardImg src={user.imageAddress} alt="profile" width="50%" />
-      <CardBody>
+      <div className="card-body">
         <form>
           <div className="input-group input-group-sm mb-3">
             <span className="input-group-text" id="inputGroup-sizing-sm">
@@ -94,76 +91,7 @@ export default function Register() {
               }}
             />
           </div>
-          <div className="input-group input-group-sm mb-3">
-            <span className="input-group-text" id="inputGroup-sizing-sm">
-              Weight
-            </span>
-            <input
-              required
-              autoFocus
-              className="form-control"
-              aria-label="Last Name Field"
-              type="text"
-              value={user.weight}
-              onChange={(evt) => {
-                const copy = { ...user };
-                copy.weight = evt.target.value;
-                setUser(copy);
-              }}
-            />
-          </div>
-          <div className="input-group input-group-sm mb-3">
-            <span className="input-group-text" id="inputGroup-sizing-sm">
-              Height
-            </span>
-            <input
-              required
-              autoFocus
-              className="form-control"
-              aria-label="Height Field"
-              type="text"
-              value={user.height}
-              onChange={(evt) => {
-                const copy = { ...user };
-                copy.height = evt.target.value;
-                setUser(copy);
-              }}
-            />
-          </div>
-          <div className="input-group input-group-sm mb-3">
-            <span className="input-group-text" id="inputGroup-sizing-sm">
-              Body Fat Percentage
-            </span>
-            <input
-              autoFocus
-              className="form-control"
-              aria-label="Body Fat Field"
-              type="text"
-              value={user.bfPercentage}
-              onChange={(evt) => {
-                const copy = { ...user };
-                copy.bfPercentage = evt.target.value;
-                setUser(copy);
-              }}
-            />
-          </div>
-          <div className="input-group input-group-sm mb-3">
-            <span className="input-group-text" id="inputGroup-sizing-sm">
-              Basal Metabolic Rate
-            </span>
-            <input
-              autoFocus
-              className="form-control"
-              aria-label="Basal Metabolic Rate Field"
-              type="text"
-              value={user.bmr}
-              onChange={(evt) => {
-                const copy = { ...user };
-                copy.bmr = evt.target.value;
-                setUser(copy);
-              }}
-            />
-          </div>
+
           <div className="input-group input-group-sm mb-3">
             <span className="input-group-text" id="inputGroup-sizing-sm">
               Birthday
@@ -202,7 +130,7 @@ export default function Register() {
             />
           </div>
           <div className="input-group input-group-sm mb-3">
-            <label class="input-group-text" for="inputGroupSelect">
+            <label className="input-group-text" htmlFor="inputGroupSelect">
               Goal
             </label>
             <select
@@ -217,9 +145,7 @@ export default function Register() {
                 setUser(copy);
               }}
             >
-              <option selected id="0" value="0">
-                Choose...
-              </option>
+              <option defaultValue={0}>Choose...</option>
               <option id="1" value="1">
                 Fat Loss
               </option>
@@ -228,40 +154,7 @@ export default function Register() {
               </option>
             </select>
           </div>
-          <div className="input-group input-group-sm mb-3">
-            <span className="input-group-text" id="inputGroup-sizing-sm">
-              Image URL
-            </span>
-            <input
-              required
-              autoFocus
-              className="form-control"
-              type="text"
-              aria-label="profile picture url Field"
-              value={user.imageAddress}
-              onChange={(evt) => {
-                const copy = { ...user };
-                copy.imageAddress = evt.target.value;
-                setUser(copy);
-              }}
-            />
-          </div>
-          <div className="input-group input-group-sm mb-3">
-            <span className="input-group-text" id="inputGroup-sizing-sm">
-              About Me
-            </span>
-            <textarea
-              autoFocus
-              className="form-control"
-              aria-label="about me Text area"
-              value={user.bio}
-              onChange={(evt) => {
-                const copy = { ...user };
-                copy.bio = evt.target.value;
-                setUser(copy);
-              }}
-            />
-          </div>
+
           <div className="input-group input-group-sm mb-3">
             <span className="input-group-text" id="inputGroup-sizing-sm">
               Email
@@ -317,20 +210,21 @@ export default function Register() {
             />
           </div>
         </form>
-      </CardBody>
+      </div>
       {user.firstName === "" ||
       user.lastName === "" ||
       user.displayName === "" ||
+      user.categoryId === 0 ||
       user.birthday === "" ||
       user.currentFocus === "" ||
-      user.imageAddress === "" ||
+      user.confirmPassword === "" ||
       user.password === "" ? (
-        <button type="button" className="btn btn-success mb-3">
-          Complete Changes
+        <button type="button" className="btn btn-secondary mb-3 mx-3" disabled>
+          Complete All Fields
         </button>
       ) : (
         <button onClick={handleSubmitButtonClick}>Submit Changes</button>
       )}
-    </Card>
+    </div>
   );
 }
