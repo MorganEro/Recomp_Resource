@@ -36,7 +36,7 @@ const UserEdit = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center">
+    <div className="container d-flex justify-content-center mb-5">
       <div className="card" style={{ width: "80vw" }}>
         <h2 className="card-title">
           <strong>User Edit</strong>
@@ -287,23 +287,19 @@ const UserEdit = () => {
             </div>
           </form>
         </div>
-        <div className="card-footer">
+        <div className="card-footer d-flex justify-content-around">
           {user.currentFocus === "" ||
           user.firstName === "" ||
           user.lastName === "" ||
           user.displayName === "" ||
           user.categoryId === "Choose..." ? (
-            <span
-              type="button"
-              className="btn btn-secondary mx-5 my-3"
-              disabled
-            >
+            <span type="button" className="btn btn-secondary" disabled>
               Complete Changes
             </span>
           ) : (
             <span
               type="button"
-              className="btn btn-success mx-5 my-3"
+              className="btn btn-success"
               color="success"
               onClick={handleSubmitButtonClick}
             >
@@ -313,7 +309,7 @@ const UserEdit = () => {
 
           <span
             type="button"
-            className=" btn btn-danger my-3"
+            className=" btn btn-danger"
             color="secondary"
             onClick={handleCancelButtonClick}
           >

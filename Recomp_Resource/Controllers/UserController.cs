@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Recomp_Resource.Models;
 using Recomp_Resource.Repositories;
 using System;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Recomp_Resource.Controllers
@@ -12,9 +13,12 @@ namespace Recomp_Resource.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        public UserController(IUserRepository userRepository)
+        private readonly IMessageRepository _messageRepository;
+
+        public UserController(IUserRepository userRepository, IMessageRepository messageRepository)
         {
             _userRepository = userRepository;
+            _messageRepository = messageRepository;
         }
 
         [Authorize]
@@ -102,6 +106,7 @@ namespace Recomp_Resource.Controllers
         public IActionResult CurrentUser()
         {
             var userProfile = GetCurrentUserProfile();
+            int numberOfMessages = _messageRepository.GetAllMessagesOfUser(userProfile.Id).Count();
             if (userProfile == null)
             {
                 return NotFound();

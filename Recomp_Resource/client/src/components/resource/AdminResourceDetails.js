@@ -71,7 +71,8 @@ const AdminResourceDetails = () => {
               allowFullScreen
             ></iframe>
           </div>
-          <table class="table table-borderless table-sm">
+          {/*-------------Table and Headers-------------*/}
+          <table className="table table-borderless table-sm">
             <thead>
               <tr>
                 <th scope="col">Category</th>
@@ -97,8 +98,8 @@ const AdminResourceDetails = () => {
           <ul className="list-group mb-3">
             {comments.map((comment) => (
               <li className="list-group-item" key={comment.id}>
-                <div class="row align-items-center">
-                  <div class="col">
+                <div className="row align-items-center">
+                  <div className="col">
                     <img
                       className="rounded"
                       src={comment?.user?.imageAddress}
@@ -106,7 +107,7 @@ const AdminResourceDetails = () => {
                       style={{ width: "45px" }}
                     />
                   </div>
-                  <div class="col">
+                  <div className="col">
                     <a href={`../../user/details/${comment?.userId}`}>
                       <span>{comment?.user?.displayName} </span>
                     </a>
@@ -114,9 +115,8 @@ const AdminResourceDetails = () => {
                   <div className="col-7 flex-grow-1 text-start">
                     {comment.content}
                   </div>
-                  <div class="col">
+                  <div className="col">
                     <button
-                      outline
                       className="btn btn-outline-danger"
                       onClick={handleDeleteCommentButtonClick}
                     >
@@ -139,7 +139,11 @@ const AdminResourceDetails = () => {
             Back
           </button>
 
-          <button className="btn btn-primary " onClick={toggle}>
+          <button
+            className="btn btn-primary"
+            title="Edit Resource"
+            onClick={toggle}
+          >
             Edit
             <Modal isOpen={modal} toggle={toggle}>
               <ModalBody>
@@ -148,7 +152,11 @@ const AdminResourceDetails = () => {
             </Modal>
           </button>
 
-          <button className="btn btn-danger " onClick={deleteToggle}>
+          <button
+            className="btn btn-danger"
+            title="Delete Resource"
+            onClick={deleteToggle}
+          >
             Delete
           </button>
           <Modal isOpen={deleteModal} toggle={deleteToggle}>

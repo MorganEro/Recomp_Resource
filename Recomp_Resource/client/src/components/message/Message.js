@@ -1,17 +1,19 @@
-import { Link } from "react-router-dom";
-
 const Message = ({ message }) => {
-
-    
   return (
-    <div key={message.id}>
-      <Link to={`../../user/details/${message.senderId}`}>
-        <strong>{message?.sender?.displayName}</strong>
-      </Link>{" "}
-      <Link to={`../../message/details/${message.id}`}>
-        <span>{message.subject}</span>
-      </Link>
-    </div>
+    <tr>
+      <th scope="row">{message.opened === true ? "Opened" : "New"}</th>
+      <td>
+        <a href={`../../user/details/${message.senderId}`}>
+          <strong>{message?.sender?.displayName}</strong>
+        </a>
+      </td>
+      <td>
+        <a href={`../../message/details/${message.id}`}>
+          <span>{message.subject}</span>
+        </a>
+      </td>
+      <td>{message.dayCreated}</td>
+    </tr>
   );
 };
 export default Message;

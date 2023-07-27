@@ -1,11 +1,6 @@
 import { useState } from "react";
 
 import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
   Form,
   FormGroup,
   Input,
@@ -34,17 +29,15 @@ const SendMessage = ({ toggle, recipientId, recipientName }) => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <h2> Compose A Message</h2>
-      </CardHeader>
-      {}
-      <CardBody>
+    <div className="card">
+      <h2 className="card-title"> Compose A Message</h2>
+
+      <div className="card-body">
         <Form className="text-upper">
           <InputGroup>
             <InputGroupText>Send To</InputGroupText>
-            <Input disabled placeholder={recipientName}/>
-            </InputGroup>
+            <Input disabled placeholder={recipientName} />
+          </InputGroup>
           <br />
           <FormGroup>
             <Label htmlFor="subject">Subject</Label>
@@ -78,26 +71,28 @@ const SendMessage = ({ toggle, recipientId, recipientName }) => {
             />
           </FormGroup>
         </Form>
-      </CardBody>
-      <CardFooter>
-        <Button className="mx-5" onClick={handleCancelButtonClick}>
+      </div>
+      <div className="card-footer d-flex justify-content-around">
+        <button
+          className="btn btn-outline-danger"
+          onClick={handleCancelButtonClick}
+        >
           Cancel
-        </Button>
+        </button>
         {message.content === "" || message.subject === "" ? (
-          <Button disabled className="mx-5">
+          <button disabled className="btn btn-secondary">
             Complete Message
-          </Button>
+          </button>
         ) : (
-          <Button
-            color="success"
-            className="mx-5"
+          <button
+            className="btn btn-success mx-5"
             onClick={handleSubmitButtonClick}
           >
             Send Message
-          </Button>
+          </button>
         )}
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 };
 export default SendMessage;

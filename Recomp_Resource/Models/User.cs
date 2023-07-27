@@ -59,7 +59,6 @@ namespace Recomp_Resource.Models
 
         public User ME { get; set; }
 
-        public List<Chat> Chats { get; set; }
         public List<Message> Messages { get; set; }
         public List<SavedResource> SavedResources { get; set; }
 

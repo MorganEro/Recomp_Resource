@@ -2,7 +2,7 @@ import React from "react";
 
 const User = ({ user }) => {
   return (
-    <div className="card h-100">
+    <div className="card h-100" style={{ width: "85vw" }}>
       {/*--------------Image-------------*/}
       <div className="row g-0 align-items-center">
         <div className="col-4">
@@ -15,7 +15,7 @@ const User = ({ user }) => {
         {/*--------------User Info-------------*/}
         <div className="col-8">
           <div className="card-body">
-            <h1 className="card-title">
+            <h1 className="card-title" title="Learn more about me">
               <a href={`../../user/details/${user.id}`}>
                 <strong>{user.displayName}</strong>{" "}
               </a>

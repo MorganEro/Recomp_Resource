@@ -272,7 +272,6 @@ namespace Recomp_Resource.Repositories
                 Bio = DbUtils.GetString(reader, "Bio"),
                 Email = DbUtils.GetString(reader, "Email"),
                 FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                Chats = new List<Chat>(),
                 Messages = new List<Message>(),
                 SavedResources = new List<SavedResource>()
             };

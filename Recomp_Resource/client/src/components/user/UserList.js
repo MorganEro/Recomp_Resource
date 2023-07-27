@@ -22,7 +22,7 @@ const UserList = () => {
   };
 
   return (
-    <div className="container d-flex flex-column mx-5">
+    <div className="container d-flex flex-column">
       {/* ------------search bar-------------------- */}
       <form className="d-flex mb-5" role="search">
         <button className="btn btn-dark" onClick={getUsers}>

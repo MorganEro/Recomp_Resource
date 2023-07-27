@@ -12,7 +12,7 @@ namespace Recomp_Resource.Repositories
 
 
 
-            public List<Message> GetAllMessagesOfUser(int id)
+        public List<Message> GetAllMessagesOfUser(int id)
         {
             using (var conn = Connection)
             {
@@ -183,7 +183,7 @@ namespace Recomp_Resource.Repositories
 
                               WHERE m.Id = @id";
 
-                    DbUtils.AddParameter(cmd,"@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
 
                     Message message = null;
@@ -211,16 +211,49 @@ namespace Recomp_Resource.Repositories
                         INSERT INTO Message (Subject, DateCreated, Opened, SenderId, RecipientId, Content, SenderHidden, RecipientHidden)
                         OUTPUT INSERTED.ID
                         VALUES (@Subject, @DateCreated, @Opened, @SenderId, @RecipientId, @Content, @SenderHidden, @RecipientHidden)";
-                   DbUtils.AddParameter(cmd, "@Subject", message.Subject);
-                   DbUtils.AddParameter(cmd, "@DateCreated", message.DateCreated);
-                   DbUtils.AddParameter(cmd, "@Opened", message.Opened);
-                   DbUtils.AddParameter(cmd, "@SenderId", message.SenderId);
-                   DbUtils.AddParameter(cmd, "@RecipientId", message.RecipientId);
-                   DbUtils.AddParameter(cmd, "@Content", message.Content);
-                   DbUtils.AddParameter(cmd, "@SenderHidden", message.SenderHidden);
+                    DbUtils.AddParameter(cmd, "@Subject", message.Subject);
+                    DbUtils.AddParameter(cmd, "@DateCreated", message.DateCreated);
+                    DbUtils.AddParameter(cmd, "@Opened", message.Opened);
+                    DbUtils.AddParameter(cmd, "@SenderId", message.SenderId);
+                    DbUtils.AddParameter(cmd, "@RecipientId", message.RecipientId);
+                    DbUtils.AddParameter(cmd, "@Content", message.Content);
+                    DbUtils.AddParameter(cmd, "@SenderHidden", message.SenderHidden);
                     DbUtils.AddParameter(cmd, "@RecipientHidden", message.RecipientHidden);
 
                     message.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Edit(Message message)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE [Message]
+                           SET Subject = @Subject, 
+                                DateCreated = @DateCreated,
+                                Opened = @Opened, 
+                                SenderId = @SenderId, 
+                                RecipientId = @RecipientId, 
+                                Content = @Content, 
+                                SenderHidden = @SenderHidden, 
+                                RecipientHidden = @RecipientHidden           
+                         WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@Id", message.Id);
+                    DbUtils.AddParameter(cmd, "@Subject", message.Subject);
+                    DbUtils.AddParameter(cmd, "@DateCreated", message.DateCreated);
+                    DbUtils.AddParameter(cmd, "@Opened", message.Opened);
+                    DbUtils.AddParameter(cmd, "@SenderId", message.SenderId);
+                    DbUtils.AddParameter(cmd, "@RecipientId", message.RecipientId);
+                    DbUtils.AddParameter(cmd, "@Content", message.Content);
+                    DbUtils.AddParameter(cmd, "@SenderHidden", message.SenderHidden);
+                    DbUtils.AddParameter(cmd, "@RecipientHidden", message.RecipientHidden);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -250,8 +283,9 @@ namespace Recomp_Resource.Repositories
                 DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
                 Opened = reader.GetBoolean(reader.GetOrdinal("Opened")),
                 Content = DbUtils.GetString(reader, "Content"),
-                SenderHidden= reader.GetBoolean(reader.GetOrdinal("SenderHidden")),
-                RecipientHidden= reader.GetBoolean(reader.GetOrdinal("RecipientHidden")),
+                SenderHidden = reader.GetBoolean(reader.GetOrdinal("SenderHidden")),
+                RecipientHidden = reader.GetBoolean(reader.GetOrdinal("RecipientHidden")),
+                SenderId = DbUtils.GetInt(reader, "SenderId"),
                 RecipientId = DbUtils.GetInt(reader, "RecipientId"),
                 Sender = new User()
                 {

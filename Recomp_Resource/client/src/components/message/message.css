@@ -1,0 +1,5 @@
+.message__subject:hover {
+  cursor: pointer;
+  color: #4369da;
+  font-weight: bold;
+}

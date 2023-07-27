@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-} from "reactstrap";
+import { Form, FormGroup, Input, Label } from "reactstrap";
 import { addMessage } from "../../modules/messageManager";
 import { getAllUsers } from "../../modules/userManager";
 
-const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
+const CreateMessage = ({ toggle, recipientId, recipientName }) => {
   const [message, setMessage] = useState({
     recipientId: 0,
     subject: "",
@@ -24,9 +14,8 @@ const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
   // const [searchParams, setSearchParams] = useState("");
 
   const handleSubmitButtonClick = () => {
-    if(message.recipientId === 0){
-
-      message.recipientId = RecipientId;
+    if (message.recipientId === 0) {
+      message.recipientId = recipientId;
     }
     addMessage(message).then(() => {
       toggle(false);
@@ -46,15 +35,10 @@ const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
     getUsers();
   }, []);
 
-
-
   return (
-    <Card>
-      <CardHeader>
-        <h2> Compose A Message</h2>
-      </CardHeader>
-      {}
-      <CardBody>
+    <div className="card">
+      <h2 className="card-title"> Compose A Message</h2>
+      <div className="card-body">
         <Form className="text-upper">
           <FormGroup>
             <Label>Send To</Label>
@@ -109,26 +93,25 @@ const CreateMessage = ({ toggle, RecipientId, recipientName }) => {
             />
           </FormGroup>
         </Form>
-      </CardBody>
-      <CardFooter>
-        <Button className="mx-5" onClick={handleCancelButtonClick}>
+      </div>
+      <div className="card-footer d-flex justify-content-around">
+        <button
+          className="btn btn-outline-danger"
+          onClick={handleCancelButtonClick}
+        >
           Cancel
-        </Button>
+        </button>
         {message.content === "" || message.subject === "" ? (
-          <Button disabled className="mx-5">
+          <button disabled className="btn btn-secondary">
             Complete Message
-          </Button>
+          </button>
         ) : (
-          <Button
-            color="success"
-            className="mx-5"
-            onClick={handleSubmitButtonClick}
-          >
+          <button className="btn btn-success" onClick={handleSubmitButtonClick}>
             Send Message
-          </Button>
+          </button>
         )}
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 };
 export default CreateMessage;

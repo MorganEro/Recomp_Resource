@@ -36,7 +36,7 @@ const UserResourceList = () => {
   };
 
   return (
-    <div>
+    <div className="container-fluid mb-3">
       <div className="container-fluid mb-5">
         {/*--------------search and filter all -------------*/}
         <form className="d-flex" role="search">
@@ -52,7 +52,7 @@ const UserResourceList = () => {
               setSearchParams(event.target.value);
             }}
           />
-          <button className="btn btn-secondary" onClick={search}>
+          <button className="btn btn-secondary" type="submit" onClick={search}>
             <i className="fa fa-search fa-lg"></i>
           </button>
         </form>
