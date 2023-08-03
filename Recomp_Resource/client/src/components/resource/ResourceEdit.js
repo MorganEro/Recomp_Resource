@@ -120,7 +120,7 @@ const ResourceEdit = ({ toggle }) => {
             className="btn btn-success mx-5"
             onClick={handleSubmitButtonClick}
           >
-            Submit
+            Update
           </button>
         )}
 

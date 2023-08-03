@@ -53,6 +53,7 @@ const CreateMessage = ({ toggle, recipientId, recipientName }) => {
                 setMessage(copy);
               }}
             >
+              <option defaultValue={0}>Send to...</option>
               {users.map((user) => (
                 <option key={user.id} id={user.id} value={user.id}>
                   {user.displayName}
@@ -101,9 +102,11 @@ const CreateMessage = ({ toggle, recipientId, recipientName }) => {
         >
           Cancel
         </button>
-        {message.content === "" || message.subject === "" ? (
+        {message.recipientId === 0 ||
+        message.content === "" ||
+        message.subject === "" ? (
           <button disabled className="btn btn-secondary">
-            Complete Message
+            Complete All Fields
           </button>
         ) : (
           <button className="btn btn-success" onClick={handleSubmitButtonClick}>

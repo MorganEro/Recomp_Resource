@@ -178,9 +178,7 @@ const UserEdit = () => {
               <span
                 className="input-group-text"
                 id="inputGroup-sizing-sm"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                data-bs-title="Click for a BMR calculator"
+                title="click for Basal Metabolic Rate calculator"
               >
                 <a href={"https://tdeecalculator.net/"} target="blank">
                   <i className="fa fa-question-circle text-muted"></i>

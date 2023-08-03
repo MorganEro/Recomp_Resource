@@ -1,9 +1,12 @@
 import { useState } from "react";
 
-import { addResource } from "../../modules/resourceManager";
+import { addResource, getResourceById } from "../../modules/resourceManager";
 import { Form, FormGroup, Input, Label } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 
 const AddResource = ({ toggle }) => {
+  const navigate = useNavigate();
+
   const [resource, setResource] = useState({
     title: "",
     categoryId: 0,
@@ -11,11 +14,13 @@ const AddResource = ({ toggle }) => {
     content: "",
   });
 
-  const handleSubmitButtonClick = () => {
-    addResource(resource).then(() => {
-      toggle(false);
-      window.location.reload(false);
-    });
+  const handleSubmitButtonClick = async () => {
+    const addedResource = await addResource(resource);
+    const resourceId = addedResource.id;
+    const resourceDetails = await getResourceById(resourceId);
+    toggle(false);
+    navigate(`../../resource/adminDetails/${resourceDetails.id}`);
+    // window.location.reload(false);
   };
 
   const handleCancelButtonClick = () => {

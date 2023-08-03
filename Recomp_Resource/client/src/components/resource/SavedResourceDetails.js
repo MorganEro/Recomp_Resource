@@ -17,7 +17,7 @@ const SavedResourceDetails = () => {
 
   useEffect(() => {
     getSavedResource();
-  }, []);
+  }, [id]);
 
   const handleBackButtonClick = () => {
     navigate(-1);
@@ -45,7 +45,6 @@ const SavedResourceDetails = () => {
               height="315"
               src={savedResource?.resource?.content}
               title="YouTube video player"
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             ></iframe>

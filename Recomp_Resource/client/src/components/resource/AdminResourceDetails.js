@@ -29,10 +29,8 @@ const AdminResourceDetails = () => {
 
   useEffect(() => {
     getResource();
-  }, []);
-  useEffect(() => {
     getComments();
-  }, []);
+  }, [id]);
 
   const DeleteButton = () => {
     DeleteResource(id).then(() => {
@@ -66,7 +64,6 @@ const AdminResourceDetails = () => {
               height="315"
               src={resource.content}
               title="YouTube video player"
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             ></iframe>

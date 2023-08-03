@@ -52,14 +52,19 @@ namespace Recomp_Resource.Controllers
             return Ok(user);
         }
 
+
+
         [HttpPost]
         public IActionResult Add(User user)
         {
+          
             user.UserTypeId = 2;
             user.JoinDate = DateTime.Now;
             _userRepository.Add(user);
             return CreatedAtAction(
-               nameof(GetByFirebaseUserId), new { firebaseUserId = user.FirebaseUserId }, user);
+               nameof(GetByFirebaseUserId), new { id = user.FirebaseUserId }, user);
+
+            
         }
 
         [Authorize]
@@ -91,7 +96,7 @@ namespace Recomp_Resource.Controllers
             {
                 return NotFound();
             }
-            return Ok();
+            return Ok(userProfile);
         }
 
 
@@ -106,6 +111,8 @@ namespace Recomp_Resource.Controllers
         public IActionResult CurrentUser()
         {
             var userProfile = GetCurrentUserProfile();
+            userProfile.UnOpenedMessages = _messageRepository.GetAllMessagesReceivedByUser(userProfile.Id).Where(message => message.Opened == false).ToList();
+            int numberOfUnOpenedMessages = userProfile.UnOpenedMessages.Count;
             int numberOfMessages = _messageRepository.GetAllMessagesOfUser(userProfile.Id).Count();
             if (userProfile == null)
             {

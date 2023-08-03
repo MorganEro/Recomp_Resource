@@ -13,7 +13,7 @@ const CommentList = ({ resourceId }) => {
 
   useEffect(() => {
     getComments();
-  }, []);
+  }, [resourceId]);
 
   return (
     <ul className="list-group">

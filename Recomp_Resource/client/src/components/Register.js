@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { register } from "../modules/authManager";
+import { login, register } from "../modules/authManager";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -9,26 +9,34 @@ export default function Register() {
     firstName: "",
     lastName: "",
     displayName: "",
-    weight: "",
-    height: "",
-    bfPercentage: "",
-    bmr: "",
     birthday: "",
     currentFocus: "",
     categoryId: 0,
-    imageAddress: "",
-    bio: "",
     email: "",
+  });
+
+  const [password, setPassword] = useState({
     password: "",
     confirmPassword: "",
   });
 
-  const handleSubmitButtonClick = (event) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmitButtonClick = async (event) => {
     event.preventDefault();
-    if (user.password && user.password !== user.confirmPassword) {
+    if (password.password && password.password !== password.confirmPassword) {
       alert("Passwords don't match");
     } else {
-      register(user, user.password).then(() => navigate("/"));
+      setIsLoading(true);
+      try {
+        await register(user, password.password);
+        await login(user.email, password.password);
+        navigate("/");
+      } catch (error) {
+        setIsLoading(false);
+        alert("An error occurred during registration. Please try again.");
+        console.error(error);
+      }
     }
   };
 
@@ -141,7 +149,7 @@ export default function Register() {
               value={user.categoryId}
               onChange={(evt) => {
                 const copy = { ...user };
-                copy.categoryId = evt.target.value;
+                copy.categoryId = parseInt(evt.target.value);
                 setUser(copy);
               }}
             >
@@ -183,11 +191,11 @@ export default function Register() {
               className="form-control"
               aria-label="password field"
               type="password"
-              value={user.password}
+              value={password.password}
               onChange={(evt) => {
-                const copy = { ...user };
+                const copy = { ...password };
                 copy.password = evt.target.value;
-                setUser(copy);
+                setPassword(copy);
               }}
             />
           </div>
@@ -201,29 +209,38 @@ export default function Register() {
               className="form-control"
               aria-label="password field"
               type="password"
-              value={user.confirmPassword}
+              value={password.confirmPassword}
               onChange={(evt) => {
-                const copy = { ...user };
+                const copy = { ...password };
                 copy.confirmPassword = evt.target.value;
-                setUser(copy);
+                setPassword(copy);
               }}
             />
           </div>
         </form>
       </div>
-      {user.firstName === "" ||
-      user.lastName === "" ||
-      user.displayName === "" ||
-      user.categoryId === 0 ||
-      user.birthday === "" ||
-      user.currentFocus === "" ||
-      user.confirmPassword === "" ||
-      user.password === "" ? (
+      {isLoading ? (
+        <button type="button" className="btn btn-secondary mb-3 mx-3" disabled>
+          Loading...
+        </button>
+      ) : user.firstName === "" ||
+        user.lastName === "" ||
+        user.displayName === "" ||
+        user.categoryId === 0 ||
+        user.birthday === "" ||
+        user.currentFocus === "" ||
+        password.confirmPassword === "" ||
+        password.password === "" ? (
         <button type="button" className="btn btn-secondary mb-3 mx-3" disabled>
           Complete All Fields
         </button>
       ) : (
-        <button onClick={handleSubmitButtonClick}>Submit Changes</button>
+        <button
+          className="btn btn-secondary mb-3 mx-3"
+          onClick={handleSubmitButtonClick}
+        >
+          Submit Changes
+        </button>
       )}
     </div>
   );
