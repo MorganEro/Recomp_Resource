@@ -4,27 +4,30 @@ import User from "./User";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [searchParams, setSearchParams] = useState("");
 
   const getUsers = () => {
     getAllUsers().then((data) => setUsers(data));
+    setSearchResults([]);
   };
 
   useEffect(() => {
     getUsers();
   }, []);
 
-  const search = () => {
+  const search = (e) => {
+    e.preventDefault();
     getUserSearch(searchParams).then((searchResults) => {
-      setUsers(searchResults);
+      setSearchResults(searchResults);
       setSearchParams("");
     });
   };
 
   return (
-    <div className="container d-flex flex-column mx-5">
+    <div className="container d-flex flex-column">
       {/* ------------search bar-------------------- */}
-      <form className="d-flex mb-5" role="search">
+      <form onSubmit={search} className="d-flex mb-5" role="search">
         <button className="btn btn-dark" onClick={getUsers}>
           All
         </button>
@@ -32,12 +35,13 @@ const UserList = () => {
           type="search"
           id="search-form"
           className="form-control mx-2"
+          value={searchParams}
           placeholder="DisplayName/Focus..."
           onChange={(event) => {
             setSearchParams(event.target.value);
           }}
         />
-        <button className="btn btn-secondary" onClick={search}>
+        <button type="submit" className="btn btn-secondary" onClick={search}>
           <i className="fa fa-search fa-lg"></i>
         </button>
       </form>
@@ -46,12 +50,26 @@ const UserList = () => {
         <h1 className="text-center"> MEMBERS</h1>
 
         {/* ------------Member list-------------------- */}
-
-        {users.map((user) => (
-          <div className="d-flex m-3" style={{ width: "80vw" }} key={user.id}>
-            <User user={user} />
-          </div>
-        ))}
+        {searchResults.length > 0
+          ? // Display search results if there are any
+            searchResults.map((user) => (
+              <div
+                className="d-flex m-3"
+                style={{ width: "80vw" }}
+                key={user.id}
+              >
+                <User user={user} />
+              </div>
+            ))
+          : users.map((user) => (
+              <div
+                className="d-flex m-3"
+                style={{ width: "80vw" }}
+                key={user.id}
+              >
+                <User user={user} />
+              </div>
+            ))}
       </div>
     </div>
   );

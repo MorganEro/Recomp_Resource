@@ -1,29 +1,46 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Modal, ModalBody } from "reactstrap";
 import {
   getAllResources,
   getResourceSearch,
 } from "../../modules/resourceManager";
 import AdminResource from "./AdminResource";
-import { Modal, ModalBody } from "reactstrap";
 import AddResource from "./AddResource";
 
 const AdminResourceList = () => {
   const [resources, setResources] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [searchParams, setSearchParams] = useState("");
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
+  const navigate = useNavigate();
 
   const getResources = () => {
     getAllResources().then((data) => setResources(data));
+    setSearchResults([]);
+  };
+
+  // Function to handle clicking on a resource
+  const handleResourceClick = (resourceId) => {
+    sessionStorage.setItem("scrollPosition", window.scrollY); // Store the current scroll position
+    navigate(`../../resource/adminDetails/${resourceId}`); // Navigate to the resource details page
   };
 
   useEffect(() => {
     getResources();
+    // Check if there's a previous scroll position in the history state
+    const lastScrollPosition = sessionStorage.getItem("scrollPosition");
+    if (lastScrollPosition !== null) {
+      // Scroll to the previous position if it exists
+      window.scrollTo(0, parseInt(lastScrollPosition, 10));
+    }
   }, []);
 
-  const search = () => {
+  const search = (e) => {
+    e.preventDefault();
     getResourceSearch(searchParams).then((searchResults) => {
-      setResources(searchResults);
+      setSearchResults(searchResults);
       setSearchParams("");
     });
   };
@@ -32,22 +49,20 @@ const AdminResourceList = () => {
     const resAsc = [...resources].sort((a, b) =>
       a.dateAdded > b.dateAdded ? 1 : -1
     );
-
     setResources(resAsc);
   };
   const sortButtonMostSaves = () => {
     const resSaves = [...resources].sort((a, b) =>
       a.numberOfSaves < b.numberOfSaves ? 1 : -1
     );
-
     setResources(resSaves);
   };
 
   return (
     <div className="container-fluid mb-5" style={{ width: "80vw" }}>
       {/* ------------search bar-------------------- */}
-      <form className="d-flex mb-5" role="search">
-        <button className="btn btn-dark" onClick={getResources}>
+      <form onSubmit={search} className="d-flex mb-5" role="search">
+        <button type="submit" className="btn btn-dark" onClick={getResources}>
           All
         </button>
         <input
@@ -55,6 +70,7 @@ const AdminResourceList = () => {
           id="search-form"
           className="form-control mx-2"
           placeholder="DisplayName/Focus..."
+          value={searchParams}
           onChange={(event) => {
             setSearchParams(event.target.value);
           }}
@@ -107,11 +123,23 @@ const AdminResourceList = () => {
       {/* ------------Resource List-------------------- */}
       <section className="container">
         <div>
-          {resources.map((resource) => (
-            <div className="d-flex flex-column mt-3" key={resource.id}>
-              <AdminResource resource={resource} />
-            </div>
-          ))}
+          {searchResults.length > 0
+            ? // Display search results if there are any
+              searchResults.map((resource) => (
+                <div className="d-flex flex-column mt-3" key={resource.id}>
+                  <AdminResource resource={resource} />
+                </div>
+              ))
+            : // Display all resources if there are no search results
+              resources.map((resource) => (
+                <div
+                  onClick={() => handleResourceClick(resource.id)}
+                  className="d-flex flex-column mt-3"
+                  key={resource.id}
+                >
+                  <AdminResource resource={resource} />
+                </div>
+              ))}
         </div>
       </section>
     </div>

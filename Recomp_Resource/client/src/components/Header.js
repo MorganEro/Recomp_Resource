@@ -151,7 +151,7 @@ export default function Header({ isLoggedIn, thisUser }) {
                   <ModalBody>
                     <SendMessage
                       toggle={toggle}
-                      RecipientId={AdminId}
+                      recipientId={AdminId}
                       recipientName={"Admin"}
                     />
                   </ModalBody>

@@ -18,7 +18,7 @@ const EnterComment = ({ getComments, resourceId }) => {
   return (
     <div className="input-group flex-nowrap">
       <span className="input-group-text" id="search-form">
-        <i class="fa fa-comment"></i>
+        <i className="fa fa-comment"></i>
       </span>
       {/*--------------input field-------------*/}
       <input

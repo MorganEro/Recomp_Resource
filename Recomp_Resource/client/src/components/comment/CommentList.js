@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { getAllCommentsByResourceId } from "../../modules/commentManager";
-import { ListGroup, ListGroupItem } from "reactstrap";
 
 const CommentList = ({ resourceId }) => {
   const [comments, setComments] = useState([]);
@@ -14,17 +13,17 @@ const CommentList = ({ resourceId }) => {
 
   useEffect(() => {
     getComments();
-  }, []);
+  }, [resourceId]);
 
   return (
-    <ListGroup>
+    <ul className="list-group">
       {comments.map((comment) => (
-        <ListGroupItem key={comment.id}>
+        <li className="list-group-item" key={comment.id}>
           <strong> {comment?.user?.displayName}</strong>
           <span>{comment.content}</span>
-        </ListGroupItem>
+        </li>
       ))}
-    </ListGroup>
+    </ul>
   );
 };
 export default CommentList;

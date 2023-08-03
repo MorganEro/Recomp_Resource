@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../modules/authManager";
+import GoogleButton from "react-google-button";
+import { googleLogin } from "../modules/authManager";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -15,50 +17,65 @@ export default function Login() {
       .catch(() => alert("Login Failed"));
   };
 
+  const handleGoogleLogin = () => {
+    // use google login. if already in database, should log in. Else, you  have been added in firebase and need to be added to database. The googleLogin function should handle that condition
+    googleLogin()
+      .then(() => navigate("/"))
+      .catch(() => alert("Login Failed"));
+  };
   return (
     <div
-      className="container d-flex justify-content-center"
+      className="container d-flex flex-column align-items-center"
       style={{ width: "70vw" }}
     >
-      <form className="mb-3 row justify-content-center" onSubmit={loginSubmit}>
-        <fieldset className="mb-3 row">
-          <label htmlFor="username" className="col-sm-2 col-form-label">
-            Email
-          </label>
-          <div className="col-sm-10">
-            <input
-              autoFocus
-              type="email"
-              autoComplete="username"
-              className="form-control"
-              id="username"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-        </fieldset>
-        <fieldset className="mb-3 row">
-          <label htmlFor="password" className="col-sm-2 col-form-label">
-            Password
-          </label>
-          <div className="col-sm-10">
-            <input
-              autoFocus
-              type="password"
-              autoComplete="current-password"
-              className="form-control"
-              id="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-        </fieldset>
-        <button
-          className="btn btn-secondary"
-          style={{ width: "100px" }}
-          onClick={loginSubmit}
+      <div>
+        <form
+          className="mb-3 row justify-content-center"
+          onSubmit={loginSubmit}
         >
-          Login
-        </button>
-      </form>
+          <fieldset className="mb-3 row">
+            <label htmlFor="username" className="col-sm-2 col-form-label">
+              Email
+            </label>
+            <div className="col-sm-10">
+              <input
+                autoFocus
+                type="email"
+                autoComplete="username"
+                className="form-control"
+                id="username"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          </fieldset>
+          <fieldset className="mb-3 row">
+            <label htmlFor="password" className="col-sm-2 col-form-label">
+              Password
+            </label>
+            <div className="col-sm-10">
+              <input
+                autoFocus
+                type="password"
+                autoComplete="current-password"
+                className="form-control"
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+          </fieldset>
+          <button
+            className="btn btn-secondary"
+            style={{ width: "100px" }}
+            onClick={loginSubmit}
+          >
+            Login
+          </button>
+        </form>
+      </div>
+      <h2 className="mb-3">---OR---</h2>
+      <div className="">
+        <GoogleButton onClick={handleGoogleLogin} />
+      </div>
     </div>
   );
 }

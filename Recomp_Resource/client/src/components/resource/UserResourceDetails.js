@@ -23,10 +23,8 @@ const UserResourceDetails = () => {
 
   useEffect(() => {
     getResource();
-  }, []);
-  useEffect(() => {
     getComments();
-  }, []);
+  }, [id]);
 
   const handleBackButtonClick = () => {
     navigate(-1);
@@ -34,8 +32,9 @@ const UserResourceDetails = () => {
 
   const handleSaveButtonClick = () => {
     savedResource.resourceId = resource.id;
-    saveResource(savedResource);
-    navigate("../../resource/userList");
+    saveResource(savedResource).then(() => {
+      getResource();
+    });
   };
   return (
     <div className="container d-flex justify-content-center mb-3">
@@ -53,7 +52,6 @@ const UserResourceDetails = () => {
               height="315"
               src={resource.content}
               title="YouTube video player"
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             ></iframe>
@@ -62,7 +60,12 @@ const UserResourceDetails = () => {
             <thead>
               <tr>
                 <th scope="col">Category</th>
-                <th scope="col">Topic</th>
+                <th
+                  scope="col"
+                  title="Topics are keywords that allow you to search for videos similar to your current focus"
+                >
+                  Topic
+                </th>
                 <th scope="col">Added On</th>
               </tr>
             </thead>
@@ -111,9 +114,13 @@ const UserResourceDetails = () => {
 
         {/*--------------Buttons-------------*/}
 
-        <div className="d-flex justify-content-evenly mb-3">
-          <button className="btn btn-secondary" onClick={handleBackButtonClick}>
-            Back
+        <div className="d-flex justify-content-around mb-3">
+          <button
+            title="Previous page"
+            className="btn btn-secondary align-self-start"
+            onClick={handleBackButtonClick}
+          >
+            <i className="fa fa-arrow-circle-left"></i>
           </button>
           {resource.saved === true ? (
             <button className="btn btn-sm btn-secondary" disabled>

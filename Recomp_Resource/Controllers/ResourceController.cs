@@ -84,21 +84,6 @@ namespace Recomp_Resource.Controllers
             var user = GetCurrentUserProfile();
             if (user.UserTypeId == 1)
             {
-                /*
-                 
-                try
-                {
-                    if (resource.Content.Contains("youtube") && resource.Content.Contains("embed"))
-                    {
-                        var videoCode = resource.Content.Split("v=")[1].Split("&")[0];
-                        resource.Content = $"https://www.youtube.com/embed/{videoCode}";
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("not a youtube video");
-                }
-                 */
 
                 resource.DateAdded = DateTime.Now;
                 _resourceRepository.Add(resource);

@@ -129,9 +129,9 @@ namespace Recomp_Resource.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO [User] (DisplayName, FirstName, LastName, Birthday, CurrentFocus, CategoryId, Email, ImageAddress, JoinDate, Deactivated, UserTypeId, FirebaseUserId)
+                        INSERT INTO [User] (DisplayName, FirstName, LastName, Birthday, CurrentFocus, CategoryId, Email, Weight, Height, BfPercentage, BMR, Bio, ImageAddress, JoinDate, Deactivated, UserTypeId, FirebaseUserId)
                         OUTPUT INSERTED.ID
-                        VALUES (@displayName, @firstName, @lastName, @birthday, @currentFocus, @categoryId, @email, @imageAddress, @joinDate, @deactivated, @userTypeId, @firebaseUserId)";
+                        VALUES (@displayName, @firstName, @lastName, @birthday, @currentFocus, @categoryId, @email, @weight, @height, @bfPercentage,@bmr, @bio, @imageAddress, @joinDate, @deactivated, @userTypeId, @firebaseUserId)";
                     DbUtils.AddParameter(cmd, "@displayName", user.DisplayName);
                     DbUtils.AddParameter(cmd, "@firstName", user.FirstName);
                     DbUtils.AddParameter(cmd, "@lastName", user.LastName);
@@ -139,6 +139,11 @@ namespace Recomp_Resource.Repositories
                     DbUtils.AddParameter(cmd, "@currentFocus", user.CurrentFocus);
                     DbUtils.AddParameter(cmd, "@categoryId", user.CategoryId);
                     DbUtils.AddParameter(cmd, "@email", user.Email);
+                    DbUtils.AddParameter(cmd, "@weight", user.Weight);
+                    DbUtils.AddParameter(cmd, "@height", user.Height);
+                    DbUtils.AddParameter(cmd, "@bfPercentage", user.BFPercentage);
+                    DbUtils.AddParameter(cmd, "@bmr", user.BMR);
+                    DbUtils.AddParameter(cmd, "@bio", user.Bio);
                     DbUtils.AddParameter(cmd, "@imageAddress", user.ImageAddress);
                     DbUtils.AddParameter(cmd, "@joinDate", user.JoinDate);
                     DbUtils.AddParameter(cmd, "@deactivated", user.Deactivated);
@@ -272,8 +277,7 @@ namespace Recomp_Resource.Repositories
                 Bio = DbUtils.GetString(reader, "Bio"),
                 Email = DbUtils.GetString(reader, "Email"),
                 FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                Chats = new List<Chat>(),
-                Messages = new List<Message>(),
+                UnOpenedMessages = new List<Message>(),
                 SavedResources = new List<SavedResource>()
             };
         }

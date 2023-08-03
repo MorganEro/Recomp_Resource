@@ -29,7 +29,6 @@ namespace Recomp_Resource
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IChatRepository, ChatRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IResourceRepository, ResourceRepository>();

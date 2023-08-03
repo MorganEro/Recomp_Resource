@@ -14,7 +14,7 @@ export const getAllMessagesOfUser = () => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get Messages.",
+          "An unknown error occurred while trying to get Messages."
         );
       }
     });
@@ -33,7 +33,7 @@ export const getAllMessagesReceivedByUser = () => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get Messages.",
+          "An unknown error occurred while trying to get Messages."
         );
       }
     });
@@ -52,13 +52,12 @@ export const getAllMessagesSentByUser = () => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get Messages.",
+          "An unknown error occurred while trying to get Messages."
         );
       }
     });
   });
 };
-
 
 export const addMessage = (message) => {
   return getToken().then((token) => {
@@ -76,10 +75,22 @@ export const addMessage = (message) => {
         throw new Error("Unauthorized");
       } else {
         throw new Error(
-          "An unknown error occurred while trying to save a new message.",
+          "An unknown error occurred while trying to save a new message."
         );
       }
     });
   });
 };
 
+export const UpdateMessage = (id, message) => {
+  return getToken().then((token) => {
+    return fetch(`${apiUrl}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(message),
+    });
+  });
+};

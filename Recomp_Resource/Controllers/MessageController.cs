@@ -66,7 +66,19 @@ namespace Recomp_Resource.Controllers
             message.DateCreated = DateTime.Now;
             _messageRepository.Add(message);
 
-            return Ok();
+            return Ok(message);
+        }
+    
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Message message)
+        {
+            if (id != message.Id)
+            {
+                return BadRequest();
+            }
+            message.Opened = true;
+            _messageRepository.Edit(message);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
