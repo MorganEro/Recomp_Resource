@@ -64,7 +64,6 @@ export default function Login() {
           </button>
         </form>
       </div>
-      <h2 className="mb-3">---OR---</h2>
     </div>
   );
 }
