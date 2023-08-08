@@ -32,7 +32,7 @@ jobs:
           output_location: "build" # Built app content directory - optional
         env: 
           REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
-          REACT_APP_API_BASE_URL: "recompresourceappservice.azurewebsites.net"
+          REACT_APP_API_BASE_URL: "recompresourceappservice.azurewebsites.net/"
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
