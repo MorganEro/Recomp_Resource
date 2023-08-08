@@ -98,7 +98,7 @@ namespace Recomp_Resource
 
             app.UseCors(options =>
             {
-                options.WithOrigins("http://localhost:3000", "https://thankful-bay-0ca867d10.3.azurestaticapps.net");
+                options.WithOrigins("http://localhost:3000","https://thankful-bay-0ca867d10.3.azurestaticapps.net");
                 options.AllowAnyMethod();
                 options.AllowAnyHeader();
                 options.AllowCredentials();
