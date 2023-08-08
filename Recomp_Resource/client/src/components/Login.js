@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../modules/authManager";
-import GoogleButton from "react-google-button";
-import { googleLogin } from "../modules/authManager";
 
 export default function Login() {
   let navigate = useNavigate();

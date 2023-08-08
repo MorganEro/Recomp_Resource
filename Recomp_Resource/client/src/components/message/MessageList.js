@@ -149,7 +149,7 @@ const MessageList = () => {
                 <tr
                   className="text-start"
                   key={message.id}
-                  style={{ border: "solid 1px lightgray" }}
+                  style={{ border: "solid 1px lightGray" }}
                 >
                   <td>
                     {message.opened === true ? (
