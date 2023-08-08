@@ -45,36 +45,6 @@ export const login = (email, pw) => {
     });
 };
 
-export const googleLogin = () => {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  return firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((data) => {
-      const user = {
-        displayName: data.user.displayName,
-        email: data.user.email,
-        imageAddress: data.user.photoURL,
-        firebaseUserId: data.user.uid,
-      };
-      return _doesUserExist(user.firebaseUserId)
-        .then((userExists) => {
-          if (!userExists) {
-            return _saveUser(user).then(() => {
-              _onLoginStatusChangedHandler(true);
-            });
-          }
-          _onLoginStatusChangedHandler(true);
-        })
-        .catch((error) => {
-          console.error("Error checking/saving user:", error);
-        });
-    })
-    .catch((error) => {
-      console.error("Error during Google login:", error);
-    });
-};
-
 export const _saveUser = (user) => {
   return getToken().then((token) => {
     return fetch(_apiUrl, {
@@ -96,10 +66,6 @@ export const _saveUser = (user) => {
   });
 };
 
-export const logout = () => {
-  firebase.auth().signOut();
-};
-
 export const register = (user, password) => {
   return firebase
     .auth()
@@ -110,6 +76,10 @@ export const register = (user, password) => {
         firebaseUserId: createResponse.user.uid,
       }).then(() => _onLoginStatusChangedHandler(true))
     );
+};
+
+export const logout = () => {
+  firebase.auth().signOut();
 };
 
 // This function will be overwritten when the react app calls `onLoginStatusChange`

@@ -17,12 +17,6 @@ export default function Login() {
       .catch(() => alert("Login Failed"));
   };
 
-  const handleGoogleLogin = () => {
-    // use google login. if already in database, should log in. Else, you  have been added in firebase and need to be added to database. The googleLogin function should handle that condition
-    googleLogin()
-      .then(() => navigate("/"))
-      .catch(() => alert("Login Failed"));
-  };
   return (
     <div
       className="container d-flex flex-column align-items-center"
@@ -73,9 +67,6 @@ export default function Login() {
         </form>
       </div>
       <h2 className="mb-3">---OR---</h2>
-      <div className="">
-        <GoogleButton onClick={handleGoogleLogin} />
-      </div>
     </div>
   );
 }

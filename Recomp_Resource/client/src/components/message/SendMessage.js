@@ -10,6 +10,8 @@ import {
 } from "reactstrap";
 import { addMessage } from "../../modules/messageManager";
 
+
+//---send a message to the user you clicked on---
 const SendMessage = ({ toggle, recipientId, recipientName }) => {
   const [message, setMessage] = useState({
     subject: "",

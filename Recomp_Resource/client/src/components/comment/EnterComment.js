@@ -1,19 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addComment } from "../../modules/commentManager";
 
-const EnterComment = ({ getComments, resourceId }) => {
+const EnterComment = ({ resourceId, getComments }) => {
   const [comment, setComment] = useState({
     content: "",
-    resourceId: 0,
+    resourceId: resourceId,
   });
 
   const handleSubmitButtonClick = () => {
-    comment.resourceId = resourceId;
     addComment(comment).then(() => {
       getComments();
-      setComment("");
     });
+    setComment({ ...comment, content: "" });
   };
+
+  useEffect(() => {}, []);
 
   return (
     <div className="input-group flex-nowrap">
@@ -43,7 +44,7 @@ const EnterComment = ({ getComments, resourceId }) => {
           id="search-form"
           onClick={handleSubmitButtonClick}
         >
-          <i class="fa fa-paper-plane"></i>
+          <i className="fa fa-paper-plane"></i>
         </span>
       )}
     </div>

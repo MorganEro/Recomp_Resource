@@ -2,16 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Badge, Modal, ModalBody, ModalFooter } from "reactstrap";
 import { DeleteResource, getResourceById } from "../../modules/resourceManager";
-import EnterComment from "../comment/EnterComment";
-import {
-  DeleteComment,
-  getAllCommentsByResourceId,
-} from "../../modules/commentManager";
+import {} from "../../modules/commentManager";
 import ResourceEdit from "./ResourceEdit";
+import CommentList from "../comment/CommentList";
 
 const AdminResourceDetails = () => {
   const [resource, setResource] = useState({});
-  const [comments, setComments] = useState([]);
   const { id } = useParams();
   const [modal, setModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -23,25 +19,16 @@ const AdminResourceDetails = () => {
     getResourceById(id).then((resource) => setResource(resource));
   };
 
-  const getComments = () => {
-    getAllCommentsByResourceId(id).then((comments) => setComments(comments));
-  };
-
   useEffect(() => {
     getResource();
-    getComments();
-  }, [id]);
+  }, []);
 
   const DeleteButton = () => {
     DeleteResource(id).then(() => {
       navigate("../../resource/adminList");
     });
   };
-  const handleDeleteCommentButtonClick = () => {
-    DeleteComment(id).then(() => {
-      getComments();
-    });
-  };
+
   const handleCancelButtonClick = () => {
     deleteToggle();
   };
@@ -92,42 +79,12 @@ const AdminResourceDetails = () => {
             </tbody>
           </table>
           {/*--------------Comment List-------------*/}
-          <ul className="list-group mb-3">
-            {comments.map((comment) => (
-              <li className="list-group-item" key={comment.id}>
-                <div className="row align-items-center">
-                  <div className="col">
-                    <img
-                      className="rounded"
-                      src={comment?.user?.imageAddress}
-                      alt="avatar"
-                      style={{ width: "45px" }}
-                    />
-                  </div>
-                  <div className="col">
-                    <a href={`../../user/details/${comment?.userId}`}>
-                      <span>{comment?.user?.displayName} </span>
-                    </a>
-                  </div>
-                  <div className="col-7 flex-grow-1 text-start">
-                    {comment.content}
-                  </div>
-                  <div className="col">
-                    <button
-                      className="btn btn-outline-danger"
-                      onClick={handleDeleteCommentButtonClick}
-                    >
-                      <i className="fa fa-trash fa-sm"></i>
-                    </button>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <CommentList resourceId={id} />
+
           {/*--------------Add Comment Input-------------*/}
-          <div>
-            <EnterComment resourceId={resource.id} getComments={getComments} />
-          </div>
+          {/* <div>
+            <EnterComment resourceId={id} />
+          </div> */}
         </div>
 
         {/*--------------Buttons and Modals-------------*/}

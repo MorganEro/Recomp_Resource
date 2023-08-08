@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-
-import { Form, FormGroup, Input, Label } from "reactstrap";
 import { addMessage } from "../../modules/messageManager";
 import { getAllUsers } from "../../modules/userManager";
 
+// compose a message for any user from list of users
 const CreateMessage = ({ toggle, recipientId, recipientName }) => {
   const [message, setMessage] = useState({
     recipientId: 0,
@@ -11,7 +10,8 @@ const CreateMessage = ({ toggle, recipientId, recipientName }) => {
     content: "",
   });
   const [users, setUsers] = useState([]);
-  // const [searchParams, setSearchParams] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
 
   const handleSubmitButtonClick = () => {
     if (message.recipientId === 0) {
@@ -22,11 +22,6 @@ const CreateMessage = ({ toggle, recipientId, recipientName }) => {
       window.location.reload(false);
     });
   };
-
-  const handleCancelButtonClick = () => {
-    toggle(false);
-  };
-
   const getUsers = () => {
     getAllUsers().then((data) => setUsers(data));
   };
@@ -35,36 +30,70 @@ const CreateMessage = ({ toggle, recipientId, recipientName }) => {
     getUsers();
   }, []);
 
+  const handleCancelButtonClick = () => {
+    toggle(false);
+  };
+
+  const handleUserClick = (id, displayName) => {
+    const copy = { ...message };
+    copy.recipientId = id;
+    setMessage(copy);
+    setSelectedUser(displayName);
+    setFilteredUsers([]);
+  };
+
+  const handleFilter = (e) => {
+    const searchWord = e.target.value.toLowerCase();
+    const newFilter = users.filter((result) => {
+      return result.displayName.toLowerCase().includes(searchWord);
+    });
+    if (searchWord === "") {
+      setFilteredUsers([]);
+    } else {
+      setFilteredUsers(newFilter);
+    }
+  };
+
   return (
     <div className="card">
-      <h2 className="card-title"> Compose A Message</h2>
+      <h2 className="card-title ms-3"> Compose A Message</h2>
       <div className="card-body">
-        <Form className="text-upper">
-          <FormGroup>
-            <Label>Send To</Label>
-            <Input
+        <form className="text-upper">
+          <div className="mb-3 search">
+            <label htmlFor="searchInput">Send To</label>
+            <input
+              className="form-control mb-1"
+              id="searchInput"
               required
               autoFocus
-              type="select"
-              value={message.recipientId}
-              onChange={(evt) => {
-                const copy = { ...message };
-                copy.recipientId = parseInt(evt.target.value);
-                setMessage(copy);
-              }}
-            >
-              <option defaultValue={0}>Send to...</option>
-              {users.map((user) => (
-                <option key={user.id} id={user.id} value={user.id}>
-                  {user.displayName}
-                </option>
-              ))}
-            </Input>
-          </FormGroup>
+              type="text"
+              placeholder="Search contacts"
+              value={selectedUser}
+              onChange={handleFilter}
+            />
+            {filteredUsers.length !== 0 && (
+              <div className="d-flex flex-column searchOutput mb-3">
+                {filteredUsers.slice(0, 8).map((user) => {
+                  return (
+                    <label
+                      className="outputItem ps-2"
+                      key={user.id}
+                      onClick={() => handleUserClick(user.id, user.displayName)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {user.displayName}
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+          </div>
 
-          <FormGroup>
-            <Label htmlFor="subject">Subject</Label>
-            <Input
+          <div className="mb-3">
+            <label htmlFor="subject">Subject</label>
+            <input
+              id="subject"
+              className="form-control"
               required
               autoFocus
               type="text"
@@ -76,11 +105,13 @@ const CreateMessage = ({ toggle, recipientId, recipientName }) => {
                 setMessage(copy);
               }}
             />
-          </FormGroup>
+          </div>
 
-          <FormGroup>
-            <Label htmlFor="content">Content</Label>
-            <Input
+          <div className="mb-3">
+            <label htmlFor="content">Content</label>
+            <input
+              id="content"
+              className="form-control"
               required
               autoFocus
               type="textarea"
@@ -92,8 +123,8 @@ const CreateMessage = ({ toggle, recipientId, recipientName }) => {
                 setMessage(copy);
               }}
             />
-          </FormGroup>
-        </Form>
+          </div>
+        </form>
       </div>
       <div className="card-footer d-flex justify-content-around">
         <button

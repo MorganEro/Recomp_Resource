@@ -65,8 +65,18 @@ export default function Header({ isLoggedIn, thisUser }) {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/message/list">
+                    <a
+                      className="nav-link position-relative"
+                      href="/message/list"
+                    >
                       Messages
+                      {thisUser?.unOpenedMessages?.length === 0 ? (
+                        " "
+                      ) : (
+                        <span className="position-absolute top-1 start-80 translate-middle badge rounded-pill bg-danger">
+                          {thisUser?.unOpenedMessages?.length}
+                        </span>
+                      )}
                     </a>
                   </li>
                   <li className="navbar-brand ms-md-5">

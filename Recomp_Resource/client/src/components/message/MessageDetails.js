@@ -1,6 +1,22 @@
-const MessageDetails = ({ message, toggle, getMessages }) => {
+const MessageDetails = ({
+  message,
+  toggle,
+  getAll,
+  getReceived,
+  getSent,
+  getNew,
+  currentFilter,
+}) => {
   const handleCloseButtonClick = () => {
-    getMessages();
+    if (currentFilter === "All") {
+      getAll(); // Refresh the messages if the filter was "All"
+    } else if (currentFilter === "Sent") {
+      getSent();
+    } else if (currentFilter === "Received") {
+      getReceived();
+    } else if (currentFilter === "New") {
+      getNew();
+    }
     toggle(false);
   };
 

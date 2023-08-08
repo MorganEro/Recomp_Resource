@@ -6,48 +6,83 @@ import {
   getAllMessagesSentByUser,
 } from "../../modules/messageManager";
 import { Modal, ModalBody } from "reactstrap";
-import { Tooltip } from "reactstrap";
 import CreateMessage from "./CreateMessage";
-import SendMessage from "./SendMessage";
 import MessageDetails from "./MessageDetails";
 import "./message.css";
+import UserDetails from "../user/UserDetails";
 
 const MessageList = () => {
   const [messages, setMessages] = useState([]);
 
+  const [visibleMessages, setVisibleMessages] = useState(25);
+  const [currentFilter, setCurrentFilter] = useState("Received");
+
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
-  const [mModal, setMModal] = useState(false);
-  const mToggle = () => setMModal(!mModal);
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-  const tToggle = () => setTooltipOpen(!tooltipOpen);
+
+  const mToggle = (messageId) => {
+    setMessages((prevMessages) =>
+      prevMessages.map((message) =>
+        message.id === messageId
+          ? { ...message, showMessageModal: !message.showMessageModal }
+          : message
+      )
+    );
+  };
+
+  const sToggle = (messageId) => {
+    setMessages((prevMessages) =>
+      prevMessages.map((message) =>
+        message.id === messageId
+          ? { ...message, showSenderModal: !message.showSenderModal }
+          : message
+      )
+    );
+  };
 
   const getAllMessages = () => {
-    getAllMessagesOfUser().then((messages) => setMessages(messages));
-  };
-  const getAllSentMessages = () => {
-    getAllMessagesSentByUser().then((messages) => setMessages(messages));
-  };
-  const getAllReceivedMessages = () => {
-    getAllMessagesReceivedByUser().then((messages) => setMessages(messages));
-  };
-  const filterNew = () => {
-    setMessages(messages.filter((message) => message.opened === false));
-  };
-
-  const doubleToggle = () => {
-    toggle();
-    tToggle();
-    setTooltipOpen(!tooltipOpen);
-  };
-  const doubleFunction = (message) => {
-    UpdateMessage(message.id, message).then(() => {
-      mToggle();
+    getAllMessagesOfUser().then((messages) => {
+      const updatedMessages = messages.map((message) => ({
+        ...message,
+        showSenderModal: false,
+        showMessageModal: false,
+      }));
+      setMessages(updatedMessages);
+      setCurrentFilter("All");
     });
   };
 
+  const getAllSentMessages = () => {
+    getAllMessagesSentByUser().then((messages) => {
+      const updatedMessages = messages.map((message) => ({
+        ...message,
+        showSenderModal: false,
+        showMessageModal: false,
+      }));
+      setMessages(updatedMessages);
+      setCurrentFilter("Sent");
+    });
+  };
+
+  const getAllReceivedMessages = () => {
+    getAllMessagesReceivedByUser().then((messages) => {
+      const updatedMessages = messages.map((message) => ({
+        ...message,
+        showSenderModal: false,
+        showMessageModal: false,
+      }));
+      setMessages(updatedMessages);
+      setCurrentFilter("Received");
+    });
+  };
+
+  const filterNew = () => {
+    setMessages(messages.filter((message) => message.opened === false));
+    setCurrentFilter("New");
+  };
+
   useEffect(() => {
-    getAllMessages();
+    getAllReceivedMessages();
   }, []);
 
   return (
@@ -91,7 +126,6 @@ const MessageList = () => {
 
         {/* ------------Message Table-------------------- */}
         <table
-          onClick={mToggle}
           className="table table-striped table-hover"
           style={{ width: "90vw" }}
         >
@@ -111,8 +145,12 @@ const MessageList = () => {
                 <td>No Messages</td>
               </tr>
             ) : (
-              messages.map((message) => (
-                <tr className="text-start" key={message.id}>
+              messages.slice(0, visibleMessages).map((message) => (
+                <tr
+                  className="text-start"
+                  key={message.id}
+                  style={{ border: "solid 1px lightgray" }}
+                >
                   <td>
                     {message.opened === true ? (
                       ""
@@ -120,75 +158,75 @@ const MessageList = () => {
                       <i className="fa fa-check"></i>
                     )}
                   </td>
+
                   {/* ------------From Header and modal-------------------- */}
                   <td>
-                    <strong id="SenderInfoTooltip">
-                      <a href={`../../user/details/${message.senderId}`}>
+                    <strong>
+                      <span
+                        title="Sender's Details"
+                        style={{ color: "primary", cursor: "pointer" }}
+                        onClick={() => sToggle(message.id)}
+                      >
                         {message.sender.displayName}
-                      </a>
+                      </span>
                     </strong>
-                    {/* ------------Sender Tooltip and modal-------------------- */}
-                    <Tooltip
-                      placement="left"
-                      isOpen={tooltipOpen}
-                      autohide={false}
-                      target="SenderInfoTooltip"
-                      toggle={tToggle}
+                    <Modal
+                      isOpen={message.showSenderModal}
+                      toggle={sToggle}
+                      // style={{
+                      //   width: "60vw",
+                      // }}
+                      centered
                     >
-                      <div className="card">
-                        <h5 className="card-title">
-                          {" "}
-                          {message?.sender?.displayName}
-                        </h5>
-                        <div className="d-flex justify-content-evenly p-2">
-                          {/* ------------Tooltip Image-------------------- */}
-                          <a href={`../../user/details/${message.senderId}`}>
-                            <img
-                              className="rounded mx-2"
-                              src={message.sender.imageAddress}
-                              alt="avatar"
-                              style={{ width: "45px" }}
-                            />
-                          </a>
-                          <button
-                            className="btn btn-sm btn-outline-primary mx-2"
-                            onClick={doubleToggle}
-                          >
-                            <i className="fa fa-envelope"></i>
-                            {/* ------------Tooltip Modal-------------------- */}
-                            <Modal isOpen={modal} toggle={toggle}>
-                              <ModalBody>
-                                <SendMessage
-                                  toggle={toggle}
-                                  RecipientId={message.senderId}
-                                  recipientName={message.sender.displayName}
-                                />
-                              </ModalBody>
-                            </Modal>
-                          </button>
-                        </div>
-                      </div>
-                    </Tooltip>
+                      <ModalBody>
+                        <UserDetails
+                          sm
+                          userId={message.senderId}
+                          sToggle={() => sToggle(message.id)}
+                          getAll={getAllMessages}
+                          getReceived={getAllReceivedMessages}
+                          getSent={getAllSentMessages}
+                          getNew={filterNew}
+                          currentFilter={currentFilter}
+                        />
+                      </ModalBody>
+                    </Modal>
                   </td>
+
                   {/* ------------Message Subject Area and Modal-------------------- */}
                   <td
                     className="message__subject"
                     title="click for message Details"
                   >
                     <span
-                      onClick={() => {
-                        doubleFunction(message);
-                      }}
+                      style={{ textDecoration: "underline" }}
+                      onClick={() => mToggle(message.id)}
                     >
                       {message.subject}
                     </span>
-
-                    <Modal isOpen={mModal} toggle={mToggle}>
+                    <Modal
+                      isOpen={message.showMessageModal}
+                      scrollable
+                      toggle={mToggle}
+                      onOpened={() => {
+                        if (!message.isOpened) {
+                          UpdateMessage(message.id, message);
+                        }
+                      }}
+                      style={{
+                        width: "60vw",
+                        height: "90vh",
+                      }}
+                    >
                       <ModalBody>
                         <MessageDetails
-                          toggle={mToggle}
+                          toggle={() => mToggle(message.id)}
                           message={message}
-                          getMessages={getAllMessages}
+                          getAll={getAllMessages}
+                          getReceived={getAllReceivedMessages}
+                          getSent={getAllSentMessages}
+                          getNew={filterNew}
+                          currentFilter={currentFilter}
                         />
                       </ModalBody>
                     </Modal>
@@ -199,6 +237,21 @@ const MessageList = () => {
               ))
             )}
           </tbody>
+          {/* -------button to load more messages--------- */}
+          {visibleMessages < messages.length && (
+            <div className="text-center">
+              <button
+                className="btn btn-primary"
+                onClick={() =>
+                  setVisibleMessages(
+                    Math.min(visibleMessages + 25, messages.length)
+                  )
+                }
+              >
+                Load More...
+              </button>
+            </div>
+          )}
         </table>
       </div>
     </div>

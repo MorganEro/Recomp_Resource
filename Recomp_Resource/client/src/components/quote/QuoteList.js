@@ -4,7 +4,7 @@ import Quote from "./Quote";
 
 import { Modal, ModalBody } from "reactstrap";
 import AddQuote from "./AddQuote";
-
+import ScrollToTop from "../Utilities/ScrollToTop";
 const QuoteList = () => {
   const [quotes, setQuotes] = useState([]);
   const [modal, setModal] = useState(false);
@@ -22,6 +22,7 @@ const QuoteList = () => {
     <>
       {/* ------------Header-------------------- */}
       <h1 className="text-center">
+        <ScrollToTop />
         <strong> QUOTES </strong>{" "}
       </h1>
 
