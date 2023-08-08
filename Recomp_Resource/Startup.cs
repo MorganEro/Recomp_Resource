@@ -98,7 +98,7 @@ namespace Recomp_Resource
 
             app.UseCors(options =>
             {
-                options.WithOrigins("http://localhost:3000", "https://happy-glacier-021c34210.3.azurestaticapps.net");
+                options.WithOrigins("http://localhost:3000", "https://red-meadow-060d7a510.3.azurestaticapps.net");
                 options.AllowAnyMethod();
                 options.AllowAnyHeader();
                 options.AllowCredentials();

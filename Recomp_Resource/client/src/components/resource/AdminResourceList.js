@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal, ModalBody } from "reactstrap";
+import Search from "../Utilities/Search";
 import {
   getAllResources,
   getResourceSearch,
 } from "../../modules/resourceManager";
 import AdminResource from "./AdminResource";
 import AddResource from "./AddResource";
+import ScrollToTop from "../Utilities/ScrollToTop";
 
 const AdminResourceList = () => {
   const [resources, setResources] = useState([]);
@@ -15,27 +17,29 @@ const AdminResourceList = () => {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
   const navigate = useNavigate();
+  const searchPlaceholder = "Title or Focus";
 
   const getResources = () => {
     getAllResources().then((data) => setResources(data));
     setSearchResults([]);
   };
 
-  // Function to handle clicking on a resource
+  // useEffect(() => {
+  //   getResources();
+  // }, []);
+
   const handleResourceClick = (resourceId) => {
-    sessionStorage.setItem("scrollPosition", window.scrollY); // Store the current scroll position
-    navigate(`../../resource/adminDetails/${resourceId}`); // Navigate to the resource details page
+    sessionStorage.setItem("scrollPosition", window.scrollY);
+    navigate(`../../resource/adminDetails/${resourceId}`);
   };
 
   useEffect(() => {
     getResources();
-    // Check if there's a previous scroll position in the history state
     const lastScrollPosition = sessionStorage.getItem("scrollPosition");
     if (lastScrollPosition !== null) {
-      // Scroll to the previous position if it exists
       window.scrollTo(0, parseInt(lastScrollPosition, 10));
     }
-  }, []);
+  }, [navigate]);
 
   const search = (e) => {
     e.preventDefault();
@@ -60,25 +64,15 @@ const AdminResourceList = () => {
 
   return (
     <div className="container-fluid mb-5" style={{ width: "80vw" }}>
+      <ScrollToTop />
       {/* ------------search bar-------------------- */}
-      <form onSubmit={search} className="d-flex mb-5" role="search">
-        <button type="submit" className="btn btn-dark" onClick={getResources}>
-          All
-        </button>
-        <input
-          type="search"
-          id="search-form"
-          className="form-control mx-2"
-          placeholder="DisplayName/Focus..."
-          value={searchParams}
-          onChange={(event) => {
-            setSearchParams(event.target.value);
-          }}
-        />
-        <button className="btn btn-secondary" onClick={search}>
-          <i className="fa fa-search fa-lg"></i>
-        </button>
-      </form>
+      <Search
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+        search={search}
+        getterFunction={getResources}
+        searchPlaceholder={searchPlaceholder}
+      />
 
       {/* ------------Heading-------------------- */}
       <h1 className="text-center">

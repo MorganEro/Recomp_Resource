@@ -19,9 +19,7 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     // use google login. if already in database, should log in. Else, you  have been added in firebase and need to be added to database. The googleLogin function should handle that condition
-    googleLogin()
-      .then(() => navigate("/"))
-      .catch(() => alert("Login Failed"));
+    googleLogin().then(() => navigate("/"));
   };
   return (
     <div

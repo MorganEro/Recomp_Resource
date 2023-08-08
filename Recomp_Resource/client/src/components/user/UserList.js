@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getAllUsers, getUserSearch } from "../../modules/userManager";
 import User from "./User";
+import ScrollToTop from "../Utilities/ScrollToTop";
+import Search from "../Utilities/Search";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [searchParams, setSearchParams] = useState("");
+  const searchPlaceholder = "DisplayName or Focus";
 
   const getUsers = () => {
     getAllUsers().then((data) => setUsers(data));
@@ -26,25 +29,15 @@ const UserList = () => {
 
   return (
     <div className="container d-flex flex-column">
+      <ScrollToTop />
       {/* ------------search bar-------------------- */}
-      <form onSubmit={search} className="d-flex mb-5" role="search">
-        <button className="btn btn-dark" onClick={getUsers}>
-          All
-        </button>
-        <input
-          type="search"
-          id="search-form"
-          className="form-control mx-2"
-          value={searchParams}
-          placeholder="DisplayName/Focus..."
-          onChange={(event) => {
-            setSearchParams(event.target.value);
-          }}
-        />
-        <button type="submit" className="btn btn-secondary" onClick={search}>
-          <i className="fa fa-search fa-lg"></i>
-        </button>
-      </form>
+      <Search
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+        search={search}
+        getterFunction={getUsers}
+        searchPlaceholder={searchPlaceholder}
+      />
       <div className="container d-flex flex-column align-items-center">
         {/* ------------Heading-------------------- */}
         <h1 className="text-center"> MEMBERS</h1>

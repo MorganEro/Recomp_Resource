@@ -6,7 +6,7 @@ namespace Recomp_Resource.Models
     {
         public int Id { get; set; }
         public string Subject { get; set; }
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set;}
         public string DayCreated
         {
             get
@@ -15,7 +15,15 @@ namespace Recomp_Resource.Models
                 TimeSpan daysPast = DateTime.Now - DateCreated;
                 if (daysPast.Days < 1)
                 {
-                    Days = DateCreated.ToString("hh:mm tt");
+                    if(DateCreated.ToString("hh:mm tt")[0] == '0' )
+                    {
+                        Days = DateCreated.ToString("hh:mm tt").Substring(1);
+                    } 
+                    else 
+                    {
+                        Days = DateCreated.ToString("hh:mm tt");
+                    }
+                   
                 }
                 else if(daysPast.Days < 7 )
                 {

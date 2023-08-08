@@ -59,6 +59,7 @@ export const googleLogin = () => {
       };
       return _doesUserExist(user.firebaseUserId)
         .then((userExists) => {
+          console.log(`clientSide ${userExists}`);
           if (!userExists) {
             return _saveUser(user).then(() => {
               _onLoginStatusChangedHandler(true);
@@ -96,10 +97,6 @@ export const _saveUser = (user) => {
   });
 };
 
-export const logout = () => {
-  firebase.auth().signOut();
-};
-
 export const register = (user, password) => {
   return firebase
     .auth()
@@ -110,6 +107,10 @@ export const register = (user, password) => {
         firebaseUserId: createResponse.user.uid,
       }).then(() => _onLoginStatusChangedHandler(true))
     );
+};
+
+export const logout = () => {
+  firebase.auth().signOut();
 };
 
 // This function will be overwritten when the react app calls `onLoginStatusChange`

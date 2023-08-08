@@ -8,11 +8,14 @@ import EnterComment from "../comment/EnterComment";
 
 const SavedResourceDetails = () => {
   const [savedResource, setSavedResource] = useState({});
+  const [comments, setComments] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
-
   const getSavedResource = () => {
-    getSavedResourceById(id).then((resource) => setSavedResource(resource));
+    getSavedResourceById(id).then((resource) => {
+      setSavedResource(resource);
+      setComments(resource?.resource?.comments || []);
+    });
   };
 
   useEffect(() => {
@@ -49,7 +52,7 @@ const SavedResourceDetails = () => {
               allowFullScreen
             ></iframe>
           </div>
-          <table class="table table-borderless table-sm">
+          <table className="table table-borderless table-sm">
             <thead>
               <tr>
                 <th scope="col">Category</th>
@@ -82,7 +85,7 @@ const SavedResourceDetails = () => {
                       style={{ width: "45px" }}
                     />
                   </div>
-                  <div class="col">
+                  <div className="col">
                     <a href={`../../user/details/${savedResource.userId}`}>
                       <span>{savedResource?.user?.displayName}</span>
                     </a>
@@ -99,7 +102,8 @@ const SavedResourceDetails = () => {
           <div>
             <EnterComment
               resourceId={savedResource?.resource?.id}
-              getResource={getSavedResource}
+              comments={comments}
+              setComments={setComments}
             />
           </div>
         </div>

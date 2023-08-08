@@ -1,10 +1,10 @@
-name: Build and deploy .NET Core application to Web App RRAppService
+name: Build and deploy .NET Core application to Web App RecompResourceAppService
 on:
   push:
     branches:
-    - main
+    - google_auth
 env:
-  AZURE_WEBAPP_NAME: RRAppService
+  AZURE_WEBAPP_NAME: RecompResourceAppService
   AZURE_WEBAPP_PACKAGE_PATH: Recomp_Resource\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 5.0.x
@@ -45,5 +45,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.RRAppService_E2EB }}
+        publish-profile: ${{ secrets.RecompResourceAppService_8525 }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}

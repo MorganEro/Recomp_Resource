@@ -92,6 +92,8 @@ namespace Recomp_Resource.Controllers
         public IActionResult DoesUserExist(string firebaseUserId)
         {
             var userProfile = _userRepository.GetByFirebaseUserId(firebaseUserId);
+            Console.WriteLine($"doesUserExist? {userProfile}");
+
             if (userProfile == null)
             {
                 return NotFound();
@@ -111,6 +113,7 @@ namespace Recomp_Resource.Controllers
         public IActionResult CurrentUser()
         {
             var userProfile = GetCurrentUserProfile();
+            Console.WriteLine(userProfile);
             userProfile.UnOpenedMessages = _messageRepository.GetAllMessagesReceivedByUser(userProfile.Id).Where(message => message.Opened == false).ToList();
             int numberOfUnOpenedMessages = userProfile.UnOpenedMessages.Count;
             int numberOfMessages = _messageRepository.GetAllMessagesOfUser(userProfile.Id).Count();

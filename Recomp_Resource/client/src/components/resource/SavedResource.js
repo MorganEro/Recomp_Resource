@@ -23,7 +23,7 @@ const SavedResource = ({ savedResource, getSavedResources }) => {
         </p>
       </div>
 
-      <button className="btn btn-danger mx-3 mb-3" onClick={UnSaveButton}>
+      <button className="btn btn-danger mx-2 mb-3" onClick={UnSaveButton}>
         UnSave
       </button>
     </div>

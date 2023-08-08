@@ -4,7 +4,15 @@ import { Modal, ModalBody } from "reactstrap";
 import { getUserById } from "../../modules/userManager";
 import SendMessage from "../message/SendMessage";
 
-const UserDetails = () => {
+const UserDetails = ({
+  sToggle,
+  userId,
+  getAll,
+  getReceived,
+  getSent,
+  getNew,
+  currentFilter,
+}) => {
   const [user, setUser] = useState({});
   const { id } = useParams();
   const navigate = useNavigate();
@@ -12,11 +20,24 @@ const UserDetails = () => {
   const toggle = () => setModal(!modal);
 
   useEffect(() => {
-    getUserById(id).then((user) => setUser(user));
-  }, [id]);
+    if (userId) {
+      getUserById(userId).then((user) => setUser(user));
+    } else {
+      getUserById(id).then((user) => setUser(user));
+    }
+  }, [id, userId]);
 
   const handleBackButtonClick = () => {
-    navigate(-1);
+    sToggle(false);
+    if (currentFilter === "All") {
+      getAll(); // Refresh the messages if the filter was "All"
+    } else if (currentFilter === "Sent") {
+      getSent();
+    } else if (currentFilter === "Received") {
+      getReceived();
+    } else if (currentFilter === "New") {
+      getNew();
+    } else navigate(-1);
   };
 
   return (
