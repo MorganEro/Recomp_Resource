@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const _apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/user`;
+const _apiUrl = "/api/user";
 
 export const _doesUserExist = (firebaseUserId) => {
   return getToken().then((token) =>

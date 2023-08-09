@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/message`;
+const apiUrl = "/api/message";
 
 export const getAllMessagesOfUser = () => {
   return getToken().then((token) => {
