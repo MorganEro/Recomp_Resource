@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/user`;
+const apiUrl = "/api/user";
 
 export const getAllUsers = () => {
   return getToken().then((token) => {
@@ -13,9 +13,7 @@ export const getAllUsers = () => {
       if (resp.ok) {
         return resp.json();
       } else {
-        throw new Error(
-          "An unknown error occurred while trying to get users.",
-        );
+        throw new Error("An unknown error occurred while trying to get users.");
       }
     });
   });
@@ -28,9 +26,9 @@ export const ThisUser = () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then((resp) => resp.json()),
+    }).then((resp) => resp.json())
   );
-}
+};
 
 export const getUserById = (id) => {
   return getToken().then((token) => {
@@ -44,13 +42,12 @@ export const getUserById = (id) => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get this user.",
+          "An unknown error occurred while trying to get this user."
         );
       }
     });
   });
 };
-
 
 export const UpdateUser = (id, user) => {
   return getToken().then((token) => {
@@ -58,29 +55,28 @@ export const UpdateUser = (id, user) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(user),
-    })
-  })
-}
+    });
+  });
+};
 
 export const getUserSearch = (q) => {
-    return getToken().then((token) => {
-      return fetch(`${apiUrl}/search?q=${q}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((resp) => {
-        if (resp.ok) {
-          return resp.json();
-        } else {
-          throw new Error(
-            "An unknown error occurred while trying to search users.",
-          );
-        }
-      });
+  return getToken().then((token) => {
+    return fetch(`${apiUrl}/search?q=${q}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to search users."
+        );
+      }
     });
-  };
+  });
+};

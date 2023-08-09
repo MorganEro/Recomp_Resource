@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/quote`;
+const apiUrl = "/api/quote";
 
 export const getAllQuotes = () => {
   return getToken().then((token) => {
@@ -14,7 +14,7 @@ export const getAllQuotes = () => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get quotes.",
+          "An unknown error occurred while trying to get quotes."
         );
       }
     });
@@ -33,7 +33,7 @@ export const getRandomQuote = () => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get a random quote.",
+          "An unknown error occurred while trying to get a random quote."
         );
       }
     });
@@ -52,7 +52,7 @@ export const getQuoteById = (id) => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get this quote.",
+          "An unknown error occurred while trying to get this quote."
         );
       }
     });
@@ -75,7 +75,7 @@ export const addQuote = (quote) => {
         throw new Error("Unauthorized");
       } else {
         throw new Error(
-          "An unknown error occurred while trying to save a new quote.",
+          "An unknown error occurred while trying to save a new quote."
         );
       }
     });
@@ -88,23 +88,20 @@ export const UpdateQuote = (id, quote) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(quote),
-    })
-  })
-}
-
-
+    });
+  });
+};
 
 export const DeleteQuote = (id) => {
   return getToken().then((token) => {
-      return fetch(`${apiUrl}/${id}`, {
-          method: "DELETE",
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-      })
-  })
+    return fetch(`${apiUrl}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  });
 };
