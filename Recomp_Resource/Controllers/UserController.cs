@@ -92,7 +92,6 @@ namespace Recomp_Resource.Controllers
         public IActionResult DoesUserExist(string firebaseUserId)
         {
             var userProfile = _userRepository.GetByFirebaseUserId(firebaseUserId);
-            Console.WriteLine($"doesUserExist? {userProfile}");
 
             if (userProfile == null)
             {
