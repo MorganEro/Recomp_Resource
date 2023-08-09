@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/comment`;
+const apiUrl = "/api/comment";
 
 export const getAllCommentsByResourceId = (resourceId) => {
   return getToken().then((token) => {
@@ -14,13 +14,12 @@ export const getAllCommentsByResourceId = (resourceId) => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get Comments.",
+          "An unknown error occurred while trying to get Comments."
         );
       }
     });
   });
 };
-
 
 export const addComment = (comment) => {
   return getToken().then((token) => {
@@ -38,7 +37,7 @@ export const addComment = (comment) => {
         throw new Error("Unauthorized");
       } else {
         throw new Error(
-          "An unknown error occurred while trying to save a new comment.",
+          "An unknown error occurred while trying to save a new comment."
         );
       }
     });
@@ -47,12 +46,11 @@ export const addComment = (comment) => {
 
 export const DeleteComment = (id) => {
   return getToken().then((token) => {
-      return fetch(`${apiUrl}/${id}`, {
-          method: "DELETE",
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-      })
-  })
+    return fetch(`${apiUrl}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  });
 };
-

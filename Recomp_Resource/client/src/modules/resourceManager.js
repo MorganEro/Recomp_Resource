@@ -1,6 +1,6 @@
 import { getToken } from "./authManager";
 
-const apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/resource`;
+const apiUrl = "/api/resource";
 
 export const getAllResources = () => {
   return getToken().then((token) => {
@@ -14,7 +14,7 @@ export const getAllResources = () => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get responses.",
+          "An unknown error occurred while trying to get responses."
         );
       }
     });
@@ -33,7 +33,7 @@ export const getResourceById = (id) => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get this resource.",
+          "An unknown error occurred while trying to get this resource."
         );
       }
     });
@@ -52,13 +52,12 @@ export const getSavedResourceById = (id) => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get this resource.",
+          "An unknown error occurred while trying to get this resource."
         );
       }
     });
   });
 };
-
 
 export const getAllResourcesByCategoryId = () => {
   return getToken().then((token) => {
@@ -72,7 +71,7 @@ export const getAllResourcesByCategoryId = () => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get this resource by categoryId.",
+          "An unknown error occurred while trying to get this resource by categoryId."
         );
       }
     });
@@ -91,7 +90,7 @@ export const getAllResourcesSavedByUserId = () => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to get the resources of this user.",
+          "An unknown error occurred while trying to get the resources of this user."
         );
       }
     });
@@ -113,7 +112,7 @@ export const addResource = (resource) => {
         throw new Error("Unauthorized");
       } else {
         throw new Error(
-          "An unknown error occurred while trying to add a new resource.",
+          "An unknown error occurred while trying to add a new resource."
         );
       }
     });
@@ -136,7 +135,7 @@ export const saveResource = (savedResource) => {
         throw new Error("Unauthorized");
       } else {
         throw new Error(
-          "An unknown error occurred while trying to save a new resource.",
+          "An unknown error occurred while trying to save a new resource."
         );
       }
     });
@@ -149,37 +148,33 @@ export const UpdateResource = (id, resource) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(resource),
-    })
-  })
-}
-
-
+    });
+  });
+};
 
 export const DeleteResource = (id) => {
   return getToken().then((token) => {
-      return fetch(`${apiUrl}/${id}`, {
-          method: "DELETE",
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-      })
-  })
+    return fetch(`${apiUrl}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  });
 };
-
 
 export const UnSaveResource = (id) => {
   return getToken().then((token) => {
-      return fetch(`${apiUrl}/saved/${id}`, {
-          method: "DELETE",
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-      })
-  })
+    return fetch(`${apiUrl}/saved/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  });
 };
 
 export const getResourceSearch = (q) => {
@@ -194,7 +189,7 @@ export const getResourceSearch = (q) => {
         return resp.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to search resources.",
+          "An unknown error occurred while trying to search resources."
         );
       }
     });
